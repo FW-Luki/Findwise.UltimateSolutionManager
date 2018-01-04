@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findwise.Sharepoint.Solutio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InstallerModules", "InstallerModules", "{83D64C99-49E9-49D3-B861-94B1CB620A6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseCreator", "DatabaseCreator\DatabaseCreator.csproj", "{90C2F5C3-2A04-4C82-8F31-CAA3044B50C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseCreator", "InstallerModules\DatabaseCreator\DatabaseCreator.csproj", "{90C2F5C3-2A04-4C82-8F31-CAA3044B50C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

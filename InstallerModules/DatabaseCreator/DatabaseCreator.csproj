@@ -50,7 +50,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Findwise.Sharepoint.SolutionInstaller\Findwise.Sharepoint.SolutionInstaller.csproj">
+    <ProjectReference Include="..\..\Findwise.Sharepoint.SolutionInstaller\Findwise.Sharepoint.SolutionInstaller.csproj">
       <Project>{8B445B1D-C230-4C75-97BA-7CE90FBFF360}</Project>
       <Name>Findwise.Sharepoint.SolutionInstaller</Name>
     </ProjectReference>
