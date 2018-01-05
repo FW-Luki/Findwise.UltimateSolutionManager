@@ -58,7 +58,9 @@
     <Compile Include="Controls\NoFocusButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="InstallerModuleStatus.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\SizeablePanel.resx">
       <DependentUpon>SizeablePanel.cs</DependentUpon>

@@ -11,9 +11,11 @@ namespace Findwise.Sharepoint.SolutionInstaller
     public interface IInstallerModule
     {
         string Name { get; }
+        string FriendlyName { get; set; }
         Image Icon { get; }
 
         bool IsInstalled { get; }
+        InstallerModuleStatus Status { get; }
 
         ConfigurationBase Configuration { get; set; }
 
