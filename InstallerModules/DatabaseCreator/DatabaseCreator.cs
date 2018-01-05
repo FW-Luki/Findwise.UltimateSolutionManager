@@ -14,16 +14,26 @@ namespace DatabaseCreator
     {
         public string Name => "Database Creator";
 
+        public string FriendlyName { get; set; }
+
         public Image Icon => Resources.if_server_11124;
 
-        public ConfigurationBase Configuration { get; set; }
+        public ConfigurationBase Configuration { get; set; } = new Configuration();
 
 
         public bool IsInstalled
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
+            }
+        }
+
+        public InstallerModuleStatus Status
+        {
+            get
+            {
+                return InstallerModuleStatus.NotInstalled;
             }
         }
 
