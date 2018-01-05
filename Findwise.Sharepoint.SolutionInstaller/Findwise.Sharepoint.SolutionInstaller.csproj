@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\SizeablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -52,8 +55,17 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IInstallerModule.cs" />
+    <Compile Include="Controls\NoFocusButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\SizeablePanel.resx">
+      <DependentUpon>SizeablePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -75,6 +87,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\findwise.configuration\Findwise.Configuration\Findwise.Configuration.csproj">
+      <Project>{576E8A05-E531-43C8-858F-5B58D7B9902C}</Project>
+      <Name>Findwise.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Findwise.PluginManager\Findwise.PluginManager.csproj">
+      <Project>{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}</Project>
+      <Name>Findwise.PluginManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

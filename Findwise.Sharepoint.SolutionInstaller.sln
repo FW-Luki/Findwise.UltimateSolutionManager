@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InstallerModules", "Install
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseCreator", "InstallerModules\DatabaseCreator\DatabaseCreator.csproj", "{90C2F5C3-2A04-4C82-8F31-CAA3044B50C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findwise.Configuration", "..\findwise.configuration\Findwise.Configuration\Findwise.Configuration.csproj", "{576E8A05-E531-43C8-858F-5B58D7B9902C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findwise.PluginManager", "Findwise.PluginManager\Findwise.PluginManager.csproj", "{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,14 @@ Global
 		{90C2F5C3-2A04-4C82-8F31-CAA3044B50C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90C2F5C3-2A04-4C82-8F31-CAA3044B50C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90C2F5C3-2A04-4C82-8F31-CAA3044B50C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{576E8A05-E531-43C8-858F-5B58D7B9902C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{576E8A05-E531-43C8-858F-5B58D7B9902C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{576E8A05-E531-43C8-858F-5B58D7B9902C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{576E8A05-E531-43C8-858F-5B58D7B9902C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

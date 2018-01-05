@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Findwise.Configuration;
 
 namespace Findwise.Sharepoint.SolutionInstaller
 {
@@ -14,7 +15,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         bool IsInstalled { get; }
 
-
+        ConfigurationBase Configuration { get; set; }
 
         void Install();
         void Uninstall();
