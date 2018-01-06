@@ -8,6 +8,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 {
     public enum InstallerModuleStatus
     {
+        Unknown,
         NotInstalled,
         InstallationPending,
         Installing,

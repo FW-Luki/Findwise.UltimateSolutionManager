@@ -14,12 +14,16 @@ namespace Findwise.Sharepoint.SolutionInstaller
         string FriendlyName { get; set; }
         Image Icon { get; }
 
-        bool IsInstalled { get; }
         InstallerModuleStatus Status { get; }
 
         ConfigurationBase Configuration { get; set; }
 
+        event EventHandler StatusChanged;
+
+        void CheckStatus();
         void Install();
         void Uninstall();
+        void PrepareInstall();
+        void PrepareUninstall();
     }
 }

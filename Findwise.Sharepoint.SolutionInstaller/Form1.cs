@@ -39,6 +39,11 @@ namespace Findwise.Sharepoint.SolutionInstaller
             dataGridView1.AutoGenerateColumns = false;
         }
 
+        private void Module_StatusChanged(object sender, EventArgs e)
+        {
+            dataGridView1.Refresh();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -92,7 +97,6 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 TextAlign = ContentAlignment.MiddleLeft,
                 ImageAlign = ContentAlignment.MiddleLeft,
                 TextImageRelation = TextImageRelation.ImageBeforeText,
-                //Margin = new Padding(3, 3, 6, 3),
                 Text = text,
                 Image = image,
                 Tag = tag
@@ -106,7 +110,9 @@ namespace Findwise.Sharepoint.SolutionInstaller
         {
             if ((sender as Button)?.Tag is Type moduleType)
             {
-                InstallerModules.Add((IInstallerModule)Activator.CreateInstance(moduleType));
+                var module = (IInstallerModule)Activator.CreateInstance(moduleType);
+                module.StatusChanged += Module_StatusChanged;
+                InstallerModules.Add(module);
             }
         }
 
@@ -121,7 +127,23 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void OpenToolStripButton_Click(object sender, EventArgs e)
         {
-
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    LoadProject(openFileDialog1.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error loading project", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void LoadProject(string filename)
+        {
+            var modules = Configuration.ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename)).Modules.ToList();
+            modules.ForEach(m => m.StatusChanged += Module_StatusChanged);
+            InstallerModules = new BindingList<IInstallerModule>(modules);
         }
 
         private void SaveToolStripButton_Click(object sender, EventArgs e)
@@ -142,6 +164,62 @@ namespace Findwise.Sharepoint.SolutionInstaller
         {
             System.IO.File.WriteAllText(filename, Project.Create(InstallerModules).Serialize());
         }
+
+
+        private IEnumerable<IInstallerModule> SelectedModules => dataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule).Where(m => m != null);
+
+        private void DuplicateToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DeleteToolStripButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SelectedModules.ToList().ForEach(m => InstallerModules.Remove(m));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error removing item", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void MoveUpToolStripButton_Click(object sender, EventArgs e)
+        {
+            var selected = SelectedModules.Reverse().ToList();
+            if (InstallerModules.IndexOf(selected.FirstOrDefault()) > 0)
+            {
+                selected.ForEach(m =>
+                {
+                    var idx = InstallerModules.IndexOf(m);
+                    InstallerModules.Remove(m);
+                    InstallerModules.Insert(idx - 1, m);
+                });
+                dataGridView1.Rows.Cast<DataGridViewRow>().ToList().ForEach(r => r.Selected = selected.Contains(r.DataBoundItem as IInstallerModule));
+            }
+        }
+
+        private void MoveDownToolStripButton_Click(object sender, EventArgs e)
+        {
+            var selected = SelectedModules.ToList();
+            if (InstallerModules.IndexOf(selected.FirstOrDefault()) < InstallerModules.Count - 1)
+            {
+                selected.ForEach(m =>
+                {
+                    var idx = InstallerModules.IndexOf(m);
+                    InstallerModules.Remove(m);
+                    InstallerModules.Insert(idx + 1, m);
+                });
+                dataGridView1.Rows.Cast<DataGridViewRow>().ToList().ForEach(r => r.Selected = selected.Contains(r.DataBoundItem as IInstallerModule));
+            }
+        }
+
+        private void RefreshToolStripButton_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule).ToList().ForEach(m => m?.CheckStatus());
+        }
+
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {

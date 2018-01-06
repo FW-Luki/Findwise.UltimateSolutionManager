@@ -7,43 +7,47 @@ using System.Threading.Tasks;
 using DatabaseCreator.Properties;
 using Findwise.Configuration;
 using Findwise.Sharepoint.SolutionInstaller;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DatabaseCreator
 {
-    public class DatabaseCreator : IInstallerModule
+    public class DatabaseCreator : InstallerModuleBase
     {
-        public string Name => "Database Creator";
+        public override string Name => "Database Creator";
 
-        public string FriendlyName { get; set; }
+        public override Image Icon => Resources.if_server_11124;
 
-        public Image Icon => Resources.if_server_11124;
+        private Configuration myConfiguration = new Configuration();
+        public override ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }
 
-        public ConfigurationBase Configuration { get; set; } = new Configuration();
 
-
-        public bool IsInstalled
+        public override void CheckStatus()
         {
-            get
+            try
             {
-                return false;
+                var cmd = new System.Data.Odbc.OdbcCommand("select case when exists((select * from information_schema.tables where table_name = @tablename)) then 1 else 0 end");
+                cmd.Parameters.Add(new System.Data.Odbc.OdbcParameter("tablename", myConfiguration.Tablename));
+                if ((int)cmd.ExecuteScalar() == 1)
+                {
+                    Status = InstallerModuleStatus.Installed;
+                }
+                else
+                {
+                    Status = InstallerModuleStatus.Uninstalling;
+                }
+            }
+            catch
+            {
+                Status = InstallerModuleStatus.Error;
             }
         }
 
-        public InstallerModuleStatus Status
-        {
-            get
-            {
-                return InstallerModuleStatus.NotInstalled;
-            }
-        }
-
-
-        public void Install()
+        public override void Install()
         {
             throw new NotImplementedException();
         }
 
-        public void Uninstall()
+        public override void Uninstall()
         {
             throw new NotImplementedException();
         }
