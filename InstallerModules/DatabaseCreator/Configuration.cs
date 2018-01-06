@@ -11,13 +11,6 @@ namespace DatabaseCreator
     {
         public string ServerName { get; set; }
 
-
-        public IInterface Dupa { get; set; }
     }
-
-    public interface IDupa
-    {
-    }
-
 
 }
