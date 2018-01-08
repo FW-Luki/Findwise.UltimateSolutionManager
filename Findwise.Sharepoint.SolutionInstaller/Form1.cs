@@ -76,10 +76,20 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     });
                 if (buttons.Any())
                 {
-                    foreach (var button in buttons)
+                    try
                     {
-                        sizeablePanel1.Controls.Add(button);
-                        sizeablePanel1.Controls.SetChildIndex(button, 0);
+                        foreach (var button in buttons)
+                        {
+                            sizeablePanel1.Controls.Add(button);
+                            sizeablePanel1.Controls.SetChildIndex(button, 0);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        var b = GetToolboxButton(ex.Message, null);
+                        b.Enabled = false;
+                        b.ForeColor = Color.Red;
+                        sizeablePanel1.Controls.Add(b);
                     }
                 }
                 else
@@ -91,10 +101,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             }
             catch (Exception ex)
             {
-                var b = GetToolboxButton(ex.Message, null);
-                b.Enabled = false;
-                b.ForeColor = Color.Red;
-                sizeablePanel1.Controls.Add(b);
+                MessageBox.Show(ex.Message, "Error loading modules", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             NewProject();

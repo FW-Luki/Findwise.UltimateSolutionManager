@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findwise.Configuration", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findwise.PluginManager", "Findwise.PluginManager\Findwise.PluginManager.csproj", "{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharepointSolutionPackageInstaller", "InstallerModules\SharepointSolutionPackageInstaller\SharepointSolutionPackageInstaller.csproj", "{14334187-8A3F-4C8B-95B0-28B290EA7695}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharepointSolutionPackageInstaller.SpSol", "InstallerModules\SharepointSolutionPackageInstaller.SpSol\SharepointSolutionPackageInstaller.SpSol.csproj", "{D177A006-EC8E-479B-B3AA-A738126D08DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +39,24 @@ Global
 		{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14334187-8A3F-4C8B-95B0-28B290EA7695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14334187-8A3F-4C8B-95B0-28B290EA7695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14334187-8A3F-4C8B-95B0-28B290EA7695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14334187-8A3F-4C8B-95B0-28B290EA7695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D177A006-EC8E-479B-B3AA-A738126D08DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D177A006-EC8E-479B-B3AA-A738126D08DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D177A006-EC8E-479B-B3AA-A738126D08DD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D177A006-EC8E-479B-B3AA-A738126D08DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D177A006-EC8E-479B-B3AA-A738126D08DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D177A006-EC8E-479B-B3AA-A738126D08DD}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{90C2F5C3-2A04-4C82-8F31-CAA3044B50C9} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
+		{14334187-8A3F-4C8B-95B0-28B290EA7695} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
+		{D177A006-EC8E-479B-B3AA-A738126D08DD} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {55B1733E-7791-4B88-A4D8-4D93F1903ABC}

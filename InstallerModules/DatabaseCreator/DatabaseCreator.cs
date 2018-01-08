@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using DatabaseCreator.Properties;
 using Findwise.Configuration;
 using Findwise.Sharepoint.SolutionInstaller;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DatabaseCreator
 {

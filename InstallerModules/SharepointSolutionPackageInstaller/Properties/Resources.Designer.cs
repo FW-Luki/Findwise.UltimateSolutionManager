@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Findwise.Sharepoint.SolutionInstaller.Properties {
+namespace SharepointSolutionPackageInstaller.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Findwise.Sharepoint.SolutionInstaller.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SharepointSolutionPackageInstaller.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_package_x_generic_15417 {
+            get {
+                object obj = ResourceManager.GetObject("if_package_x_generic_15417", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

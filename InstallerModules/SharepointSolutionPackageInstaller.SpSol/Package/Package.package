@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package dslVersion="1.0.0.0" 
+        Id="4d7d907b-82a3-4b6e-a7f7-99a62329a85b" 
+        solutionId="4d7d907b-82a3-4b6e-a7f7-99a62329a85b" 
+        xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel" 
+        name="SharepointSolutionPackageInstaller"
+        sharePointProductVersion="16.0">
+</package>
