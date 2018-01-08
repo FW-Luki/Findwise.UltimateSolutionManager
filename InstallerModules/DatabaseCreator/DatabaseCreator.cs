@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -23,11 +24,12 @@ namespace DatabaseCreator
 
         public override void CheckStatus()
         {
+            Status = InstallerModuleStatus.Refreshing;
             try
             {
-                var cmd = new System.Data.Odbc.OdbcCommand("select case when exists((select * from information_schema.tables where table_name = @tablename)) then 1 else 0 end");
-                cmd.Parameters.Add(new System.Data.Odbc.OdbcParameter("tablename", myConfiguration.Tablename));
-                if ((int)cmd.ExecuteScalar() == 1)
+                if ((int)ExecuteScalar(GetConnectionString(myConfiguration.DatabaseName, myConfiguration.Tablename),
+                                       "select case when exists((select * from information_schema.tables where table_name = @TableName)) then 1 else 0 end",
+                                       new Parameter("TableName", myConfiguration.Tablename)) == 1)
                 {
                     Status = InstallerModuleStatus.Installed;
                 }
@@ -39,6 +41,7 @@ namespace DatabaseCreator
             catch
             {
                 Status = InstallerModuleStatus.Error;
+                throw;
             }
         }
 
@@ -51,5 +54,37 @@ namespace DatabaseCreator
         {
             throw new NotImplementedException();
         }
+
+
+        private static object ExecuteScalar(string connectionString, string query, params Parameter[] parameters)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = new SqlCommand(query, connection)
+            {
+            })
+            {
+                if (parameters != null && parameters.Length > 0) command.Parameters.AddRange(parameters.Select(p => new SqlParameter(p.Name, p.Value)).ToArray());
+                connection.Open();
+                return command.ExecuteScalar();
+            }
+        }
+
+        private static string GetConnectionString(string dataSource, string initialCatalog)
+        {
+            return string.Format("data source={0};initial catalog={1};integrated security=True;MultipleActiveResultSets=True;", dataSource, initialCatalog);
+        }
+
+
+        public class Parameter
+        {
+            public string Name { get; private set; }
+            public object Value { get; private set; }
+            public Parameter(string name, object value)
+            {
+                Name = name;
+                Value = value;
+            }
+        }
+
     }
 }

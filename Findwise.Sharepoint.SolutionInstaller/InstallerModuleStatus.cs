@@ -15,6 +15,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
         Installed,
         UninstallationPending,
         Uninstalling,
-        Error
+        Error,
+        Refreshing
     }
 }
