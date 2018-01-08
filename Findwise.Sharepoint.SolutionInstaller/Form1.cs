@@ -144,6 +144,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 try
                 {
                     LoadProject(openFileDialog1.FileName);
+                    RefreshModuleList();
                 }
                 catch (Exception ex)
                 {
@@ -228,6 +229,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void RefreshToolStripButton_Click(object sender, EventArgs e)
         {
+            RefreshModuleList();
+        }
+        private void RefreshModuleList()
+        {
             Task.Run(() =>
             {
                 Parallel.ForEach(dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule), new ParallelOptions(), module =>
@@ -245,16 +250,44 @@ namespace Findwise.Sharepoint.SolutionInstaller
             });
         }
 
+        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            RefreshModuleList();
+        }
+
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.ColumnIndex == NumberColumn.Index && e.RowIndex >= 0)
+            if (e.RowIndex >= 0)
             {
                 var cell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                var value = e.RowIndex + 1;
-                if (!(cell.Value is int cellValue) || cellValue != value)
+                if (e.ColumnIndex == NumberColumn.Index)
                 {
+                    var value = e.RowIndex + 1;
+                    if (!(cell.Value is int cellValue) || cellValue != value)
+                    {
+                        cell.Value = value;
+                    }
+                }
+                if (e.ColumnIndex == InstallColumn.Index)
+                {
+                    string value = string.Empty;
+                    Action[] actions = null;
+                    var module = (cell.OwningRow.DataBoundItem as IInstallerModule);
+                    switch (module?.Status ?? InstallerModuleStatus.Unknown)
+                    {
+                        case InstallerModuleStatus.NotInstalled:
+                            value = "Install";
+                            actions = new Action[] { module.PrepareInstall, module.Install };
+                            break;
+                        case InstallerModuleStatus.Installed:
+                            value = "Uninstall";
+                            actions = new Action[] { module.PrepareUninstall, module.Uninstall };
+                            break;
+                    }
                     cell.Value = value;
+                    cell.Tag = actions;
+                    if(cell is DataGridViewDisableButtonCell dgvdbc) dgvdbc.Hidden = !cell.OwningRow.Selected;
                 }
             }
         }
@@ -263,5 +296,29 @@ namespace Findwise.Sharepoint.SolutionInstaller
         {
             propertyGrid1.SelectedObjects = dataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => (r.DataBoundItem as IInstallerModule)?.Configuration).Where(m => m != null).ToArray();
         }
+
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == InstallColumn.Index)
+            {
+                if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag is Action[] actions)
+                {
+                    foreach (var action in actions)
+                    {
+                        try
+                        {
+                            logger.Info($"Invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName}...");
+                            action.Invoke();
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Info($"Error invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName} - [{ex.Message}]");
+                        }
+                    }
+                    RefreshModuleList();
+                }
+            }
+        }
+
     }
 }

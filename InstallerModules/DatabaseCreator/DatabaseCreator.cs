@@ -14,6 +14,15 @@ namespace DatabaseCreator
 {
     public class DatabaseCreator : InstallerModuleBase
     {
+        private string ConnectionString
+        {
+            get
+            {
+                return $@"data source={myConfiguration?.ServerName};initial catalog={myConfiguration?.DatabaseName};integrated security=SSPI;MultipleActiveResultSets=True;Trusted_Connection=True";
+            }
+        }
+
+
         public override string Name => "Database Creator";
 
         public override Image Icon => Resources.if_server_11124;
@@ -27,15 +36,14 @@ namespace DatabaseCreator
             Status = InstallerModuleStatus.Refreshing;
             try
             {
-                if ((int)ExecuteScalar(GetConnectionString(myConfiguration.DatabaseName, myConfiguration.Tablename),
-                                       "select case when exists((select * from information_schema.tables where table_name = @TableName)) then 1 else 0 end",
+                if ((int)ExecuteScalar("select case when exists((select * from information_schema.tables where table_name = @TableName)) then 1 else 0 end",
                                        new Parameter("TableName", myConfiguration.Tablename)) == 1)
                 {
                     Status = InstallerModuleStatus.Installed;
                 }
                 else
                 {
-                    Status = InstallerModuleStatus.Uninstalling;
+                    Status = InstallerModuleStatus.NotInstalled;
                 }
             }
             catch
@@ -47,31 +55,62 @@ namespace DatabaseCreator
 
         public override void Install()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = $@"CREATE TABLE [dbo].[{myConfiguration.Tablename}]({string.Join(",", myConfiguration.Columns.Select(c => $"[{c.Name}] {c.TypeName}{(c.IsIdentity ? " IDENTITY(1,1)" : "")}{(c.IsNullable ? "" : " NOT NULL")}"))})";
+                ExecutNonQuery(query);
+            }
+            catch
+            {
+                Status = InstallerModuleStatus.Error;
+                throw;
+            }
         }
 
         public override void Uninstall()
         {
-            throw new NotImplementedException();
+            Status = InstallerModuleStatus.Uninstalling;
+            throw new NotImplementedException($"Due to security reason, this module doesn't support uninstalling. To uninstall it, remove table {myConfiguration.Tablename} manually.");
+            //try
+            //{
+            //    ExecutNonQuery("drop table @TableName", new Parameter("TableName", myConfiguration.Tablename));
+            //}
+            //catch
+            //{
+            //    Status = InstallerModuleStatus.Error;
+            //    throw;
+            //}
         }
 
 
-        private static object ExecuteScalar(string connectionString, string query, params Parameter[] parameters)
+        private object ExecuteScalar(string query, params Parameter[] parameters)
         {
-            using (var connection = new SqlConnection(connectionString))
-            using (var command = new SqlCommand(query, connection)
+            using (var connection = new SqlConnection(ConnectionString))
             {
-            })
-            {
-                if (parameters != null && parameters.Length > 0) command.Parameters.AddRange(parameters.Select(p => new SqlParameter(p.Name, p.Value)).ToArray());
                 connection.Open();
-                return command.ExecuteScalar();
+                using (var command = new SqlCommand(query, connection)
+                {
+                })
+                {
+                    if (parameters != null && parameters.Length > 0) command.Parameters.AddRange(parameters.Select(p => new SqlParameter(p.Name, p.Value)).ToArray());
+                    return command.ExecuteScalar();
+                }
             }
         }
 
-        private static string GetConnectionString(string dataSource, string initialCatalog)
+        private int ExecutNonQuery(string query, params Parameter[] parameters)
         {
-            return string.Format("data source={0};initial catalog={1};integrated security=True;MultipleActiveResultSets=True;", dataSource, initialCatalog);
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SqlCommand(query, connection)
+                {
+                })
+                {
+                    if (parameters != null && parameters.Length > 0) command.Parameters.AddRange(parameters.Select(p => new SqlParameter(p.Name, p.Value)).ToArray());
+                    return command.ExecuteNonQuery();
+                }
+            }
         }
 
 

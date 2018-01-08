@@ -21,6 +21,7 @@ namespace DatabaseCreator
             public string Name { get; set; }
             public string TypeName { get; set; }
             public bool IsIdentity { get; set; }
+            public bool IsNullable { get; set; }
 
             public override string ToString()
             {

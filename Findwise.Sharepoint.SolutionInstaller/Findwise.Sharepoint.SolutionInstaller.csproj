@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\DGVEX.cs" />
     <Compile Include="Controls\SizeablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
