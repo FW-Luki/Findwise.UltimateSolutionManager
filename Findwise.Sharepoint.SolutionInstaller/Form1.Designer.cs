@@ -29,12 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.NumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IconColumn = new System.Windows.Forms.DataGridViewImageColumn();
+            this.FriendlyNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -43,21 +48,19 @@
             this.SaveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.DuplicateToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.DeleteToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MoveUpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.MoveDownToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.RefreshToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.sizeablePanel1 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.sizeablePanel2 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.NumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IconColumn = new System.Windows.Forms.DataGridViewImageColumn();
-            this.FriendlyNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.StatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DeleteToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.MoveUpToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.MoveDownToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.RefreshToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -67,6 +70,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.sizeablePanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -77,13 +81,16 @@
             this.tableLayoutPanel1.Controls.Add(this.splitContainer1, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.toolStrip1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.sizeablePanel1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.statusStrip1, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.sizeablePanel2, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 411);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -101,7 +108,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(644, 366);
+            this.splitContainer1.Size = new System.Drawing.Size(644, 238);
             this.splitContainer1.SplitterDistance = 320;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -111,7 +118,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(320, 366);
+            this.groupBox1.Size = new System.Drawing.Size(320, 238);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Installer Modules";
@@ -137,10 +144,49 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(314, 347);
+            this.dataGridView1.Size = new System.Drawing.Size(314, 219);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            // 
+            // NumberColumn
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "#\\.";
+            dataGridViewCellStyle2.NullValue = null;
+            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.NumberColumn.HeaderText = "";
+            this.NumberColumn.Name = "NumberColumn";
+            this.NumberColumn.ReadOnly = true;
+            this.NumberColumn.Width = 28;
+            // 
+            // IconColumn
+            // 
+            this.IconColumn.DataPropertyName = "Icon";
+            this.IconColumn.HeaderText = "";
+            this.IconColumn.Name = "IconColumn";
+            this.IconColumn.ReadOnly = true;
+            this.IconColumn.Width = 28;
+            // 
+            // FriendlyNameColumn
+            // 
+            this.FriendlyNameColumn.DataPropertyName = "FriendlyName";
+            this.FriendlyNameColumn.HeaderText = "Name";
+            this.FriendlyNameColumn.Name = "FriendlyNameColumn";
+            // 
+            // NameColumn
+            // 
+            this.NameColumn.DataPropertyName = "Name";
+            this.NameColumn.HeaderText = "Type";
+            this.NameColumn.Name = "NameColumn";
+            this.NameColumn.ReadOnly = true;
+            // 
+            // StatusColumn
+            // 
+            this.StatusColumn.DataPropertyName = "Status";
+            this.StatusColumn.HeaderText = "Status";
+            this.StatusColumn.Name = "StatusColumn";
+            this.StatusColumn.ReadOnly = true;
             // 
             // groupBox2
             // 
@@ -148,7 +194,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(320, 366);
+            this.groupBox2.Size = new System.Drawing.Size(320, 238);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Properties";
@@ -160,7 +206,7 @@
             this.propertyGrid1.Location = new System.Drawing.Point(3, 16);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.propertyGrid1.Size = new System.Drawing.Size(314, 347);
+            this.propertyGrid1.Size = new System.Drawing.Size(314, 219);
             this.propertyGrid1.TabIndex = 0;
             // 
             // toolStrip1
@@ -234,63 +280,6 @@
             this.DuplicateToolStripButton.Text = "Duplicate";
             this.DuplicateToolStripButton.Click += new System.EventHandler(this.DuplicateToolStripButton_Click);
             // 
-            // sizeablePanel1
-            // 
-            this.sizeablePanel1.Caption = "Toolbox";
-            this.sizeablePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sizeablePanel1.GripPosition = System.Windows.Forms.DockStyle.Right;
-            this.sizeablePanel1.Location = new System.Drawing.Point(3, 42);
-            this.sizeablePanel1.Name = "sizeablePanel1";
-            this.sizeablePanel1.Size = new System.Drawing.Size(128, 366);
-            this.sizeablePanel1.TabIndex = 4;
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.Filter = "XML Files|*.xml";
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.Filter = "XML Files|*.xml|All files|*.*";
-            // 
-            // NumberColumn
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "#\\.";
-            dataGridViewCellStyle2.NullValue = null;
-            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle2;
-            this.NumberColumn.HeaderText = "";
-            this.NumberColumn.Name = "NumberColumn";
-            this.NumberColumn.ReadOnly = true;
-            this.NumberColumn.Width = 28;
-            // 
-            // IconColumn
-            // 
-            this.IconColumn.DataPropertyName = "Icon";
-            this.IconColumn.HeaderText = "";
-            this.IconColumn.Name = "IconColumn";
-            this.IconColumn.ReadOnly = true;
-            this.IconColumn.Width = 28;
-            // 
-            // FriendlyNameColumn
-            // 
-            this.FriendlyNameColumn.DataPropertyName = "FriendlyName";
-            this.FriendlyNameColumn.HeaderText = "Name";
-            this.FriendlyNameColumn.Name = "FriendlyNameColumn";
-            // 
-            // NameColumn
-            // 
-            this.NameColumn.DataPropertyName = "Name";
-            this.NameColumn.HeaderText = "Type";
-            this.NameColumn.Name = "NameColumn";
-            this.NameColumn.ReadOnly = true;
-            // 
-            // StatusColumn
-            // 
-            this.StatusColumn.DataPropertyName = "Status";
-            this.StatusColumn.HeaderText = "Status";
-            this.StatusColumn.Name = "StatusColumn";
-            this.StatusColumn.ReadOnly = true;
-            // 
             // DeleteToolStripButton
             // 
             this.DeleteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -301,6 +290,11 @@
             this.DeleteToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.DeleteToolStripButton.Text = "Delete";
             this.DeleteToolStripButton.Click += new System.EventHandler(this.DeleteToolStripButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
             // 
             // MoveUpToolStripButton
             // 
@@ -324,11 +318,6 @@
             this.MoveDownToolStripButton.Text = "Move down";
             this.MoveDownToolStripButton.Click += new System.EventHandler(this.MoveDownToolStripButton_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -344,6 +333,55 @@
             this.RefreshToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.RefreshToolStripButton.Text = "Refresh";
             this.RefreshToolStripButton.Click += new System.EventHandler(this.RefreshToolStripButton_Click);
+            // 
+            // sizeablePanel1
+            // 
+            this.sizeablePanel1.Caption = "Toolbox";
+            this.sizeablePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sizeablePanel1.GripPosition = System.Windows.Forms.DockStyle.Right;
+            this.sizeablePanel1.Location = new System.Drawing.Point(3, 42);
+            this.sizeablePanel1.Name = "sizeablePanel1";
+            this.sizeablePanel1.Size = new System.Drawing.Size(128, 238);
+            this.sizeablePanel1.TabIndex = 4;
+            // 
+            // statusStrip1
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.statusStrip1, 2);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 389);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(784, 22);
+            this.statusStrip1.TabIndex = 5;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // sizeablePanel2
+            // 
+            this.sizeablePanel2.Caption = "Log";
+            this.tableLayoutPanel1.SetColumnSpan(this.sizeablePanel2, 2);
+            this.sizeablePanel2.Controls.Add(this.richTextBox1);
+            this.sizeablePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sizeablePanel2.GripPosition = System.Windows.Forms.DockStyle.Top;
+            this.sizeablePanel2.Location = new System.Drawing.Point(3, 286);
+            this.sizeablePanel2.Name = "sizeablePanel2";
+            this.sizeablePanel2.Size = new System.Drawing.Size(778, 100);
+            this.sizeablePanel2.TabIndex = 6;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(778, 100);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "XML Files|*.xml";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "XML Files|*.xml|All files|*.*";
             // 
             // Form1
             // 
@@ -366,6 +404,7 @@
             this.groupBox2.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.sizeablePanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -399,6 +438,9 @@
         private System.Windows.Forms.ToolStripButton MoveDownToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton RefreshToolStripButton;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private Controls.SizeablePanel sizeablePanel2;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 

@@ -10,11 +10,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Findwise.PluginManager;
 using Findwise.Sharepoint.SolutionInstaller.Controls;
+using log4net;
 
 namespace Findwise.Sharepoint.SolutionInstaller
 {
     public partial class Form1 : Form
     {
+        private static readonly ILog logger = LogManager.GetLogger("MainForm");
+
         [Obsolete("Do not use this field. Please use corresponding property.")]
         private BindingList<IInstallerModule> __installerModules;
         protected internal BindingList<IInstallerModule> InstallerModules
@@ -37,11 +40,20 @@ namespace Findwise.Sharepoint.SolutionInstaller
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
+
+            LogRichTextBoxAppender.Configure("ColoredTextBox", richTextBox1);
         }
 
         private void Module_StatusChanged(object sender, EventArgs e)
         {
-            dataGridView1.Refresh();
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(() => dataGridView1.Refresh()));
+            }
+            else
+            {
+                dataGridView1.Refresh();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -170,7 +182,6 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void DuplicateToolStripButton_Click(object sender, EventArgs e)
         {
-
         }
 
         private void DeleteToolStripButton_Click(object sender, EventArgs e)
@@ -217,7 +228,21 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void RefreshToolStripButton_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule).ToList().ForEach(m => m?.CheckStatus());
+            Task.Run(() =>
+            {
+                Parallel.ForEach(dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule), new ParallelOptions(), module =>
+                {
+                    try
+                    {
+                        logger.Info($"Module {module.Name} - Checking status...");
+                        module?.CheckStatus();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Warn($"Error checking status of module {module.FriendlyName}.", ex);
+                    }
+                });
+            });
         }
 
 
@@ -238,6 +263,5 @@ namespace Findwise.Sharepoint.SolutionInstaller
         {
             propertyGrid1.SelectedObjects = dataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => (r.DataBoundItem as IInstallerModule)?.Configuration).Where(m => m != null).ToArray();
         }
-
     }
 }

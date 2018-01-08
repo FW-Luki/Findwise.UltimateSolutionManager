@@ -101,7 +101,19 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
         {
             if (_dragging)
             {
-                Width = _startingSize.Width + (MousePosition.X - _startingPoint.X);
+                switch (GripPosition)
+                {
+                    case DockStyle.Top:
+                        Height = _startingSize.Height - (MousePosition.Y - _startingPoint.Y);
+                        break;
+                    case DockStyle.Bottom:
+                        break;
+                    case DockStyle.Left:
+                        break;
+                    case DockStyle.Right:
+                        Width = _startingSize.Width + (MousePosition.X - _startingPoint.X);
+                        break;
+                }
             }
         }
     }
