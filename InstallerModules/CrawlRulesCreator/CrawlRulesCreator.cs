@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Findwise.Sharepoint.SolutionInstaller;
 using Findwise.Configuration;
+using Microsoft.SharePoint.Administration;
+using Microsoft.Office.Server.Search.Administration;
+using static CrawlRulesCreator.Configuration;
 
 namespace CrawlRulesCreator
 {
@@ -21,17 +24,48 @@ namespace CrawlRulesCreator
 
         public override void CheckStatus()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
+                var result = myConfiguration.CrawlRuleDefinitions.All(myRule => content.CrawlRules.Any(sharepointRule => Helpers.CompareToCrawlRule(sharepointRule, myRule.Path, myRule.IsExclude)));
+
+                if (result)
+                    Status = InstallerModuleStatus.Installed;
+                else
+                    Status = InstallerModuleStatus.NotInstalled;
+            }
+            catch
+            {
+                Status = InstallerModuleStatus.Error;
+                throw;
+            }
         }
 
         public override void Install()
         {
-            throw new NotImplementedException();
+            var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
+
+            var notInstalledRules = myConfiguration.CrawlRuleDefinitions.Where(myRule => !content.CrawlRules.Any(sharepointRule => Helpers.CompareToCrawlRule(sharepointRule, myRule.Path, myRule.IsExclude)));
+
+            foreach (var rule in notInstalledRules)
+            {
+                content.CrawlRules.Create(rule.IsExclude ? CrawlRuleType.ExclusionRule : CrawlRuleType.InclusionRule, rule.Path);
+            }
         }
 
         public override void Uninstall()
         {
             throw new NotImplementedException();
         }
+        
+        public Content SearchApplicationContent(string searchApplicationName)
+        {
+            string ssaName = searchApplicationName;
+            SearchContext context = SearchContext.GetContext(ssaName);
+            Content content = new Content(context);
+
+            return content;
+        }
+
     }
 }

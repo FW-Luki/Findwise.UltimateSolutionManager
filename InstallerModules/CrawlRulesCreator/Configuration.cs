@@ -6,21 +6,22 @@ using System.Text;
 using System.Threading.Tasks;
 using Findwise.Configuration;
 
+
 namespace CrawlRulesCreator
 {
     public class Configuration : ConfigurationBase
     {
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
-        public string Path { get; set; }
-        public CrawlRuleDefinition[] CrawlRules { get; set; }
+        [RefreshProperties(RefreshProperties.All)]
+        public CrawlRuleDefinition[] CrawlRuleDefinitions { get; set; }
 
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public class CrawlRuleDefinition
         {
-            public string Path { get; set; }
+            public string Path { get; set; }    
             public bool IsExclude{ get; set; }
-
+                
             public override string ToString()
             {
                 return Path;
