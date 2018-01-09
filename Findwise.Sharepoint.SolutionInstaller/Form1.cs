@@ -246,7 +246,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 {
                     try
                     {
-                        logger.Info($"Module {module.Name} - Checking status...");
+                        //logger.Info($"Module {module.Name} - Checking status...");
                         module?.CheckStatus();
                     }
                     catch (Exception ex)
@@ -260,6 +260,11 @@ namespace Findwise.Sharepoint.SolutionInstaller
         private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             RefreshModuleList();
+        }
+
+        private void InstallAllToolStripButton_Click(object sender, EventArgs e)
+        {
+
         }
 
 
@@ -294,7 +299,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     }
                     cell.Value = value;
                     cell.Tag = actions;
-                    if(cell is DataGridViewDisableButtonCell dgvdbc) dgvdbc.Hidden = !cell.OwningRow.Selected;
+                    if (cell is DataGridViewHideableButtonCell dgvdbc) dgvdbc.Hidden = !cell.OwningRow.Selected;
                 }
             }
         }
@@ -310,6 +315,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             {
                 if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag is Action[] actions)
                 {
+                    ResetSingleClickInstallButtonTimer();
                     foreach (var action in actions)
                     {
                         try
@@ -325,6 +331,48 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     RefreshModuleList();
                 }
             }
+        }
+
+        private bool _installButtonSingleClicked;
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == InstallColumn.Index)
+            {
+                if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag is Action[] actions)
+                {
+                    if (!_installButtonSingleClicked)
+                    {
+                        SetSingleClickInstallButtonTimer();
+                    }
+                    else
+                    {
+                        ResetSingleClickInstallButtonTimer();
+                        var rect = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                        rect.Offset(dataGridView1.Location);
+                        SingleClickInstallButtonToolTip.ToolTipTitle = $"Double click the {dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value} button to perform the action.";
+                        SingleClickInstallButtonToolTip.Show("This prevents from accidental activations.", groupBox1, new Point(rect.Left, rect.Bottom), 1138);
+                    }
+                }
+            }
+            else
+            {
+                ResetSingleClickInstallButtonTimer();
+            }
+        }
+
+        private void SingleClickInstallButtonTimer_Tick(object sender, EventArgs e)
+        {
+            ResetSingleClickInstallButtonTimer();
+        }
+        private void SetSingleClickInstallButtonTimer()
+        {
+            _installButtonSingleClicked = true;
+            SingleClickInstallButtonTimer.Start();
+        }
+        private void ResetSingleClickInstallButtonTimer()
+        {
+            _installButtonSingleClicked = false;
+            SingleClickInstallButtonTimer.Stop();
         }
 
     }

@@ -8,22 +8,22 @@ using System.Windows.Forms;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Controls
 {
-    public class DataGridViewDisableButtonColumn : DataGridViewButtonColumn
+    public class DataGridViewHideableButtonColumn : DataGridViewButtonColumn
     {
-        public DataGridViewDisableButtonColumn()
+        public DataGridViewHideableButtonColumn()
         {
-            this.CellTemplate = new DataGridViewDisableButtonCell();
+            this.CellTemplate = new DataGridViewHideableButtonCell();
         }
     }
 
-    public class DataGridViewDisableButtonCell : DataGridViewButtonCell
+    public class DataGridViewHideableButtonCell : DataGridViewButtonCell
     {
         public bool Hidden { get; set; } = true;
 
         // Override the Clone method so that the Hide property is copied.
         public override object Clone()
         {
-            DataGridViewDisableButtonCell cell = (DataGridViewDisableButtonCell)base.Clone();
+            DataGridViewHideableButtonCell cell = (DataGridViewHideableButtonCell)base.Clone();
             cell.Hidden = this.Hidden;
             return cell;
         }
