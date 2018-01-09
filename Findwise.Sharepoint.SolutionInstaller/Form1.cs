@@ -144,14 +144,14 @@ namespace Findwise.Sharepoint.SolutionInstaller
             InstallerModules = new BindingList<IInstallerModule>(); ;
         }
 
-        private void OpenToolStripButton_Click(object sender, EventArgs e)
+        private async void OpenToolStripButton_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
                     LoadProject(openFileDialog1.FileName);
-                    RefreshModuleList();
+                    await RefreshModuleList();
                 }
                 catch (Exception ex)
                 {
@@ -234,20 +234,21 @@ namespace Findwise.Sharepoint.SolutionInstaller
             }
         }
 
-        private void RefreshToolStripButton_Click(object sender, EventArgs e)
+        private async void RefreshToolStripButton_Click(object sender, EventArgs e)
         {
-            RefreshModuleList();
+            await RefreshModuleList();
         }
-        private void RefreshModuleList()
+        private async Task RefreshModuleList()
         {
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 Parallel.ForEach(dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule), new ParallelOptions(), module =>
                 {
                     try
                     {
                         //logger.Info($"Module {module.Name} - Checking status...");
-                        module?.CheckStatus();
+                        if (module != null && module.Status != InstallerModuleStatus.Refreshing)
+                            module.CheckStatus();
                     }
                     catch (Exception ex)
                     {
@@ -257,14 +258,18 @@ namespace Findwise.Sharepoint.SolutionInstaller
             });
         }
 
-        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        private async void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            RefreshModuleList();
+            await RefreshModuleList();
         }
 
         private void InstallAllToolStripButton_Click(object sender, EventArgs e)
         {
-
+            InstallAllModules();
+        }
+        private async void InstallAllModules()
+        { 
+            await RefreshModuleList();
         }
 
 
@@ -309,7 +314,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             propertyGrid1.SelectedObjects = dataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => (r.DataBoundItem as IInstallerModule)?.Configuration).Where(m => m != null).ToArray();
         }
 
-        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private async void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == InstallColumn.Index)
             {
@@ -328,7 +333,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
                             logger.Info($"Error invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName} - [{ex.Message}]");
                         }
                     }
-                    RefreshModuleList();
+                    await RefreshModuleList();
                 }
             }
         }

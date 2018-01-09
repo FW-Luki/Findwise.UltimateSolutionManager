@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -161,10 +161,10 @@
             // 
             // NumberColumn
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle1.Format = "#\\.";
-            dataGridViewCellStyle1.NullValue = null;
-            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "#\\.";
+            dataGridViewCellStyle2.NullValue = null;
+            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.NumberColumn.HeaderText = "";
             this.NumberColumn.Name = "NumberColumn";
             this.NumberColumn.ReadOnly = true;
@@ -229,6 +229,7 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.toolStrip1.BackgroundGradientColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(39)))));
             this.tableLayoutPanel1.SetColumnSpan(this.toolStrip1, 2);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {

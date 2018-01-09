@@ -27,8 +27,11 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
                 var borderline = lastElementRect.Left + lastElementRect.Width;
                 backrect.Width -= borderline;
                 backrect.Offset(borderline, 0);
-                e.Graphics.FillRectangle(new LinearGradientBrush(backrect, BackColor, BackgroundGradientColor, LinearGradientMode.Horizontal), backrect);
-                e.Graphics.FillRectangle(new SolidBrush(BackColor), new RectangleF(borderline - 1, 0, 2, backrect.Height));
+                if (backrect.Width > 0)
+                {
+                    e.Graphics.FillRectangle(new LinearGradientBrush(backrect, BackColor, BackgroundGradientColor, LinearGradientMode.Horizontal), backrect);
+                    e.Graphics.FillRectangle(new SolidBrush(BackColor), new RectangleF(borderline - 1, 0, 2, backrect.Height));
+                }
             }
 
             if (SpecialBackgroundImage != null)
