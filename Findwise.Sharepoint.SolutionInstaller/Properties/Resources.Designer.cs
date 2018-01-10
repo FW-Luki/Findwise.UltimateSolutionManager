@@ -59,5 +59,15 @@ namespace Findwise.Sharepoint.SolutionInstaller.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_Delete_46730 {
+            get {
+                object obj = ResourceManager.GetObject("if_Delete_46730", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

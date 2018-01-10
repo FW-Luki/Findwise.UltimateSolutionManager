@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -44,19 +44,19 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.toolStrip1 = new Findwise.Sharepoint.SolutionInstaller.Controls.FancyToolStrip();
-            this.NewToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.OpenToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.SaveToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.NewToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
+            this.OpenToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
+            this.SaveToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.DuplicateToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.DeleteToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.DuplicateToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
+            this.DeleteToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.MoveUpToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.MoveDownToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.MoveUpToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
+            this.MoveDownToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.RefreshToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.InstallAllToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.RefreshToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
+            this.InstallAllToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
+            this.CancelToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.sizeablePanel1 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.sizeablePanel2 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
@@ -68,6 +68,8 @@
             this.SingleClickInstallButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.dataGridViewHideableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
             this.dataGridViewDisableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
+            this.LogWindowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ClearLogWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -78,6 +80,7 @@
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.sizeablePanel2.SuspendLayout();
+            this.LogWindowContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -161,10 +164,10 @@
             // 
             // NumberColumn
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "#\\.";
-            dataGridViewCellStyle2.NullValue = null;
-            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "#\\.";
+            dataGridViewCellStyle3.NullValue = null;
+            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle3;
             this.NumberColumn.HeaderText = "";
             this.NumberColumn.Name = "NumberColumn";
             this.NumberColumn.ReadOnly = true;
@@ -244,8 +247,8 @@
             this.MoveDownToolStripButton,
             this.toolStripSeparator2,
             this.RefreshToolStripButton,
-            this.toolStripSeparator3,
-            this.InstallAllToolStripButton});
+            this.InstallAllToolStripButton,
+            this.CancelToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
@@ -260,6 +263,7 @@
             this.NewToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("NewToolStripButton.Image")));
             this.NewToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.NewToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NewToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.Normal;
             this.NewToolStripButton.Name = "NewToolStripButton";
             this.NewToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.NewToolStripButton.Text = "&New";
@@ -271,6 +275,7 @@
             this.OpenToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("OpenToolStripButton.Image")));
             this.OpenToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.OpenToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.Normal;
             this.OpenToolStripButton.Name = "OpenToolStripButton";
             this.OpenToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.OpenToolStripButton.Text = "&Open";
@@ -282,6 +287,7 @@
             this.SaveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveToolStripButton.Image")));
             this.SaveToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.SaveToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.AlwaysEnabled;
             this.SaveToolStripButton.Name = "SaveToolStripButton";
             this.SaveToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.SaveToolStripButton.Text = "&Save";
@@ -299,6 +305,7 @@
             this.DuplicateToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("DuplicateToolStripButton.Image")));
             this.DuplicateToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.DuplicateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DuplicateToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.AlwaysDisabled;
             this.DuplicateToolStripButton.Name = "DuplicateToolStripButton";
             this.DuplicateToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.DuplicateToolStripButton.Text = "Duplicate";
@@ -307,9 +314,10 @@
             // DeleteToolStripButton
             // 
             this.DeleteToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.DeleteToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("DeleteToolStripButton.Image")));
+            this.DeleteToolStripButton.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Delete_46730;
             this.DeleteToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.DeleteToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DeleteToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.Normal;
             this.DeleteToolStripButton.Name = "DeleteToolStripButton";
             this.DeleteToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.DeleteToolStripButton.Text = "Delete";
@@ -326,6 +334,7 @@
             this.MoveUpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("MoveUpToolStripButton.Image")));
             this.MoveUpToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MoveUpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MoveUpToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.Normal;
             this.MoveUpToolStripButton.Name = "MoveUpToolStripButton";
             this.MoveUpToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.MoveUpToolStripButton.Text = "Move up";
@@ -337,6 +346,7 @@
             this.MoveDownToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("MoveDownToolStripButton.Image")));
             this.MoveDownToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MoveDownToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MoveDownToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.Normal;
             this.MoveDownToolStripButton.Name = "MoveDownToolStripButton";
             this.MoveDownToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.MoveDownToolStripButton.Text = "Move down";
@@ -353,15 +363,11 @@
             this.RefreshToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("RefreshToolStripButton.Image")));
             this.RefreshToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.RefreshToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.Normal;
             this.RefreshToolStripButton.Name = "RefreshToolStripButton";
             this.RefreshToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.RefreshToolStripButton.Text = "Refresh";
             this.RefreshToolStripButton.Click += new System.EventHandler(this.RefreshToolStripButton_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 39);
             // 
             // InstallAllToolStripButton
             // 
@@ -369,10 +375,24 @@
             this.InstallAllToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("InstallAllToolStripButton.Image")));
             this.InstallAllToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.InstallAllToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.InstallAllToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.Normal;
             this.InstallAllToolStripButton.Name = "InstallAllToolStripButton";
             this.InstallAllToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.InstallAllToolStripButton.Text = "Install All";
             this.InstallAllToolStripButton.Click += new System.EventHandler(this.InstallAllToolStripButton_Click);
+            // 
+            // CancelToolStripButton
+            // 
+            this.CancelToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CancelToolStripButton.Enabled = false;
+            this.CancelToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("CancelToolStripButton.Image")));
+            this.CancelToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.CancelToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CancelToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.Invert;
+            this.CancelToolStripButton.Name = "CancelToolStripButton";
+            this.CancelToolStripButton.Size = new System.Drawing.Size(36, 36);
+            this.CancelToolStripButton.Text = "Cancel";
+            this.CancelToolStripButton.Click += new System.EventHandler(this.CancelToolStripButton_Click);
             // 
             // sizeablePanel1
             // 
@@ -407,6 +427,7 @@
             // 
             // richTextBox1
             // 
+            this.richTextBox1.ContextMenuStrip = this.LogWindowContextMenuStrip;
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
@@ -444,6 +465,21 @@
             this.dataGridViewDisableButtonColumn1.Name = "dataGridViewDisableButtonColumn1";
             this.dataGridViewDisableButtonColumn1.ReadOnly = true;
             // 
+            // LogWindowContextMenuStrip
+            // 
+            this.LogWindowContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ClearLogWindowToolStripMenuItem});
+            this.LogWindowContextMenuStrip.Name = "LogWindowContextMenuStrip";
+            this.LogWindowContextMenuStrip.Size = new System.Drawing.Size(102, 26);
+            // 
+            // ClearLogWindowToolStripMenuItem
+            // 
+            this.ClearLogWindowToolStripMenuItem.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Delete_46730;
+            this.ClearLogWindowToolStripMenuItem.Name = "ClearLogWindowToolStripMenuItem";
+            this.ClearLogWindowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ClearLogWindowToolStripMenuItem.Text = "Clear";
+            this.ClearLogWindowToolStripMenuItem.Click += new System.EventHandler(this.ClearLogWindowToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -466,6 +502,7 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.sizeablePanel2.ResumeLayout(false);
+            this.LogWindowContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -479,21 +516,21 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private Controls.SizeablePanel sizeablePanel1;
-        private System.Windows.Forms.ToolStripButton NewToolStripButton;
-        private System.Windows.Forms.ToolStripButton OpenToolStripButton;
-        private System.Windows.Forms.ToolStripButton SaveToolStripButton;
+        private Controls.LockableToolStripButton NewToolStripButton;
+        private Controls.LockableToolStripButton OpenToolStripButton;
+        private Controls.LockableToolStripButton SaveToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
-        private System.Windows.Forms.ToolStripButton DuplicateToolStripButton;
+        private Controls.LockableToolStripButton DuplicateToolStripButton;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ToolStripButton DeleteToolStripButton;
+        private Controls.LockableToolStripButton DeleteToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton MoveUpToolStripButton;
-        private System.Windows.Forms.ToolStripButton MoveDownToolStripButton;
+        private Controls.LockableToolStripButton MoveUpToolStripButton;
+        private Controls.LockableToolStripButton MoveDownToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton RefreshToolStripButton;
+        private Controls.LockableToolStripButton RefreshToolStripButton;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private Controls.SizeablePanel sizeablePanel2;
         private System.Windows.Forms.RichTextBox richTextBox1;
@@ -503,12 +540,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatusColumn;
         private Controls.DataGridViewHideableButtonColumn InstallColumn;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton InstallAllToolStripButton;
+        private Controls.LockableToolStripButton InstallAllToolStripButton;
         private System.Windows.Forms.Timer SingleClickInstallButtonTimer;
         private System.Windows.Forms.ToolTip SingleClickInstallButtonToolTip;
         private Controls.DataGridViewHideableButtonColumn dataGridViewDisableButtonColumn1;
         private Controls.DataGridViewHideableButtonColumn dataGridViewHideableButtonColumn1;
+        private Controls.LockableToolStripButton CancelToolStripButton;
+        private System.Windows.Forms.ContextMenuStrip LogWindowContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem ClearLogWindowToolStripMenuItem;
     }
 }
 
