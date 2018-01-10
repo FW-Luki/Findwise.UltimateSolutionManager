@@ -57,6 +57,9 @@
     <Compile Include="Controls\FancyToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\LockableToolStripButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\SizeablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -72,6 +75,7 @@
     </Compile>
     <Compile Include="InstallerModuleBase.cs" />
     <Compile Include="InstallerModuleStatus.cs" />
+    <Compile Include="ISaveLoadAware.cs" />
     <Compile Include="LogRichTextBoxAppender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project.cs" />
@@ -119,6 +123,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Icons\if_Delete_46730.png" />
     <Content Include="if_preferences-desktop_15370.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

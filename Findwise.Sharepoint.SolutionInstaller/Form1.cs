@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Findwise.PluginManager;
@@ -17,6 +18,14 @@ namespace Findwise.Sharepoint.SolutionInstaller
     public partial class Form1 : Form
     {
         private static readonly ILog logger = LogManager.GetLogger("MainForm");
+
+        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationToken GetCancellationToken()
+        {
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = new CancellationTokenSource();
+            return _cancellationTokenSource.Token;
+        }
 
         [Obsolete("Do not use this field. Please use corresponding property.")]
         private BindingList<IInstallerModule> __installerModules;
@@ -164,6 +173,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             var modules = Configuration.ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename)).Modules.ToList();
             modules.ForEach(m => m.StatusChanged += Module_StatusChanged);
             InstallerModules = new BindingList<IInstallerModule>(modules);
+            InstallerModules.OfType<ISaveLoadAware>().ToList().ForEach(m => m.AfterLoad());
         }
 
         private void SaveToolStripButton_Click(object sender, EventArgs e)
@@ -182,7 +192,9 @@ namespace Findwise.Sharepoint.SolutionInstaller
         }
         private void SaveProject(string filename)
         {
+            InstallerModules.OfType<ISaveLoadAware>().ToList().ForEach(m => m.BeforeSave());
             System.IO.File.WriteAllText(filename, Project.Create(InstallerModules).Serialize());
+            InstallerModules.OfType<ISaveLoadAware>().ToList().ForEach(m => m.AfterSave());
         }
 
 
@@ -236,40 +248,128 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private async void RefreshToolStripButton_Click(object sender, EventArgs e)
         {
+            SetActionButtonsEnabled(false);
             await RefreshModuleList();
+            SetActionButtonsEnabled(true);
         }
-        private async Task RefreshModuleList()
+        private async Task RefreshModuleList(bool selectedOnly = false, bool throwIfCancelled = false)
         {
             await Task.Run(() =>
             {
-                Parallel.ForEach(dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule), new ParallelOptions(), module =>
+                var options = new ParallelOptions()
                 {
-                    try
+                    CancellationToken = GetCancellationToken()
+                };
+                try
+                {
+                    System.Collections.IEnumerable rows;
+                    if (selectedOnly) rows = dataGridView1.SelectedRows;
+                    else rows = dataGridView1.Rows;
+                    Parallel.ForEach(rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule), options, module =>
                     {
-                        //logger.Info($"Module {module.Name} - Checking status...");
-                        if (module != null && module.Status != InstallerModuleStatus.Refreshing)
-                            module.CheckStatus();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Warn($"Error checking status of module {module.FriendlyName}.", ex);
-                    }
-                });
+                        try
+                        {
+                            options.CancellationToken.ThrowIfCancellationRequested();
+                            //logger.Info($"Module {module.Name} - Checking status...");
+                            if (module != null && module.Status != InstallerModuleStatus.Refreshing)
+                                module.CheckStatus();
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Warn($"Error checking status of module {module.FriendlyName}.", ex);
+                        }
+                    });
+                }
+                catch (OperationCanceledException)
+                {
+                    if (throwIfCancelled) throw;
+                }
             });
         }
 
         private async void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            await RefreshModuleList();
+            await RefreshModuleList(selectedOnly: true);
         }
 
-        private void InstallAllToolStripButton_Click(object sender, EventArgs e)
+        private async void InstallAllToolStripButton_Click(object sender, EventArgs e)
         {
-            InstallAllModules();
+            SetActionButtonsEnabled(false);
+            await InstallAllModules();
+            SetActionButtonsEnabled(true);
         }
-        private async void InstallAllModules()
-        { 
-            await RefreshModuleList();
+        private async Task InstallAllModules()
+        {
+            try
+            {
+                await RefreshModuleList(throwIfCancelled: true);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var options = new ParallelOptions()
+                    {
+                        CancellationToken = GetCancellationToken()
+                    };
+                    Parallel.ForEach(InstallerModules.Where(m => m.Status == InstallerModuleStatus.NotInstalled), options, module =>
+                    {
+                        try
+                        {
+                            options.CancellationToken.ThrowIfCancellationRequested();
+                            module.PrepareInstall();
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Warn($"Error preparing module {module.FriendlyName} for install.", ex);
+                        }
+                    });
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+
+                var refreshTasks = new List<Task>();
+                var token = GetCancellationToken();
+                foreach (var module in InstallerModules)
+                {
+                    try
+                    {
+                        token.ThrowIfCancellationRequested();
+                        module.Install();
+                        refreshTasks.Add(Task.Run(() => module.CheckStatus()));
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Warn($"Error installing module {module.FriendlyName}.", ex);
+                    }
+                }
+                Task.WaitAll(refreshTasks.ToArray());
+            });
+        }
+
+        private void CancelToolStripButton_Click(object sender, EventArgs e)
+        {
+            _cancellationTokenSource?.Cancel();
+            CancelToolStripButton.Enabled = false;
+        }
+
+        private void SetActionButtonsEnabled(bool enabled)
+        {
+            toolStrip1.Items.OfType<LockableToolStripButton>().ToList().ForEach(b => b.SetLocked(enabled));
+            sizeablePanel1.Enabled = enabled;
+            //splitContainer1.Enabled = enabled;
+            groupBox2.Enabled = enabled;
         }
 
 
@@ -295,11 +395,11 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     {
                         case InstallerModuleStatus.NotInstalled:
                             value = "Install";
-                            actions = new Action[] { module.PrepareInstall, module.Install };
+                            actions = new Action[] { module.PrepareInstall, module.Install, module.CheckStatus };
                             break;
                         case InstallerModuleStatus.Installed:
                             value = "Uninstall";
-                            actions = new Action[] { module.PrepareUninstall, module.Uninstall };
+                            actions = new Action[] { module.PrepareUninstall, module.Uninstall, module.CheckStatus };
                             break;
                     }
                     cell.Value = value;
@@ -321,19 +421,21 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag is Action[] actions)
                 {
                     ResetSingleClickInstallButtonTimer();
-                    foreach (var action in actions)
+                    await Task.Run(() =>
                     {
-                        try
+                        foreach (var action in actions)
                         {
-                            logger.Info($"Invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName}...");
-                            action.Invoke();
+                            try
+                            {
+                                logger.Info($"Invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName}...");
+                                action.Invoke();
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.Info($"Error invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName} - [{ex.Message}]");
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            logger.Info($"Error invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName} - [{ex.Message}]");
-                        }
-                    }
-                    await RefreshModuleList();
+                    });
                 }
             }
         }
@@ -378,6 +480,12 @@ namespace Findwise.Sharepoint.SolutionInstaller
         {
             _installButtonSingleClicked = false;
             SingleClickInstallButtonTimer.Stop();
+        }
+
+
+        private void ClearLogWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Clear();
         }
 
     }

@@ -10,7 +10,7 @@ using SharepointSolutionPackageInstaller.Properties;
 
 namespace SharepointSolutionPackageInstaller
 {
-    public class WspInstaller : InstallerModuleBase
+    public class WspInstaller : InstallerModuleBase, ISaveLoadAware
     {
         public override string Name => "Sharepoint Solution Package Installer";
 
@@ -21,17 +21,38 @@ namespace SharepointSolutionPackageInstaller
 
         public override void CheckStatus()
         {
-            Status = InstallerModuleStatus.Unknown;
+            Status = InstallerModuleStatus.Refreshing;
+            System.Threading.Thread.Sleep(1024);
+            Status = _testStatus;
         }
+
+        [Obsolete("For test purposes only!")]
+        private InstallerModuleStatus _testStatus = InstallerModuleStatus.NotInstalled;
 
         public override void Install()
         {
-            throw new NotImplementedException();
+            Status = InstallerModuleStatus.Installing;
+            System.Threading.Thread.Sleep(4098);
+            _testStatus = InstallerModuleStatus.Installed;
         }
 
         public override void Uninstall()
         {
             throw new NotImplementedException();
+        }
+
+
+        public virtual void BeforeSave()
+        {
+            //ToDo: Here building and publishing project.
+        }
+
+        public virtual void AfterSave()
+        {
+        }
+
+        public virtual void AfterLoad()
+        {
         }
     }
 }
