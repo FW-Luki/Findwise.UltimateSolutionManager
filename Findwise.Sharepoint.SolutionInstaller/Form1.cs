@@ -252,7 +252,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             await RefreshModuleList();
             SetActionButtonsEnabled(true);
         }
-        private async Task RefreshModuleList(bool throwIfCancelled = false)
+        private async Task RefreshModuleList(bool selectedOnly = false, bool throwIfCancelled = false)
         {
             await Task.Run(() =>
             {
@@ -262,7 +262,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 };
                 try
                 {
-                    Parallel.ForEach(dataGridView1.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule), options, module =>
+                    System.Collections.IEnumerable rows;
+                    if (selectedOnly) rows = dataGridView1.SelectedRows;
+                    else rows = dataGridView1.Rows;
+                    Parallel.ForEach(rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule), options, module =>
                     {
                         try
                         {
@@ -286,7 +289,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private async void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            await RefreshModuleList();
+            await RefreshModuleList(selectedOnly: true);
         }
 
         private async void InstallAllToolStripButton_Click(object sender, EventArgs e)
@@ -299,7 +302,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
         {
             try
             {
-                await RefreshModuleList(true);
+                await RefreshModuleList(throwIfCancelled: true);
             }
             catch (OperationCanceledException)
             {
@@ -392,11 +395,11 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     {
                         case InstallerModuleStatus.NotInstalled:
                             value = "Install";
-                            actions = new Action[] { module.PrepareInstall, module.Install };
+                            actions = new Action[] { module.PrepareInstall, module.Install, module.CheckStatus };
                             break;
                         case InstallerModuleStatus.Installed:
                             value = "Uninstall";
-                            actions = new Action[] { module.PrepareUninstall, module.Uninstall };
+                            actions = new Action[] { module.PrepareUninstall, module.Uninstall, module.CheckStatus };
                             break;
                     }
                     cell.Value = value;
@@ -418,19 +421,21 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag is Action[] actions)
                 {
                     ResetSingleClickInstallButtonTimer();
-                    foreach (var action in actions)
+                    await Task.Run(() =>
                     {
-                        try
+                        foreach (var action in actions)
                         {
-                            logger.Info($"Invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName}...");
-                            action.Invoke();
+                            try
+                            {
+                                logger.Info($"Invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName}...");
+                                action.Invoke();
+                            }
+                            catch (Exception ex)
+                            {
+                                logger.Info($"Error invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName} - [{ex.Message}]");
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            logger.Info($"Error invoking action {action.Method.Name} for module {(dataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName} - [{ex.Message}]");
-                        }
-                    }
-                    await RefreshModuleList();
+                    });
                 }
             }
         }
