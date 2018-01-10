@@ -7,7 +7,7 @@ using Microsoft.Office.Server.Search.Administration;
 
 namespace CrawlRulesCreator
 {
-    static class Helpers
+    static class ExtensionMethod
     {
         public static bool CompareToCrawlRule(CrawlRule sharepointRule, string path, bool isExclude)
         {

@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="CrawlRulesCreator.cs" />
-    <Compile Include="Helpers.cs" />
+    <Compile Include="ExtensionMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
