@@ -4,6 +4,7 @@ using System.Linq;
 using Findwise.Sharepoint.SolutionInstaller;
 using Findwise.Configuration;
 using Microsoft.Office.Server.Search.Administration;
+using CrawlRulesCreator.Properties;
 
 namespace CrawlRulesCreator
 {
@@ -11,7 +12,7 @@ namespace CrawlRulesCreator
     {
         public override string Name => "Crawl Rules Creator";
 
-        public override Image Icon => null;
+        public override Image Icon => Resources.if_Precision_1562695;
 
         private Configuration myConfiguration = new Configuration();
         public override ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }
