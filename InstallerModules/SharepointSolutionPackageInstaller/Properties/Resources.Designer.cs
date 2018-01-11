@@ -63,6 +63,16 @@ namespace SharepointSolutionPackageInstaller.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap if_network_wired_15388 {
+            get {
+                object obj = ResourceManager.GetObject("if_network_wired_15388", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_package_x_generic_15417 {
             get {
                 object obj = ResourceManager.GetObject("if_package_x_generic_15417", resourceCulture);

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findwise.Sharepoint.SolutionInstaller", "Findwise.Sharepoint.SolutionInstaller\Findwise.Sharepoint.SolutionInstaller.csproj", "{8B445B1D-C230-4C75-97BA-7CE90FBFF360}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharepointSolutionPackageInstaller.SpSol", "InstallerModules\SharepointSolutionPackageInstaller.SpSol\SharepointSolutionPackageInstaller.SpSol.csproj", "{D177A006-EC8E-479B-B3AA-A738126D08DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlRulesCreator", "InstallerModules\CrawlRulesCreator\CrawlRulesCreator.csproj", "{9CB9F1CC-BB00-4A26-ABBD-E1CF67668634}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResultSourceCreator", "InstallerModules\ResultSourceCreator\ResultSourceCreator.csproj", "{F16A19EB-4DEE-49E9-A50E-853F72236121}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{9CB9F1CC-BB00-4A26-ABBD-E1CF67668634}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CB9F1CC-BB00-4A26-ABBD-E1CF67668634}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CB9F1CC-BB00-4A26-ABBD-E1CF67668634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F16A19EB-4DEE-49E9-A50E-853F72236121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F16A19EB-4DEE-49E9-A50E-853F72236121}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F16A19EB-4DEE-49E9-A50E-853F72236121}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F16A19EB-4DEE-49E9-A50E-853F72236121}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{14334187-8A3F-4C8B-95B0-28B290EA7695} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 		{D177A006-EC8E-479B-B3AA-A738126D08DD} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 		{9CB9F1CC-BB00-4A26-ABBD-E1CF67668634} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
+		{F16A19EB-4DEE-49E9-A50E-853F72236121} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {55B1733E-7791-4B88-A4D8-4D93F1903ABC}
