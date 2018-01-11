@@ -15,6 +15,8 @@ namespace CrawlRulesCreator
         public string SearchApplicationName { get; set; }
         [RefreshProperties(RefreshProperties.All)]
         public CrawlRuleDefinition[] CrawlRuleDefinitions { get; set; }
+        [DisplayName("Uninstall all")]
+        [Description("Choose true if you want delete all crawl rules on uninstall operation.")]
         [DefaultValue(false)]
         public bool UninstallAll { get; set; }
 

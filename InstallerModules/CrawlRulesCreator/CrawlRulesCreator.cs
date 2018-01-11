@@ -87,7 +87,7 @@ namespace CrawlRulesCreator
             }
         }
         
-        private Content SearchApplicationContent(string searchApplicationName)
+        private static Content SearchApplicationContent(string searchApplicationName)
         {
             string ssaName = searchApplicationName;
             SearchContext context = SearchContext.GetContext(ssaName);
