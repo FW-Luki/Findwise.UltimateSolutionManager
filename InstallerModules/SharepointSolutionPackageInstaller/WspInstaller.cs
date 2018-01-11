@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Findwise.Configuration;
 using Findwise.Sharepoint.SolutionInstaller;
 using SharepointSolutionPackageInstaller.Properties;
+using Findwise.InstallerModule;
 
 namespace SharepointSolutionPackageInstaller
 {

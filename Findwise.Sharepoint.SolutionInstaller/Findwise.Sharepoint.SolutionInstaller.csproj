@@ -73,7 +73,6 @@
     <Compile Include="Controls\NoFocusButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="InstallerModuleBase.cs" />
     <Compile Include="InstallerModuleStatus.cs" />
     <Compile Include="ISaveLoadAware.cs" />
     <Compile Include="LogRichTextBoxAppender.cs" />

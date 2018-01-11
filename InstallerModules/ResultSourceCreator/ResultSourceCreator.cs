@@ -8,6 +8,7 @@ using Findwise.Configuration;
 using Microsoft.Office.Server.Search.Administration;
 using Microsoft.Office.Server.Search.Administration.Query;
 using ResultSourceCreator.Properties;
+using Findwise.InstallerModule;
 
 namespace ResultSourceCreator
 {

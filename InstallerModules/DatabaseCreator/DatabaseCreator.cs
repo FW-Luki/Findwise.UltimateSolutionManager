@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DatabaseCreator.Properties;
 using Findwise.Configuration;
 using Findwise.Sharepoint.SolutionInstaller;
+using Findwise.InstallerModule;
 
 namespace DatabaseCreator
 {
