@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Findwise.Configuration;
 using Microsoft.Office.Server.Search.Administration;
 using Microsoft.Office.Server.Search.Administration.Query;
+using ResultSourceCreator.Properties;
 
 namespace ResultSourceCreator
 {
@@ -14,7 +15,7 @@ namespace ResultSourceCreator
     {
         public override string Name => "Result Source Creator";
 
-        public override System.Drawing.Image Icon => null;
+        public override System.Drawing.Image Icon => Resources.if_Configuration_2202267;
 
         private Configuration myConfiguration = new Configuration();
         public override ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }
