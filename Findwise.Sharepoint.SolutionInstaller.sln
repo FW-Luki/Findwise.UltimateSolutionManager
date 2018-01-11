@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlRulesCreator", "Instal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResultSourceCreator", "InstallerModules\ResultSourceCreator\ResultSourceCreator.csproj", "{F16A19EB-4DEE-49E9-A50E-853F72236121}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallerModule", "InstallerModules\InstallerModule\InstallerModule.csproj", "{B7FB54BC-C86E-4559-B69B-6A0CA7977406}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{F16A19EB-4DEE-49E9-A50E-853F72236121}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F16A19EB-4DEE-49E9-A50E-853F72236121}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F16A19EB-4DEE-49E9-A50E-853F72236121}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7FB54BC-C86E-4559-B69B-6A0CA7977406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7FB54BC-C86E-4559-B69B-6A0CA7977406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7FB54BC-C86E-4559-B69B-6A0CA7977406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7FB54BC-C86E-4559-B69B-6A0CA7977406}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +77,7 @@ Global
 		{D177A006-EC8E-479B-B3AA-A738126D08DD} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 		{9CB9F1CC-BB00-4A26-ABBD-E1CF67668634} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 		{F16A19EB-4DEE-49E9-A50E-853F72236121} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
+		{B7FB54BC-C86E-4559-B69B-6A0CA7977406} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {55B1733E-7791-4B88-A4D8-4D93F1903ABC}

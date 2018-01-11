@@ -5,6 +5,7 @@ using Findwise.Sharepoint.SolutionInstaller;
 using Findwise.Configuration;
 using Microsoft.Office.Server.Search.Administration;
 using CrawlRulesCreator.Properties;
+using Findwise.InstallerModule;
 
 namespace CrawlRulesCreator
 {
@@ -23,7 +24,7 @@ namespace CrawlRulesCreator
             try
             {
                 var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
-                var result = myConfiguration.CrawlRuleDefinitions.All(myRule => content.CrawlRules.Any(sharepointRule => ExtensionMethod.CompareToCrawlRule(sharepointRule, myRule.Path, myRule.IsExclude)));
+                var result = myConfiguration.CrawlRuleDefinitions.All(myRule => content.CrawlRules.Any(sharepointRule => myRule.CompareToCrawlRule(sharepointRule)));
 
                 if (result)
                     Status = InstallerModuleStatus.Installed;
@@ -39,13 +40,12 @@ namespace CrawlRulesCreator
 
         public override void Install()
         {
+            Status = InstallerModuleStatus.Installing;
             try
             {
-                Status = InstallerModuleStatus.Installing;
-
                 var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
 
-                var notInstalledRules = myConfiguration.CrawlRuleDefinitions.Where(myRule => !content.CrawlRules.Any(sharepointRule => ExtensionMethod.CompareToCrawlRule(sharepointRule, myRule.Path, myRule.IsExclude)));
+                var notInstalledRules = myConfiguration.CrawlRuleDefinitions.Where(myRule => !content.CrawlRules.Any(sharepointRule => myRule.CompareToCrawlRule(sharepointRule)));
 
                 foreach (var rule in notInstalledRules)
                 {
@@ -61,10 +61,9 @@ namespace CrawlRulesCreator
 
         public override void Uninstall()
         {
+            Status = InstallerModuleStatus.Uninstalling;
             try
             {
-                Status = InstallerModuleStatus.Uninstalling;
-
                 var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
 
                 if (myConfiguration.UninstallAll)
@@ -75,7 +74,7 @@ namespace CrawlRulesCreator
                 }
                 else
                 {
-                    var allMyCrawlRules = content.CrawlRules.Where(sharepointRule => myConfiguration.CrawlRuleDefinitions.Any(myRule => ExtensionMethod.CompareToCrawlRule(sharepointRule, myRule.Path, myRule.IsExclude)));
+                    var allMyCrawlRules = content.CrawlRules.Where(sharepointRule => myConfiguration.CrawlRuleDefinitions.Any(myRule => myRule.CompareToCrawlRule(sharepointRule)));
 
                     allMyCrawlRules.ToList().ForEach(element => element.Delete());
                 }
@@ -89,11 +88,8 @@ namespace CrawlRulesCreator
         
         private Content SearchApplicationContent(string searchApplicationName)
         {
-            string ssaName = searchApplicationName;
-            SearchContext context = SearchContext.GetContext(ssaName);
-            Content content = new Content(context);
-
-            return content;
+            var context = SearchContext.GetContext(searchApplicationName);
+            return  new Content(context);
         }
 
     }

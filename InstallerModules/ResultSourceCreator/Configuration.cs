@@ -1,4 +1,5 @@
 ﻿using Findwise.Configuration;
+using Findwise.InstallerModule;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ResultSourceCreator
 {
-    class Configuration : ConfigurationBase
+    class Configuration : ConfigurationBase, ISharepointInstallerModuleConfiguration
     {
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }

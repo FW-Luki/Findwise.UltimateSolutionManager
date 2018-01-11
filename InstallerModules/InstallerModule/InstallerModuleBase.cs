@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Findwise.Configuration;
+using Findwise.Sharepoint.SolutionInstaller;
 
-namespace Findwise.Sharepoint.SolutionInstaller
+namespace Findwise.InstallerModule
 {
     public abstract class InstallerModuleBase : IInstallerModule
     {

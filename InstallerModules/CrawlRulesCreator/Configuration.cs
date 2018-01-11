@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Findwise.Configuration;
-
+using Findwise.InstallerModule;
 
 namespace CrawlRulesCreator
 {
-    public class Configuration : ConfigurationBase
+    public class Configuration : ConfigurationBase, ISharepointInstallerModuleConfiguration
     {
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
