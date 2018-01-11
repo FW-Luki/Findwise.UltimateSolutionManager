@@ -62,6 +62,6 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /h /r /y /d /i "$(TargetPath)" "$(SolutionDir)$(SolutionName)\$(OutDir)Modules\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /h /r /y /d /i "$(TargetPath)" "$(SolutionDir)$(SolutionName)\$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
