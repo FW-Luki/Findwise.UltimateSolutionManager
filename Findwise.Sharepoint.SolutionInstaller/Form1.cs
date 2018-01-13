@@ -104,23 +104,32 @@ namespace Findwise.Sharepoint.SolutionInstaller
                         {
                             foreach (var button in buttons)
                             {
-                                sizeablePanel1.Controls.Add(button);
-                                sizeablePanel1.Controls.SetChildIndex(button, 0);
+                                Invoke(new MethodInvoker(() =>
+                                {
+                                    sizeablePanel1.Controls.Add(button);
+                                    sizeablePanel1.Controls.SetChildIndex(button, 0);
+                                }));
                             }
                         }
                         catch (Exception ex)
                         {
-                            var b = GetToolboxButton(ex.Message, null);
-                            b.Enabled = false;
-                            b.ForeColor = Color.Red;
-                            sizeablePanel1.Controls.Add(b);
+                            Invoke(new MethodInvoker(() =>
+                            {
+                                var b = GetToolboxButton(ex.Message, null);
+                                b.Enabled = false;
+                                b.ForeColor = Color.Red;
+                                sizeablePanel1.Controls.Add(b);
+                            }));
                         }
                     }
                     else
                     {
-                        var b = GetToolboxButton("No modules found", null);
-                        b.Enabled = false;
-                        sizeablePanel1.Controls.Add(b);
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            var b = GetToolboxButton("No modules found", null);
+                            b.Enabled = false;
+                            sizeablePanel1.Controls.Add(b);
+                        }));
                     }
                 }
                 catch (Exception ex)
