@@ -33,6 +33,11 @@ namespace SharepointSolutionPackageInstaller
         {
             throw new NotImplementedException();
         }
+
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
     }
 
     public class VisualStudioProjectFileConfiguration : ConfigurationBase, IPackageConfiguration
@@ -40,9 +45,30 @@ namespace SharepointSolutionPackageInstaller
         [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
         public string VisualStudioProjectPath { get; set; }
 
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public CompilerConfiguration CompilerSetup { get; set; } = new CompilerConfiguration();
+
+
         public string GetPackagePath()
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
+
+
+        public class CompilerConfiguration : ConfigurationBase
+        {
+            [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
+            public string MsBuildExecutablePath { get; set; }
+
+            public override string ToString()
+            {
+                return GetType().Name;
+            }
         }
     }
 
