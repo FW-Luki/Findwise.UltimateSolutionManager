@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,6 +44,7 @@
   <ItemGroup>
     <Compile Include="BcsConnectorInstaller.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -62,6 +64,10 @@
     <ProjectReference Include="..\..\Findwise.Sharepoint.SolutionInstaller\Findwise.Sharepoint.SolutionInstaller.csproj">
       <Project>{8B445B1D-C230-4C75-97BA-7CE90FBFF360}</Project>
       <Name>Findwise.Sharepoint.SolutionInstaller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InstallerModule\InstallerModule.csproj">
+      <Project>{B7FB54BC-C86E-4559-B69B-6A0CA7977406}</Project>
+      <Name>InstallerModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

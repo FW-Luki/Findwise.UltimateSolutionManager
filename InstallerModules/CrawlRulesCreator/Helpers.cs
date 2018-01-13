@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Office.Server.Search.Administration;
+using static CrawlRulesCreator.Configuration;
 
 namespace CrawlRulesCreator
 {
-    static class Helpers
+    internal static class Helpers
     {
-        public static bool CompareToCrawlRule(CrawlRule sharepointRule, string path, bool isExclude)
+        public static bool CompareToCrawlRule(this CrawlRuleDefinition crawlRuleDefinition, CrawlRule sharepointRule)
         {
-            return StringComparer.InvariantCultureIgnoreCase.Compare(sharepointRule.Path, path) == 0 && sharepointRule.Type == (isExclude ? CrawlRuleType.ExclusionRule : CrawlRuleType.InclusionRule);
+            return StringComparer.InvariantCultureIgnoreCase.Compare(sharepointRule.Path, crawlRuleDefinition.Path) == 0 && sharepointRule.Type == (crawlRuleDefinition.IsExclude ? CrawlRuleType.ExclusionRule : CrawlRuleType.InclusionRule);
         }
     }
 }

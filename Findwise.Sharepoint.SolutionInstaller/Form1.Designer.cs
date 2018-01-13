@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -122,7 +122,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(836, 570);
+            this.splitContainer1.Size = new System.Drawing.Size(836, 574);
             this.splitContainer1.SplitterDistance = 512;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -132,7 +132,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(512, 570);
+            this.groupBox1.Size = new System.Drawing.Size(512, 574);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Installer Modules";
@@ -159,7 +159,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(506, 551);
+            this.dataGridView1.Size = new System.Drawing.Size(506, 555);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
@@ -168,10 +168,10 @@
             // 
             // NumberColumn
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle7.Format = "#\\.";
-            dataGridViewCellStyle7.NullValue = null;
-            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "#\\.";
+            dataGridViewCellStyle2.NullValue = null;
+            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.NumberColumn.HeaderText = "";
             this.NumberColumn.Name = "NumberColumn";
             this.NumberColumn.ReadOnly = true;
@@ -218,7 +218,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(320, 570);
+            this.groupBox2.Size = new System.Drawing.Size(320, 574);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Properties";
@@ -230,7 +230,7 @@
             this.propertyGrid1.Location = new System.Drawing.Point(3, 16);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.propertyGrid1.Size = new System.Drawing.Size(314, 551);
+            this.propertyGrid1.Size = new System.Drawing.Size(314, 555);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
@@ -405,20 +405,19 @@
             this.sizeablePanel1.GripPosition = System.Windows.Forms.DockStyle.Right;
             this.sizeablePanel1.Location = new System.Drawing.Point(3, 42);
             this.sizeablePanel1.Name = "sizeablePanel1";
-            this.sizeablePanel1.Size = new System.Drawing.Size(160, 570);
+            this.sizeablePanel1.Size = new System.Drawing.Size(160, 574);
             this.sizeablePanel1.TabIndex = 4;
             // 
             // statusStrip1
             // 
-            this.statusStrip1.AutoSize = false;
             this.tableLayoutPanel1.SetColumnSpan(this.statusStrip1, 2);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Indicator,
             this.toolStripProgressBar1,
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 721);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 725);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1008, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1008, 22);
             this.statusStrip1.TabIndex = 5;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -431,7 +430,8 @@
             this.Indicator.Enabled = true;
             this.Indicator.IdleColor = System.Drawing.Color.Green;
             this.Indicator.Name = "Indicator";
-            this.Indicator.Size = new System.Drawing.Size(32, 24);
+            this.Indicator.Size = new System.Drawing.Size(32, 20);
+            this.Indicator.Text = "toolStripStatusLabel1";
             // 
             // sizeablePanel2
             // 
@@ -440,7 +440,7 @@
             this.sizeablePanel2.Controls.Add(this.richTextBox1);
             this.sizeablePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sizeablePanel2.GripPosition = System.Windows.Forms.DockStyle.Top;
-            this.sizeablePanel2.Location = new System.Drawing.Point(3, 618);
+            this.sizeablePanel2.Location = new System.Drawing.Point(3, 622);
             this.sizeablePanel2.Name = "sizeablePanel2";
             this.sizeablePanel2.Size = new System.Drawing.Size(1002, 100);
             this.sizeablePanel2.TabIndex = 6;
@@ -503,13 +503,13 @@
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(128, 20);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(128, 16);
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(39, 21);
-            this.toolStripStatusLabel1.Text = "Ready";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(26, 17);
+            this.toolStripStatusLabel1.Text = "Idle";
             // 
             // Form1
             // 
@@ -521,6 +521,7 @@
             this.Name = "Form1";
             this.Text = "Findwise Sharepoint Solution Installer";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);

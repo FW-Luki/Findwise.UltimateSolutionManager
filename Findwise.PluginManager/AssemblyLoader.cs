@@ -49,7 +49,7 @@ namespace Findwise.PluginManager
             }
             catch
             {
-                return null;
+                return Enumerable.Empty<Type>();
             }
         }
     }

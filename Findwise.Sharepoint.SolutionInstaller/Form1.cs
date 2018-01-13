@@ -67,53 +67,77 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            try
+            SetStatus(false, 0, IdleStatusName);
+        }
+        private async void Form1_Shown(object sender, EventArgs e)
+        {
+            await LoadModules();
+            NewProject();
+        }
+
+        private async Task LoadModules()
+        {
+            await Task.Run(() =>
             {
-                var buttons = System.IO.Directory.GetFiles("Modules", "*.dll", System.IO.SearchOption.TopDirectoryOnly)
-                    .SelectMany(filename => AssemblyLoader.LoadClassesFromFile<IInstallerModule>(System.IO.Path.GetFullPath(filename)))
-                    .Select(type =>
+                try
+                {
+                    var buttons = System.IO.Directory.GetFiles("Modules", "*.dll", System.IO.SearchOption.TopDirectoryOnly)
+                        .SelectMany(filename =>
+                        {
+                            return AssemblyLoader.LoadClassesFromFile<IInstallerModule>(System.IO.Path.GetFullPath(filename));
+                        })
+                        .Where(type => type != null)
+                        .Select(type =>
+                        {
+                            var module = (IInstallerModule)Activator.CreateInstance(type);
+                            try
+                            {
+                                return GetToolboxButton(module.Name, module.Icon, type);
+                            }
+                            finally
+                            {
+                                (module as IDisposable)?.Dispose();
+                            }
+                        });
+                    if (buttons.Any())
                     {
-                        var module = (IInstallerModule)Activator.CreateInstance(type);
                         try
                         {
-                            return GetToolboxButton(module.Name, module.Icon, type);
+                            foreach (var button in buttons)
+                            {
+                                Invoke(new MethodInvoker(() =>
+                                {
+                                    sizeablePanel1.Controls.Add(button);
+                                    sizeablePanel1.Controls.SetChildIndex(button, 0);
+                                }));
+                            }
                         }
-                        finally
+                        catch (Exception ex)
                         {
-                            (module as IDisposable)?.Dispose();
-                        }
-                    });
-                if (buttons.Any())
-                {
-                    try
-                    {
-                        foreach (var button in buttons)
-                        {
-                            sizeablePanel1.Controls.Add(button);
-                            sizeablePanel1.Controls.SetChildIndex(button, 0);
+                            Invoke(new MethodInvoker(() =>
+                            {
+                                var b = GetToolboxButton(ex.Message, null);
+                                b.Enabled = false;
+                                b.ForeColor = Color.Red;
+                                sizeablePanel1.Controls.Add(b);
+                            }));
                         }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        var b = GetToolboxButton(ex.Message, null);
-                        b.Enabled = false;
-                        b.ForeColor = Color.Red;
-                        sizeablePanel1.Controls.Add(b);
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            var b = GetToolboxButton("No modules found", null);
+                            b.Enabled = false;
+                            sizeablePanel1.Controls.Add(b);
+                        }));
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    var b = GetToolboxButton("No modules found", null);
-                    b.Enabled = false;
-                    sizeablePanel1.Controls.Add(b);
+                    MessageBox.Show(ex.Message, "Error loading modules", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error loading modules", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            NewProject();
+            });
         }
         private Button GetToolboxButton(string text, Image image, object tag = null)
         {
