@@ -139,6 +139,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             if ((sender as Button)?.Tag is Type moduleType)
             {
                 var module = (IInstallerModule)Activator.CreateInstance(moduleType);
+                module.FriendlyName = $"{module.Name} {InstallerModules.Count(m => m.GetType() == module.GetType()) + 1}";
                 module.StatusChanged += Module_StatusChanged;
                 InstallerModules.Add(module);
             }
@@ -166,6 +167,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 {
                     MessageBox.Show(ex.Message, "Error loading project", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                finally
+                {
+                    SetStatus(false, 0, IdleStatusName);
+                }
             }
         }
         private void LoadProject(string filename)
@@ -173,7 +178,15 @@ namespace Findwise.Sharepoint.SolutionInstaller
             var modules = Configuration.ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename)).Modules.ToList();
             modules.ForEach(m => m.StatusChanged += Module_StatusChanged);
             InstallerModules = new BindingList<IInstallerModule>(modules);
-            InstallerModules.OfType<ISaveLoadAware>().ToList().ForEach(m => m.AfterLoad());
+
+            var curmod = 0;
+            var loadAwareModules = InstallerModules.OfType<ISaveLoadAware>();
+
+            foreach (var module in InstallerModules.OfType<ISaveLoadAware>())
+            {
+                SetStatus(true, ++curmod, loadAwareModules.Count() * 2, "Loading project...");
+                module.AfterLoad();
+            }
         }
 
         private void SaveToolStripButton_Click(object sender, EventArgs e)
@@ -188,13 +201,30 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 {
                     MessageBox.Show(ex.Message, "Error saving project", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                finally
+                {
+                    SetStatus(false, 0, IdleStatusName);
+                }
             }
         }
         private void SaveProject(string filename)
         {
-            InstallerModules.OfType<ISaveLoadAware>().ToList().ForEach(m => m.BeforeSave());
+            var curmod = 0;
+            var saveAwareModules = InstallerModules.OfType<ISaveLoadAware>();
+
+            foreach (var module in saveAwareModules)
+            {
+                SetStatus(true, ++curmod, saveAwareModules.Count() * 2, "Saving project...");
+                module.BeforeSave();
+            }
+
             System.IO.File.WriteAllText(filename, Project.Create(InstallerModules).Serialize());
-            InstallerModules.OfType<ISaveLoadAware>().ToList().ForEach(m => m.AfterSave());
+
+            foreach (var module in InstallerModules.OfType<ISaveLoadAware>())
+            {
+                SetStatus(true, ++curmod, saveAwareModules.Count() * 2, "Saving project...");
+                module.AfterSave();
+            }
         }
 
 
@@ -265,8 +295,11 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     System.Collections.IEnumerable rows;
                     if (selectedOnly) rows = dataGridView1.SelectedRows;
                     else rows = dataGridView1.Rows;
+                    var currow = 0;
                     Parallel.ForEach(rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule), options, module =>
                     {
+                        Interlocked.Add(ref currow, 1);
+                        SetStatus(true, currow, dataGridView1.Rows.Count, "Refreshing list...");
                         try
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
@@ -283,6 +316,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 catch (OperationCanceledException)
                 {
                     if (throwIfCancelled) throw;
+                }
+                finally
+                {
+                    SetStatus(false, 0, IdleStatusName);
                 }
             });
         }
@@ -337,8 +374,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
                 var refreshTasks = new List<Task>();
                 var token = GetCancellationToken();
+                var curmod = 0;
                 foreach (var module in InstallerModules)
                 {
+                    SetStatus(true, curmod++, InstallerModules.Count, $"Installing module {module.FriendlyName ?? module.Name}...");
                     try
                     {
                         token.ThrowIfCancellationRequested();
@@ -355,6 +394,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     }
                 }
                 Task.WaitAll(refreshTasks.ToArray());
+                SetStatus(false, 0, IdleStatusName);
             });
         }
 
@@ -488,5 +528,23 @@ namespace Findwise.Sharepoint.SolutionInstaller
             richTextBox1.Clear();
         }
 
+        private void SetStatus(bool active, int num, int qty, string message)
+        {
+            SetStatus(active, (int)(((double)num / qty) * 100), message);
+        }
+        private void SetStatus(bool active, int percentage, string message)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(() => SetStatus(active, percentage, message)));
+            }
+            else
+            {
+                Indicator.Active = active;
+                toolStripProgressBar1.Value = percentage;
+                toolStripStatusLabel1.Text = message;
+            }
+        }
+        private const string IdleStatusName = "Ready";
     }
 }

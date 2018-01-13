@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -59,8 +59,11 @@
             this.CancelToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.sizeablePanel1 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.Indicator = new Findwise.Sharepoint.SolutionInstaller.Controls.FancyIndicator();
             this.sizeablePanel2 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.LogWindowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ClearLogWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -68,8 +71,8 @@
             this.SingleClickInstallButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.dataGridViewHideableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
             this.dataGridViewDisableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
-            this.LogWindowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ClearLogWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -79,6 +82,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.sizeablePanel2.SuspendLayout();
             this.LogWindowContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -118,7 +122,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(836, 574);
+            this.splitContainer1.Size = new System.Drawing.Size(836, 570);
             this.splitContainer1.SplitterDistance = 512;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -128,7 +132,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(512, 574);
+            this.groupBox1.Size = new System.Drawing.Size(512, 570);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Installer Modules";
@@ -155,7 +159,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(506, 555);
+            this.dataGridView1.Size = new System.Drawing.Size(506, 551);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
@@ -164,10 +168,10 @@
             // 
             // NumberColumn
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "#\\.";
-            dataGridViewCellStyle3.NullValue = null;
-            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "#\\.";
+            dataGridViewCellStyle7.NullValue = null;
+            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle7;
             this.NumberColumn.HeaderText = "";
             this.NumberColumn.Name = "NumberColumn";
             this.NumberColumn.ReadOnly = true;
@@ -214,7 +218,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(320, 574);
+            this.groupBox2.Size = new System.Drawing.Size(320, 570);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Properties";
@@ -226,7 +230,7 @@
             this.propertyGrid1.Location = new System.Drawing.Point(3, 16);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.propertyGrid1.Size = new System.Drawing.Size(314, 555);
+            this.propertyGrid1.Size = new System.Drawing.Size(314, 551);
             this.propertyGrid1.TabIndex = 0;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
             // 
@@ -401,17 +405,33 @@
             this.sizeablePanel1.GripPosition = System.Windows.Forms.DockStyle.Right;
             this.sizeablePanel1.Location = new System.Drawing.Point(3, 42);
             this.sizeablePanel1.Name = "sizeablePanel1";
-            this.sizeablePanel1.Size = new System.Drawing.Size(160, 574);
+            this.sizeablePanel1.Size = new System.Drawing.Size(160, 570);
             this.sizeablePanel1.TabIndex = 4;
             // 
             // statusStrip1
             // 
+            this.statusStrip1.AutoSize = false;
             this.tableLayoutPanel1.SetColumnSpan(this.statusStrip1, 2);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 725);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Indicator,
+            this.toolStripProgressBar1,
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 721);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1008, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1008, 26);
             this.statusStrip1.TabIndex = 5;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // Indicator
+            // 
+            this.Indicator.Active = false;
+            this.Indicator.ActiveColor = System.Drawing.Color.Red;
+            this.Indicator.AutoSize = false;
+            this.Indicator.BufferSize = 24;
+            this.Indicator.Enabled = true;
+            this.Indicator.IdleColor = System.Drawing.Color.Green;
+            this.Indicator.Name = "Indicator";
+            this.Indicator.Size = new System.Drawing.Size(32, 24);
             // 
             // sizeablePanel2
             // 
@@ -420,7 +440,7 @@
             this.sizeablePanel2.Controls.Add(this.richTextBox1);
             this.sizeablePanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sizeablePanel2.GripPosition = System.Windows.Forms.DockStyle.Top;
-            this.sizeablePanel2.Location = new System.Drawing.Point(3, 622);
+            this.sizeablePanel2.Location = new System.Drawing.Point(3, 618);
             this.sizeablePanel2.Name = "sizeablePanel2";
             this.sizeablePanel2.Size = new System.Drawing.Size(1002, 100);
             this.sizeablePanel2.TabIndex = 6;
@@ -435,6 +455,21 @@
             this.richTextBox1.Size = new System.Drawing.Size(1002, 100);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
+            // 
+            // LogWindowContextMenuStrip
+            // 
+            this.LogWindowContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ClearLogWindowToolStripMenuItem});
+            this.LogWindowContextMenuStrip.Name = "LogWindowContextMenuStrip";
+            this.LogWindowContextMenuStrip.Size = new System.Drawing.Size(102, 26);
+            // 
+            // ClearLogWindowToolStripMenuItem
+            // 
+            this.ClearLogWindowToolStripMenuItem.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Delete_46730;
+            this.ClearLogWindowToolStripMenuItem.Name = "ClearLogWindowToolStripMenuItem";
+            this.ClearLogWindowToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.ClearLogWindowToolStripMenuItem.Text = "Clear";
+            this.ClearLogWindowToolStripMenuItem.Click += new System.EventHandler(this.ClearLogWindowToolStripMenuItem_Click);
             // 
             // saveFileDialog1
             // 
@@ -465,20 +500,16 @@
             this.dataGridViewDisableButtonColumn1.Name = "dataGridViewDisableButtonColumn1";
             this.dataGridViewDisableButtonColumn1.ReadOnly = true;
             // 
-            // LogWindowContextMenuStrip
+            // toolStripProgressBar1
             // 
-            this.LogWindowContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ClearLogWindowToolStripMenuItem});
-            this.LogWindowContextMenuStrip.Name = "LogWindowContextMenuStrip";
-            this.LogWindowContextMenuStrip.Size = new System.Drawing.Size(102, 26);
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(128, 20);
             // 
-            // ClearLogWindowToolStripMenuItem
+            // toolStripStatusLabel1
             // 
-            this.ClearLogWindowToolStripMenuItem.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Delete_46730;
-            this.ClearLogWindowToolStripMenuItem.Name = "ClearLogWindowToolStripMenuItem";
-            this.ClearLogWindowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.ClearLogWindowToolStripMenuItem.Text = "Clear";
-            this.ClearLogWindowToolStripMenuItem.Click += new System.EventHandler(this.ClearLogWindowToolStripMenuItem_Click);
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(39, 21);
+            this.toolStripStatusLabel1.Text = "Ready";
             // 
             // Form1
             // 
@@ -501,6 +532,8 @@
             this.groupBox2.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.sizeablePanel2.ResumeLayout(false);
             this.LogWindowContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -548,6 +581,9 @@
         private Controls.LockableToolStripButton CancelToolStripButton;
         private System.Windows.Forms.ContextMenuStrip LogWindowContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem ClearLogWindowToolStripMenuItem;
+        private Controls.FancyIndicator Indicator;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

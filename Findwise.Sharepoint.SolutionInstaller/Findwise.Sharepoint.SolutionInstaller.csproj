@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\DataGridViewHideableButton.cs" />
+    <Compile Include="Controls\FancyIndicator.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\FancyToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -61,6 +64,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\SizeablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ToolStripProgressBarEx.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Form1.cs">
