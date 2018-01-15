@@ -71,8 +71,8 @@ namespace Findwise.Sharepoint.SolutionInstaller
         }
         private async void Form1_Shown(object sender, EventArgs e)
         {
-            await LoadModules();
             NewProject();
+            await LoadModules();
         }
 
         private async Task LoadModules()
@@ -81,9 +81,12 @@ namespace Findwise.Sharepoint.SolutionInstaller
             {
                 try
                 {
-                    var buttons = System.IO.Directory.GetFiles("Modules", "*.dll", System.IO.SearchOption.TopDirectoryOnly)
+                    var curplug = 0;
+                    var pluginFiles = System.IO.Directory.GetFiles("Modules", "*.dll", System.IO.SearchOption.TopDirectoryOnly);
+                    var buttons = pluginFiles
                         .SelectMany(filename =>
                         {
+                            SetStatus(true, ++curplug, pluginFiles.Length, "Loading plugins...");
                             return AssemblyLoader.LoadClassesFromFile<IInstallerModule>(System.IO.Path.GetFullPath(filename));
                         })
                         .Where(type => type != null)
@@ -98,13 +101,15 @@ namespace Findwise.Sharepoint.SolutionInstaller
                             {
                                 (module as IDisposable)?.Dispose();
                             }
-                        });
+                        })/*.ToArray()*/;
                     if (buttons.Any())
                     {
                         try
                         {
+                            //curplug = 0;
                             foreach (var button in buttons)
                             {
+                                //SetStatus(true, ++curplug, buttons.Count(), "Loading modules...");
                                 Invoke(new MethodInvoker(() =>
                                 {
                                     sizeablePanel1.Controls.Add(button);
@@ -136,6 +141,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error loading modules", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    SetStatus(false, 0, IdleStatusName);
                 }
             });
         }
@@ -199,7 +208,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
         }
         private void LoadProject(string filename)
         {
-            var modules = Configuration.ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename)).Modules.ToList();
+            var modules = Configuration.ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename), new PluginSerializationBinder()).Modules.ToList();
             modules.ForEach(m => m.StatusChanged += Module_StatusChanged);
             InstallerModules = new BindingList<IInstallerModule>(modules);
 
@@ -233,12 +242,13 @@ namespace Findwise.Sharepoint.SolutionInstaller
         }
         private void SaveProject(string filename)
         {
-            var curmod = 0;
             var saveAwareModules = InstallerModules.OfType<ISaveLoadAware>();
+            var curmod = 0;
+            var allmods = saveAwareModules.Count() * 2;
 
             foreach (var module in saveAwareModules)
             {
-                SetStatus(true, ++curmod, saveAwareModules.Count() * 2, "Saving project...");
+                SetStatus(true, ++curmod, allmods, "Saving project...");
                 module.BeforeSave();
             }
 
@@ -246,7 +256,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
             foreach (var module in InstallerModules.OfType<ISaveLoadAware>())
             {
-                SetStatus(true, ++curmod, saveAwareModules.Count() * 2, "Saving project...");
+                SetStatus(true, ++curmod, allmods, "Saving project...");
                 module.AfterSave();
             }
         }
@@ -554,7 +564,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void SetStatus(bool active, int num, int qty, string message)
         {
-            SetStatus(active, (int)(((double)num / qty) * 100), message);
+            SetStatus(active, Math.Max(Math.Min((int)(((double)num / qty) * 100), 100), 0), message);
         }
         private void SetStatus(bool active, int percentage, string message)
         {
