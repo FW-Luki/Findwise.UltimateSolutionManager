@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -59,8 +59,11 @@
             this.CancelToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.sizeablePanel1 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.Indicator = new Findwise.Sharepoint.SolutionInstaller.Controls.FancyIndicator();
             this.sizeablePanel2 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.LogWindowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ClearLogWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -68,8 +71,8 @@
             this.SingleClickInstallButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.dataGridViewHideableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
             this.dataGridViewDisableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
-            this.LogWindowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ClearLogWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -79,6 +82,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.sizeablePanel2.SuspendLayout();
             this.LogWindowContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -164,10 +168,10 @@
             // 
             // NumberColumn
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "#\\.";
-            dataGridViewCellStyle3.NullValue = null;
-            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "#\\.";
+            dataGridViewCellStyle2.NullValue = null;
+            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.NumberColumn.HeaderText = "";
             this.NumberColumn.Name = "NumberColumn";
             this.NumberColumn.ReadOnly = true;
@@ -407,11 +411,27 @@
             // statusStrip1
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.statusStrip1, 2);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Indicator,
+            this.toolStripProgressBar1,
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 725);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1008, 22);
             this.statusStrip1.TabIndex = 5;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // Indicator
+            // 
+            this.Indicator.Active = false;
+            this.Indicator.ActiveColor = System.Drawing.Color.Red;
+            this.Indicator.AutoSize = false;
+            this.Indicator.BufferSize = 24;
+            this.Indicator.Enabled = true;
+            this.Indicator.IdleColor = System.Drawing.Color.Green;
+            this.Indicator.Name = "Indicator";
+            this.Indicator.Size = new System.Drawing.Size(32, 20);
+            this.Indicator.Text = "toolStripStatusLabel1";
             // 
             // sizeablePanel2
             // 
@@ -435,6 +455,21 @@
             this.richTextBox1.Size = new System.Drawing.Size(1002, 100);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
+            // 
+            // LogWindowContextMenuStrip
+            // 
+            this.LogWindowContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ClearLogWindowToolStripMenuItem});
+            this.LogWindowContextMenuStrip.Name = "LogWindowContextMenuStrip";
+            this.LogWindowContextMenuStrip.Size = new System.Drawing.Size(102, 26);
+            // 
+            // ClearLogWindowToolStripMenuItem
+            // 
+            this.ClearLogWindowToolStripMenuItem.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Delete_46730;
+            this.ClearLogWindowToolStripMenuItem.Name = "ClearLogWindowToolStripMenuItem";
+            this.ClearLogWindowToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.ClearLogWindowToolStripMenuItem.Text = "Clear";
+            this.ClearLogWindowToolStripMenuItem.Click += new System.EventHandler(this.ClearLogWindowToolStripMenuItem_Click);
             // 
             // saveFileDialog1
             // 
@@ -465,20 +500,16 @@
             this.dataGridViewDisableButtonColumn1.Name = "dataGridViewDisableButtonColumn1";
             this.dataGridViewDisableButtonColumn1.ReadOnly = true;
             // 
-            // LogWindowContextMenuStrip
+            // toolStripProgressBar1
             // 
-            this.LogWindowContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ClearLogWindowToolStripMenuItem});
-            this.LogWindowContextMenuStrip.Name = "LogWindowContextMenuStrip";
-            this.LogWindowContextMenuStrip.Size = new System.Drawing.Size(102, 26);
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(128, 16);
             // 
-            // ClearLogWindowToolStripMenuItem
+            // toolStripStatusLabel1
             // 
-            this.ClearLogWindowToolStripMenuItem.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Delete_46730;
-            this.ClearLogWindowToolStripMenuItem.Name = "ClearLogWindowToolStripMenuItem";
-            this.ClearLogWindowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.ClearLogWindowToolStripMenuItem.Text = "Clear";
-            this.ClearLogWindowToolStripMenuItem.Click += new System.EventHandler(this.ClearLogWindowToolStripMenuItem_Click);
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(26, 17);
+            this.toolStripStatusLabel1.Text = "Idle";
             // 
             // Form1
             // 
@@ -490,6 +521,7 @@
             this.Name = "Form1";
             this.Text = "Findwise Sharepoint Solution Installer";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -501,6 +533,8 @@
             this.groupBox2.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.sizeablePanel2.ResumeLayout(false);
             this.LogWindowContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -548,6 +582,9 @@
         private Controls.LockableToolStripButton CancelToolStripButton;
         private System.Windows.Forms.ContextMenuStrip LogWindowContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem ClearLogWindowToolStripMenuItem;
+        private Controls.FancyIndicator Indicator;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

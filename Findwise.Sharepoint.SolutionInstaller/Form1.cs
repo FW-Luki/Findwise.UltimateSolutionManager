@@ -17,7 +17,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 {
     public partial class Form1 : Form
     {
-        private static readonly ILog logger = LogManager.GetLogger("MainForm");
+        private readonly ILog logger;
 
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationToken GetCancellationToken()
@@ -47,6 +47,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         public Form1()
         {
+            logger = LogManager.GetLogger(GetType());
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
 
@@ -67,53 +68,86 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            try
+            SetStatus(false, 0, IdleStatusName);
+        }
+        private async void Form1_Shown(object sender, EventArgs e)
+        {
+            NewProject();
+            await LoadModules();
+        }
+
+        private async Task LoadModules()
+        {
+            await Task.Run(() =>
             {
-                var buttons = System.IO.Directory.GetFiles("Modules", "*.dll", System.IO.SearchOption.TopDirectoryOnly)
-                    .SelectMany(filename => AssemblyLoader.LoadClassesFromFile<IInstallerModule>(System.IO.Path.GetFullPath(filename)))
-                    .Select(type =>
+                try
+                {
+                    var curplug = 0;
+                    var pluginFiles = System.IO.Directory.GetFiles("Modules", "*.dll", System.IO.SearchOption.TopDirectoryOnly);
+                    var buttons = pluginFiles
+                        .SelectMany(filename =>
+                        {
+                            SetStatus(true, ++curplug, pluginFiles.Length, "Loading plugins...");
+                            return AssemblyLoader.LoadClassesFromFile<IInstallerModule>(System.IO.Path.GetFullPath(filename));
+                        })
+                        .Where(type => type != null)
+                        .Select(type =>
+                        {
+                            var module = (IInstallerModule)Activator.CreateInstance(type);
+                            try
+                            {
+                                return GetToolboxButton(module.Name, module.Icon, type);
+                            }
+                            finally
+                            {
+                                (module as IDisposable)?.Dispose();
+                            }
+                        })/*.ToArray()*/;
+                    if (buttons.Any())
                     {
-                        var module = (IInstallerModule)Activator.CreateInstance(type);
                         try
                         {
-                            return GetToolboxButton(module.Name, module.Icon, type);
+                            //curplug = 0;
+                            foreach (var button in buttons)
+                            {
+                                //SetStatus(true, ++curplug, buttons.Count(), "Loading modules...");
+                                Invoke(new MethodInvoker(() =>
+                                {
+                                    sizeablePanel1.Controls.Add(button);
+                                    sizeablePanel1.Controls.SetChildIndex(button, 0);
+                                }));
+                            }
                         }
-                        finally
+                        catch (Exception ex)
                         {
-                            (module as IDisposable)?.Dispose();
-                        }
-                    });
-                if (buttons.Any())
-                {
-                    try
-                    {
-                        foreach (var button in buttons)
-                        {
-                            sizeablePanel1.Controls.Add(button);
-                            sizeablePanel1.Controls.SetChildIndex(button, 0);
+                            Invoke(new MethodInvoker(() =>
+                            {
+                                var b = GetToolboxButton(ex.Message, null);
+                                b.Enabled = false;
+                                b.ForeColor = Color.Red;
+                                sizeablePanel1.Controls.Add(b);
+                            }));
                         }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        var b = GetToolboxButton(ex.Message, null);
-                        b.Enabled = false;
-                        b.ForeColor = Color.Red;
-                        sizeablePanel1.Controls.Add(b);
+                        Invoke(new MethodInvoker(() =>
+                        {
+                            var b = GetToolboxButton("No modules found", null);
+                            b.Enabled = false;
+                            sizeablePanel1.Controls.Add(b);
+                        }));
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    var b = GetToolboxButton("No modules found", null);
-                    b.Enabled = false;
-                    sizeablePanel1.Controls.Add(b);
+                    MessageBox.Show(ex.Message, "Error loading modules", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error loading modules", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            NewProject();
+                finally
+                {
+                    SetStatus(false, 0, IdleStatusName);
+                }
+            });
         }
         private Button GetToolboxButton(string text, Image image, object tag = null)
         {
@@ -139,6 +173,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             if ((sender as Button)?.Tag is Type moduleType)
             {
                 var module = (IInstallerModule)Activator.CreateInstance(moduleType);
+                module.FriendlyName = $"{module.Name} {InstallerModules.Count(m => m.GetType() == module.GetType()) + 1}";
                 module.StatusChanged += Module_StatusChanged;
                 InstallerModules.Add(module);
             }
@@ -166,14 +201,26 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 {
                     MessageBox.Show(ex.Message, "Error loading project", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                finally
+                {
+                    SetStatus(false, 0, IdleStatusName);
+                }
             }
         }
         private void LoadProject(string filename)
         {
-            var modules = Configuration.ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename)).Modules.ToList();
+            var modules = Configuration.ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename), new PluginSerializationBinder()).Modules.ToList();
             modules.ForEach(m => m.StatusChanged += Module_StatusChanged);
             InstallerModules = new BindingList<IInstallerModule>(modules);
-            InstallerModules.OfType<ISaveLoadAware>().ToList().ForEach(m => m.AfterLoad());
+
+            var curmod = 0;
+            var loadAwareModules = InstallerModules.OfType<ISaveLoadAware>();
+
+            foreach (var module in InstallerModules.OfType<ISaveLoadAware>())
+            {
+                SetStatus(true, ++curmod, loadAwareModules.Count() * 2, "Loading project...");
+                module.AfterLoad();
+            }
         }
 
         private void SaveToolStripButton_Click(object sender, EventArgs e)
@@ -188,13 +235,31 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 {
                     MessageBox.Show(ex.Message, "Error saving project", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                finally
+                {
+                    SetStatus(false, 0, IdleStatusName);
+                }
             }
         }
         private void SaveProject(string filename)
         {
-            InstallerModules.OfType<ISaveLoadAware>().ToList().ForEach(m => m.BeforeSave());
+            var saveAwareModules = InstallerModules.OfType<ISaveLoadAware>();
+            var curmod = 0;
+            var allmods = saveAwareModules.Count() * 2;
+
+            foreach (var module in saveAwareModules)
+            {
+                SetStatus(true, ++curmod, allmods, "Saving project...");
+                module.BeforeSave();
+            }
+
             System.IO.File.WriteAllText(filename, Project.Create(InstallerModules).Serialize());
-            InstallerModules.OfType<ISaveLoadAware>().ToList().ForEach(m => m.AfterSave());
+
+            foreach (var module in InstallerModules.OfType<ISaveLoadAware>())
+            {
+                SetStatus(true, ++curmod, allmods, "Saving project...");
+                module.AfterSave();
+            }
         }
 
 
@@ -265,8 +330,11 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     System.Collections.IEnumerable rows;
                     if (selectedOnly) rows = dataGridView1.SelectedRows;
                     else rows = dataGridView1.Rows;
+                    var currow = 0;
                     Parallel.ForEach(rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem as IInstallerModule), options, module =>
                     {
+                        Interlocked.Add(ref currow, 1);
+                        SetStatus(true, currow, dataGridView1.Rows.Count, "Refreshing list...");
                         try
                         {
                             options.CancellationToken.ThrowIfCancellationRequested();
@@ -283,6 +351,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
                 catch (OperationCanceledException)
                 {
                     if (throwIfCancelled) throw;
+                }
+                finally
+                {
+                    SetStatus(false, 0, IdleStatusName);
                 }
             });
         }
@@ -337,8 +409,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
                 var refreshTasks = new List<Task>();
                 var token = GetCancellationToken();
+                var curmod = 0;
                 foreach (var module in InstallerModules)
                 {
+                    SetStatus(true, curmod++, InstallerModules.Count, $"Installing module {module.FriendlyName ?? module.Name}...");
                     try
                     {
                         token.ThrowIfCancellationRequested();
@@ -355,6 +429,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     }
                 }
                 Task.WaitAll(refreshTasks.ToArray());
+                SetStatus(false, 0, IdleStatusName);
             });
         }
 
@@ -488,5 +563,23 @@ namespace Findwise.Sharepoint.SolutionInstaller
             richTextBox1.Clear();
         }
 
+        private void SetStatus(bool active, int num, int qty, string message)
+        {
+            SetStatus(active, Math.Max(Math.Min((int)(((double)num / qty) * 100), 100), 0), message);
+        }
+        private void SetStatus(bool active, int percentage, string message)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(() => SetStatus(active, percentage, message)));
+            }
+            else
+            {
+                Indicator.Active = active;
+                toolStripProgressBar1.Value = percentage;
+                toolStripStatusLabel1.Text = message;
+            }
+        }
+        private const string IdleStatusName = "Ready";
     }
 }
