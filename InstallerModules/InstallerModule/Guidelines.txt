@@ -1,0 +1,34 @@
+﻿Guidelines for creating Installer Modules
+=========================================
+
+A) Project creation
+  1. In order to create an Installer module you must create a class that implements Findwise.Sharepoint.SolutionInstaller.IInstallerModule interface.
+  2. For your convenience, there's an abstract class Findwise.InstallerModule.InstallerModuleBase that already implements several IInstallerModule interface members.
+  3. The project type must be a Class Library since the Plugin Manager will look for modules that are in .dll files.
+  4. To maintain solution integrity, all Installer Modules are required to be placed in InstallerModules folder, not only Visual Studio virtual folder but also physically on disk.
+     To do so:
+      - Create a Class Library project directly under the solution
+      - Remove it from solution
+      - Open the solution folder in file explorer
+      - Move the project folder to InstallerModules folder
+      - Add existing project under InstallerModules folder in Solution Explorer and choose your newly added project.
+  5. One project (assembly) can contain multiple Installer Module classes. All of them will be resolved by the Plugin Manager.
+
+B) Source code
+  1. It is strongly recomended to add a reference to log4net assembly (the easiest and best way to do this is to use Manage Packages for Solutions window (Installed tab) under Tools>Nuget Package Manager),
+     add an ILog object to every Installer Module, create the ILog object with the module type (example below) and log all significant activities.
+	 Example:
+	    private readonly ILog logger;
+        public .ctor() //Your Installer Module class constructor
+        {
+            logger = LogManager.GetLogger(GetType());
+        }
+  2. If you want to execute some operations during project Save/Load, implement Findwise.Sharepoint.SolutionInstaller.ISaveLoadAware interface.
+     Don't leave the throw new NotImplementedException() snippet though.
+  3. If you want (it is most most likely you would) to add your own Installer Module Configuration, create a new class that inherits from Findwise.Configuration.ConfigurationBase 
+     and let the instance of this class to be get/set by the Configuration property.
+  4. It is strongly recomended that at the beginning of every IInstallerModule operation the Status property is set to appropriate value.
+     It is also recomended that in case of an exception in the IInstallerModule operation, the exception is caught, the property Status is set to Error and then the exception is rethrown.
+  5. It is acceptable if you use MessageBox to show some dialog boxes in Uninstall methods, in a moderate way of course, to warn user before some destructive operations for example.
+     If the operation is too destructive, feel free to throw NotImplementedException with adequate message or just display a MessageBox with the information an not implement the actual method.
+  6. It is strongly recomended to NOT to display a MessageBox in Install methods as they are intended to be executed uninteruptibly in a batch.

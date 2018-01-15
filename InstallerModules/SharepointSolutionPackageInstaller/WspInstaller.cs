@@ -8,11 +8,19 @@ using Findwise.Configuration;
 using Findwise.Sharepoint.SolutionInstaller;
 using SharepointSolutionPackageInstaller.Properties;
 using Findwise.InstallerModule;
+using log4net;
 
 namespace SharepointSolutionPackageInstaller
 {
     public class WspInstaller : InstallerModuleBase, ISaveLoadAware
     {
+        private readonly ILog logger;
+        public WspInstaller()
+        {
+            logger = LogManager.GetLogger(GetType());
+        }
+
+
         public override string Name => "Sharepoint Solution Package Installer";
 
         public override Image Icon => Resources.if_package_x_generic_15417;
@@ -33,7 +41,7 @@ namespace SharepointSolutionPackageInstaller
         public override void Install()
         {
             Status = InstallerModuleStatus.Installing;
-            System.Threading.Thread.Sleep(4098);
+            System.Threading.Thread.Sleep(4096);
             _testStatus = InstallerModuleStatus.Installed;
         }
 
@@ -46,6 +54,7 @@ namespace SharepointSolutionPackageInstaller
         public virtual void BeforeSave()
         {
             //ToDo: Here building and publishing project.
+            
         }
 
         public virtual void AfterSave()

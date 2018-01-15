@@ -62,8 +62,12 @@ namespace SharepointSolutionPackageInstaller
 
         public class CompilerConfiguration : ConfigurationBase
         {
+            [DefaultValue(@"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\MSBuild.exe")]
             [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
             public string MsBuildExecutablePath { get; set; }
+
+            [Editor(typeof(ApplicationHelpCommandEditor), typeof(UITypeEditor)), ApplicationHelpCommandEditor.Options(nameof(MsBuildExecutablePath))]
+            public string MsBuildCommandArguments { get; set; }
 
             public override string ToString()
             {

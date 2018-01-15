@@ -17,7 +17,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 {
     public partial class Form1 : Form
     {
-        private static readonly ILog logger = LogManager.GetLogger("MainForm");
+        private readonly ILog logger;
 
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationToken GetCancellationToken()
@@ -47,6 +47,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         public Form1()
         {
+            logger = LogManager.GetLogger(GetType());
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;
 
