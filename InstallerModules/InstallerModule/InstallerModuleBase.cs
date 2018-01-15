@@ -6,11 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Findwise.Configuration;
 using Findwise.Sharepoint.SolutionInstaller;
+using System.Runtime.CompilerServices;
+using log4net;
 
 namespace Findwise.InstallerModule
 {
     public abstract class InstallerModuleBase : IInstallerModule
     {
+        protected readonly ILog Logger;
+        public InstallerModuleBase()
+        {
+            Logger = LogManager.GetLogger(GetType());
+        }
+
         public abstract string Name { get; }
         public virtual string FriendlyName { get; set; }
         public abstract Image Icon { get; }
@@ -45,6 +53,11 @@ namespace Findwise.InstallerModule
         public virtual void PrepareUninstall()
         {
             Status = InstallerModuleStatus.UninstallationPending;
+        }
+
+        protected void LogError(Exception ex, [CallerMemberName] string methodName = "")
+        {
+            Logger.Error($"{GetType().Name} {methodName} error: ", ex);
         }
     }
 }

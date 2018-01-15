@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ResultSourceCreator
 {
-    class Configuration : ConfigurationBase, ISharepointInstallerModuleConfiguration
+    public class Configuration : ConfigurationBase, ISharepointInstallerModuleConfiguration
     {
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
