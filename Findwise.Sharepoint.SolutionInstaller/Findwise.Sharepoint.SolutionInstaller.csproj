@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>if_preferences-desktop_15370.ico</ApplicationIcon>
+    <ApplicationIcon>if_system-installer_15355.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
@@ -70,6 +70,8 @@
     <Compile Include="Controls\SizeablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ICancellable.cs" />
+    <Compile Include="IReportProgress.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +88,27 @@
     <Compile Include="Program.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyBindingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropertyBindingForm.Designer.cs">
+      <DependentUpon>PropertyBindingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StatusName.cs" />
+    <Compile Include="Views\IMainView.cs" />
+    <Compile Include="Views\InstallerModuleView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\InstallerModuleView.Designer.cs">
+      <DependentUpon>InstallerModuleView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\MasterPropertiesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MasterPropertiesView.Designer.cs">
+      <DependentUpon>MasterPropertiesView.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Controls\SizeablePanel.resx">
       <DependentUpon>SizeablePanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -102,6 +125,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\InstallerModuleView.resx">
+      <DependentUpon>InstallerModuleView.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -129,8 +155,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Icons\if_document-save-as_15271.png" />
+    <Content Include="if_system-installer_15355.ico" />
     <None Include="Icons\if_Delete_46730.png" />
+    <None Include="Icons\if_up_alt_11140.png" />
+    <None Include="Icons\if_down_alt_11066.png" />
+    <None Include="Icons\if_refresh_11116.png" />
+    <None Include="Icons\if_system-shutdown_15326.png" />
+    <None Include="Icons\if_process-stop_15322.png" />
     <Content Include="if_preferences-desktop_15370.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

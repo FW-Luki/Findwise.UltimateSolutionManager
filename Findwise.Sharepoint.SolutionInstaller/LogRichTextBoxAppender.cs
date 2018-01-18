@@ -13,12 +13,26 @@ using log4net.Util;
 
 namespace Findwise.Sharepoint.SolutionInstaller
 {
+    /// <summary>
+    /// Appender logging events in <see cref="System.Windows.Forms.RichTextBox"/> control.
+    /// </summary>
     public class LogRichTextBoxAppender : IAppender
     {
+        /// <summary>
+        /// A <see cref="System.Windows.Forms.RichTextBox"/> control in which events should be written.
+        /// </summary>
         public RichTextBox RichTextBox { get; set; } = null;
 
+        /// <summary>
+        /// Gets or sets the name of this appender.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Configures appender with the name specified to log events in specified <see cref="System.Windows.Forms.RichTextBox"/> control.
+        /// </summary>
+        /// <param name="appenderName">A name of the appender to configure.</param>
+        /// <param name="richTextBox">A <see cref="System.Windows.Forms.RichTextBox"/> instance.</param>
         public static void Configure(string appenderName, RichTextBox richTextBox)
         {
             var appender = LogManager.GetAllRepositories().SelectMany(r => r.GetAppenders()).OfType<LogRichTextBoxAppender>().FirstOrDefault(a => a.Name == appenderName);
