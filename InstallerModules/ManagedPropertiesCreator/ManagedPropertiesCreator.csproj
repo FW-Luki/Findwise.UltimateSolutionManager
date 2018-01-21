@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryDetails.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="ManagedPropertiesCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
