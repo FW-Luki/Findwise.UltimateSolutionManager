@@ -30,6 +30,7 @@ namespace SharepointSolutionPackageInstaller
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ControlBindingsCollection DataBindings { get; }
 
+        [System.Xml.Serialization.XmlIgnore, System.Runtime.Serialization.IgnoreDataMember]
         [Browsable(false)]
         public BindingContext BindingContext { get; set; } = new BindingContext();
 
