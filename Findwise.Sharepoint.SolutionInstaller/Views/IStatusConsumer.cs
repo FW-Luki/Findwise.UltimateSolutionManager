@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using Findwise.Sharepoint.SolutionInstaller.Models;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
-    public interface IView
+    interface IStatusConsumer
     {
-        Control Control { get; }
+        void SetStatus(ApplicationStatus status);
     }
 }

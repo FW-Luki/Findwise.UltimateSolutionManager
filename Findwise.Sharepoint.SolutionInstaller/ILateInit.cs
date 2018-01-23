@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Findwise.Sharepoint.SolutionInstaller
 {
-    //ToDo1: Add morestatus names
-    //ToDo2: Get names from resources
-    internal static class StatusName
+    interface ILateInit
     {
-        public const string Idle = "Ready";
+        void Init();
     }
 }

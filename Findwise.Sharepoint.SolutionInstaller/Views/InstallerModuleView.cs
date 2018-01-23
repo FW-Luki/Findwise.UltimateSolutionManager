@@ -14,7 +14,7 @@ using Findwise.Sharepoint.SolutionInstaller.Properties;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
-    public partial class InstallerModuleView : UserControl, IMainView, ICancellable
+    public partial class InstallerModuleView : UserControl, IMainView_OLD, ICancellable
     {
         #region Fields
         private readonly ILog logger;
@@ -77,7 +77,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         #region Events
         public event EventHandler SelectionChanged;
-        public event EventHandler<ReportProgressEventArgs> ReportProgress;
+        public event EventHandler<ReportProgressEventArgs_OLD> ReportProgress;
         public event EventHandler<CancellationTokenRequestedEventArgs> CancellationTokenRequested;
         public event EventHandler CancelRequested;
         #endregion
@@ -310,13 +310,13 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             else
             {
                 if (active)
-                    ReportProgress?.Invoke(this, new ReportProgressEventArgs(percentage, message, OperationTrait.Active,
+                    ReportProgress?.Invoke(this, new ReportProgressEventArgs_OLD(percentage, message, OperationTrait.Active,
                                                                                                   OperationTrait.NoSetProjectAllowed,
                                                                                                   OperationTrait.NoProjectItemsChangeAllowed,
                                                                                                   OperationTrait.NoModuleOperationsAllowed,
                                                                                                   OperationTrait.Cancellable));
                 else
-                    ReportProgress?.Invoke(this, new ReportProgressEventArgs(percentage, message, OperationTrait.Inactive));
+                    ReportProgress?.Invoke(this, new ReportProgressEventArgs_OLD(percentage, message, OperationTrait.Inactive));
             }
         }
 

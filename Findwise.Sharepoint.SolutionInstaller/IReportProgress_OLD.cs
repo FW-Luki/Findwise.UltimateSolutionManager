@@ -12,22 +12,22 @@ namespace Findwise.Sharepoint.SolutionInstaller
 {
     public interface IReportProgress
     {
-        event EventHandler<ReportProgressEventArgs> ReportProgress;
+        event EventHandler<ReportProgressEventArgs_OLD> ReportProgress;
     }
 
 
-    public class ReportProgressEventArgs
+    public class ReportProgressEventArgs_OLD
     {
         public int Percentage { get; }
         public string Message { get; }
         public OperationTrait[] OperationTraits { get; }
-        public ReportProgressEventArgs(int percentage, string message, params OperationTrait[] traits)
+        public ReportProgressEventArgs_OLD(int percentage, string message, params OperationTrait[] traits)
         {
             Percentage = percentage;
             Message = message;
             OperationTraits = traits;
         }
-        public ReportProgressEventArgs(int num, int qty, string message, params OperationTrait[] traits)
+        public ReportProgressEventArgs_OLD(int num, int qty, string message, params OperationTrait[] traits)
             : this(Math.Max(Math.Min((int)(((double)num / qty) * 100), 100), 0), message, traits)
         {
         }

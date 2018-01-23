@@ -11,13 +11,13 @@ using log4net;
 
 namespace Findwise.Sharepoint.SolutionInstaller
 {
-    public class Project : ConfigurationBase
+    public class Project_OLD : ConfigurationBase
     {
         public IInstallerModule[] Modules { get; set; }
 
-        public static Project Create(IEnumerable<IInstallerModule> moduleCollection)
+        public static Project_OLD Create(IEnumerable<IInstallerModule> moduleCollection)
         {
-            return new Project()
+            return new Project_OLD()
             {
                 Modules = moduleCollection.ToArray()
             };
@@ -32,7 +32,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             public BindingList<IInstallerModule> InstallerModules { get; } = new BindingList<IInstallerModule>();
 
 
-            public event EventHandler<ReportProgressEventArgs> ReportProgress;
+            public event EventHandler<ReportProgressEventArgs_OLD> ReportProgress;
 
             public event EventHandler<CancellationTokenRequestedEventArgs> CancellationTokenRequested;
             public event EventHandler CancelRequested;
@@ -50,7 +50,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
             public void Load(string filename)
             {
-                var modules = ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename), new PluginSerializationBinder()).Modules.ToList();
+                var modules = ConfigurationBase.Deserialize<Project_OLD>(System.IO.File.ReadAllText(filename), new PluginSerializationBinder()).Modules.ToList();
                 //modules.ForEach(m => m.StatusChanged += Module_StatusChanged);
 
                 InstallerModules.Clear();
@@ -82,7 +82,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
                     module.BeforeSave();
                 }
 
-                System.IO.File.WriteAllText(filename, Project.Create(InstallerModules).Serialize());
+                System.IO.File.WriteAllText(filename, Project_OLD.Create(InstallerModules).Serialize());
 
                 foreach (var module in InstallerModules.OfType<ISaveLoadAware>())
                 {
@@ -164,13 +164,13 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
             private void SetStatus(int num, int qty, string messaage)
             {
-                ReportProgress?.Invoke(this, new ReportProgressEventArgs(num, qty, messaage, OperationTrait.Active,
+                ReportProgress?.Invoke(this, new ReportProgressEventArgs_OLD(num, qty, messaage, OperationTrait.Active,
                                                                                              OperationTrait.NoGetProjectAllowed,
                                                                                              OperationTrait.NoSetProjectAllowed));
             }
             private void ResetStatus()
             {
-                ReportProgress?.Invoke(this, new ReportProgressEventArgs(0, StatusName.Idle, OperationTrait.Inactive));
+                ReportProgress?.Invoke(this, new ReportProgressEventArgs_OLD(0, StatusName.Idle, OperationTrait.Inactive));
             }
         }
     }

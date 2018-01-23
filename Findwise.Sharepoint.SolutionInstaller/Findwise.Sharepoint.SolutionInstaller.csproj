@@ -23,6 +23,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,6 +45,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +57,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControllerForm.Designer.cs">
+      <DependentUpon>ControllerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\Controller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ModuleLoader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ProjectManager.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\DataGridViewHideableButton.cs" />
     <Compile Include="Controls\PropertyGridEx.cs">
       <SubType>Component</SubType>
@@ -71,7 +89,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ICancellable.cs" />
-    <Compile Include="IReportProgress.cs" />
+    <Compile Include="IErrorNotifier.cs" />
+    <Compile Include="ILateInit.cs" />
+    <Compile Include="IProgressReporter.cs" />
+    <Compile Include="IProgressRepresentative.cs" />
+    <Compile Include="IReportProgress_OLD.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +107,8 @@
     <Compile Include="InstallerModuleStatus.cs" />
     <Compile Include="ISaveLoadAware.cs" />
     <Compile Include="LogRichTextBoxAppender.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\Status.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,20 +119,69 @@
       <DependentUpon>PropertyBindingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StatusName.cs" />
+    <Compile Include="Views\IComponentView.cs" />
     <Compile Include="Views\IMainView.cs" />
+    <Compile Include="Views\InstallerModuleMainView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\InstallerModuleMainView.Designer.cs">
+      <DependentUpon>InstallerModuleMainView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainLogView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainLogView.Designer.cs">
+      <DependentUpon>MainLogView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainTabularWorkspaceView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainTabularWorkspaceView.Designer.cs">
+      <DependentUpon>MainTabularWorkspaceView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IMainView_OLD.cs" />
     <Compile Include="Views\InstallerModuleView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\InstallerModuleView.Designer.cs">
       <DependentUpon>InstallerModuleView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\IStatusConsumer.cs" />
+    <Compile Include="Views\IStatusProducer.cs" />
     <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\MainPropertyGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainPropertyGridView.Designer.cs">
+      <DependentUpon>MainPropertyGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainStatusStripView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainStatusStripView.Designer.cs">
+      <DependentUpon>MainStatusStripView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainToolboxView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainToolboxView.Designer.cs">
+      <DependentUpon>MainToolboxView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainToolStripView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainToolStripView.Designer.cs">
+      <DependentUpon>MainToolStripView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MasterPropertiesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\MasterPropertiesView.Designer.cs">
       <DependentUpon>MasterPropertiesView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ControllerForm.resx">
+      <DependentUpon>ControllerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SizeablePanel.resx">
       <DependentUpon>SizeablePanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -125,8 +198,29 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\InstallerModuleMainView.resx">
+      <DependentUpon>InstallerModuleMainView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\InstallerModuleView.resx">
       <DependentUpon>InstallerModuleView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainLogView.resx">
+      <DependentUpon>MainLogView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainPropertyGridView.resx">
+      <DependentUpon>MainPropertyGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainStatusStripView.resx">
+      <DependentUpon>MainStatusStripView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainTabularWorkspaceView.resx">
+      <DependentUpon>MainTabularWorkspaceView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainToolboxView.resx">
+      <DependentUpon>MainToolboxView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainToolStripView.resx">
+      <DependentUpon>MainToolStripView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -156,17 +250,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Icons\if_document-save-as_15271.png" />
-    <Content Include="if_system-installer_15355.ico" />
     <None Include="Icons\if_Delete_46730.png" />
     <None Include="Icons\if_up_alt_11140.png" />
     <None Include="Icons\if_down_alt_11066.png" />
     <None Include="Icons\if_refresh_11116.png" />
     <None Include="Icons\if_system-shutdown_15326.png" />
     <None Include="Icons\if_process-stop_15322.png" />
-    <Content Include="if_preferences-desktop_15370.ico" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Content Include="if_system-installer_15355.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

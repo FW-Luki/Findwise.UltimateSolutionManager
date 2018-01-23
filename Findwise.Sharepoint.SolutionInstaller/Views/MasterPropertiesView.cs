@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
-    public partial class MasterPropertiesView : UserControl, IMainView
+    public partial class MasterPropertiesView : UserControl, IMainView_OLD
     {
         public MasterPropertiesView()
         {
@@ -33,7 +33,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public bool ToolBoxAvailable => false;
 
         public event EventHandler SelectionChanged;
-        public event EventHandler<ReportProgressEventArgs> ReportProgress;
+        public event EventHandler<ReportProgressEventArgs_OLD> ReportProgress;
 
         public void RefreshView()
         {

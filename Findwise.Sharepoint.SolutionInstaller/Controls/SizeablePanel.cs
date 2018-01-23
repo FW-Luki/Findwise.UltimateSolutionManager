@@ -109,6 +109,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
                     case DockStyle.Bottom:
                         break;
                     case DockStyle.Left:
+                        Width = _startingSize.Width - (MousePosition.X - _startingPoint.X);
                         break;
                     case DockStyle.Right:
                         Width = _startingSize.Width + (MousePosition.X - _startingPoint.X);

@@ -8,21 +8,18 @@ using System.Windows.Forms;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
-    public interface IMainView : IView
+    internal interface IMainView_OLD : IView, IReportProgress
     {
-        string Title { get; set; }
-        Image Icon { get; set; }
+        string Title { get; }
+        Image Icon { get; }
         object DataSource { get; set; }
         string SelectedObjectTitle { get; }
         object[] SelectedObjects { get; set; }
         ToolStrip ToolStrip { get; }
         bool ToolBoxAvailable { get; }
 
-        int Order { get; set; }
-
         event EventHandler SelectionChanged;
 
         void RefreshView();
-
     }
 }

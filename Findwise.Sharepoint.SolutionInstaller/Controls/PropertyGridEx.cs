@@ -47,7 +47,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
         protected override void OnSelectedObjectsChanged(EventArgs e)
         {
             base.OnSelectedObjectsChanged(e);
-            this.BeginInvoke(new Action(() => { ShowGlyph(); }));
+            if(IsHandleCreated) BeginInvoke(new Action(() => { ShowGlyph(); }));
         }
         protected override void OnPropertySortChanged(EventArgs e)
         {
@@ -61,22 +61,20 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
             var value = field.GetValue(grid);
             if (value == null)
                 return;
-            var entries = (value as IEnumerable).Cast<GridItem>().ToList();
-            if (this.SelectedObject is Control)
+            var entries = (value as IEnumerable).Cast<GridItem>(); //.ToList()
+            if (this.SelectedObject is IBindableComponent bindableComponent)
             {
-                ((Control)this.SelectedObject).DataBindings.Cast<Binding>()
-                    .ToList().ForEach(binding =>
+                bindableComponent.DataBindings.Cast<Binding>().ToList().ForEach(binding =>
+                {
+                    var item = entries.Where(x => x.PropertyDescriptor?.Name == binding.PropertyName).FirstOrDefault();
+                    var pvSvcField = item.GetType().GetField("pvSvc", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    IPropertyValueUIService pvSvc = new PropertyValueUIService();
+                    pvSvc.AddPropertyValueUIHandler((context, propDesc, valueUIItemList) =>
                     {
-                        var item = entries.Where(x => x.PropertyDescriptor?.Name == binding.PropertyName).FirstOrDefault();
-                        var pvSvcField = item.GetType().GetField("pvSvc", BindingFlags.NonPublic |
-                            BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                        IPropertyValueUIService pvSvc = new PropertyValueUIService();
-                        pvSvc.AddPropertyValueUIHandler((context, propDesc, valueUIItemList) =>
-                        {
-                            valueUIItemList.Add(new PropertyValueUIItem(dataBitmap, (ctx, desc, invokedItem) => { }, GetToolTip(binding)));
-                        });
-                        pvSvcField.SetValue(item, pvSvc);
+                        valueUIItemList.Add(new PropertyValueUIItem(dataBitmap, (ctx, desc, invokedItem) => { }, GetToolTip(binding)));
                     });
+                    pvSvcField.SetValue(item, pvSvc);
+                });
             }
         }
         private static string GetToolTip(Binding binding)

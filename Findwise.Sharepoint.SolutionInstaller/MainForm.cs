@@ -23,7 +23,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
         private readonly InstallerModuleView _installerModuleListView = new InstallerModuleView();
         private readonly MasterPropertiesView _masterPropertiesView = new MasterPropertiesView();
 
-        private readonly Project.Manager _projectManager = new Project.Manager();
+        private readonly Project_OLD.Manager _projectManager = new Project_OLD.Manager();
 
         private CancellationTokenSource _cancellationTokenSource;
         private CancellationToken GetCancellationToken()
@@ -74,7 +74,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
         }
 
 
-        private void SetupMainViewControls(params IMainView[] views)
+        private void SetupMainViewControls(params IMainView_OLD[] views)
         {
             tabControl1.TabPages.AddRange(views.Select(v =>
             {
@@ -101,7 +101,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             //throw new NotImplementedException();
         }
 
-        private void MainViews_ReportProgress(object sender, ReportProgressEventArgs e)
+        private void MainViews_ReportProgress(object sender, ReportProgressEventArgs_OLD e)
         {
             SetStatus(e.Percentage, e.Message, e.OperationTraits);
         }
@@ -143,7 +143,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
         }
         private void tabControl1_Selected(object sender, TabControlEventArgs e)
         {
-            if (e.TabPage.Controls.OfType<IMainView>().FirstOrDefault() is IMainView view)
+            if (e.TabPage.Controls.OfType<IMainView_OLD>().FirstOrDefault() is IMainView_OLD view)
             {
                 ToolboxPanel.Enabled = view.ToolBoxAvailable;
 
