@@ -118,11 +118,6 @@ namespace Findwise.Sharepoint.SolutionInstaller
             }
         }
 
-        private void MainToolboxView1_ModuleCreated(object sender, MainToolboxView.ModuleCreatedEventArgs e)
-        {
-            ProjectManager1.AddModule(e.Module);
-        }
-
         private void SetupProjectManager()
         {
             ProjectManager1.WindowTitleBase = Text;

@@ -33,15 +33,15 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
 
-        public event EventHandler<ModuleCreatedEventArgs> ModuleCreated;
-        public class ModuleCreatedEventArgs : EventArgs
-        {
-            public IInstallerModule Module { get; }
-            public ModuleCreatedEventArgs(IInstallerModule module)
-            {
-                Module = module;
-            }
-        }
+        //public event EventHandler<ModuleCreatedEventArgs> ModuleCreated;
+        //public class ModuleCreatedEventArgs : EventArgs
+        //{
+        //    public IInstallerModule Module { get; }
+        //    public ModuleCreatedEventArgs(IInstallerModule module)
+        //    {
+        //        Module = module;
+        //    }
+        //}
 
         public void AddModule(Type moduleType)
         {
@@ -84,10 +84,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             if ((sender as Button)?.Tag is Type moduleType)
             {
                 var module = (IInstallerModule)Activator.CreateInstance(moduleType);
-                ModuleCreated?.Invoke(this, new ModuleCreatedEventArgs(module));
-                //module.FriendlyName = $"{module.Name} {_projectManager.InstallerModules.Count(m => m.GetType() == module.GetType()) + 1}";
+                //ModuleCreated?.Invoke(this, new ModuleCreatedEventArgs(module));
+                module.FriendlyName = $"{module.Name} {Controller.GetController<ProjectManager>(Controllers).Project.ModuleList.Count(m => m.GetType() == module.GetType()) + 1}";
                 //module.StatusChanged += Module_StatusChanged;
-                //_projectManager.InstallerModules.Add(module);
+                Controller.GetController<ProjectManager>(Controllers).AddModule(module);
             }
         }
 

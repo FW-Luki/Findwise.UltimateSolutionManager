@@ -89,7 +89,6 @@
             tableLayout4.ColumnStyle = new System.Windows.Forms.ColumnStyle();
             tableLayout4.Row = 1;
             this.MainToolboxView1.Layout = tableLayout4;
-            this.MainToolboxView1.ModuleCreated += new System.EventHandler<Findwise.Sharepoint.SolutionInstaller.Views.MainToolboxView.ModuleCreatedEventArgs>(this.MainToolboxView1_ModuleCreated);
             // 
             // MainTabularWorkspaceView1
             // 
