@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Findwise.Sharepoint.SolutionInstaller.Controllers;
 using Findwise.Sharepoint.SolutionInstaller.Views;
 
 namespace Findwise.Sharepoint.SolutionInstaller
@@ -28,8 +29,8 @@ namespace Findwise.Sharepoint.SolutionInstaller
         }
         private async void ControllerForm_Shown(object sender, EventArgs e)
         {
+            InitViewsWithControllers();
             await LoadModules();
-            LateInit();
         }
 
         private IEnumerable<T> GetFields<T>()
@@ -108,9 +109,13 @@ namespace Findwise.Sharepoint.SolutionInstaller
             await ModuleLoader1.LoadModules("Modules", "*.dll");
         }
 
-        private void LateInit()
+        private void InitViewsWithControllers()
         {
-            Parallel.ForEach(GetFields<ILateInit>(), c => c.Init());
+            //Parallel.ForEach(GetFields<ILateInit>(), c => c.Init());
+            foreach (var view in GetFields<IView>())
+            {
+                view.Controllers = GetFields<Controller>().ToArray();
+            }
         }
 
         private void MainToolboxView1_ModuleCreated(object sender, MainToolboxView.ModuleCreatedEventArgs e)
@@ -118,27 +123,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
             ProjectManager1.AddModule(e.Module);
         }
 
-        private void MainToolStripView1_NewProjectRequested(object sender, EventArgs e)
-        {
-            ProjectManager1.Saver.New();
-        }
-        private void MainToolStripView1_LoadProjectRequested(object sender, EventArgs e)
-        {
-            ProjectManager1.Saver.Load();
-        }
-        private void MainToolStripView1_SaveProjectRequested(object sender, EventArgs e)
-        {
-            ProjectManager1.Saver.Save();
-        }
         private void SetupProjectManager()
         {
             ProjectManager1.WindowTitleBase = Text;
             DataBindings.Add(nameof(Text), ProjectManager1, nameof(ProjectManager1.WindowTitle));
-        }
-
-        private void MainToolStripView1_CancelRequested(object sender, EventArgs e)
-        {
-
         }
 
         private void MainTabularWorkspaceView1_ViewChanged(object sender, EventArgs e)

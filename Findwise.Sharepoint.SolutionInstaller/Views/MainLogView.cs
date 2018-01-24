@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Findwise.Sharepoint.SolutionInstaller.Controllers;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -28,6 +29,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         private MainLogViewDesigner designer = new MainLogViewDesigner();
 
         public Control Control => designer.Panel;
+        public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
 
         #region IComponent Support

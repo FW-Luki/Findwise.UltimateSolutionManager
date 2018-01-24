@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Findwise.Sharepoint.SolutionInstaller.Controllers;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -31,6 +32,8 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public Control Control => this;
 
         public bool ToolBoxAvailable => false;
+
+        public Controller[] Controllers { set => throw new NotImplementedException(); }
 
         public event EventHandler SelectionChanged;
         public event EventHandler<ReportProgressEventArgs_OLD> ReportProgress;

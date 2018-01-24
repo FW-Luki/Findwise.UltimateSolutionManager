@@ -9,5 +9,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 {
     public abstract class Controller : Component
     {
+        public static T GetController<T>(IEnumerable<Controller> controllerCollection) where T : Controller
+        {
+            return controllerCollection.OfType<T>().FirstOrDefault()
+                ?? throw new InvalidOperationException($"{typeof(T).Name} controller not set.");
+        }
     }
 }

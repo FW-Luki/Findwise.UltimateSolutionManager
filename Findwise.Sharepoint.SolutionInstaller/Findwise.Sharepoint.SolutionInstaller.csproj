@@ -90,7 +90,6 @@
     </Compile>
     <Compile Include="ICancellable.cs" />
     <Compile Include="IErrorNotifier.cs" />
-    <Compile Include="ILateInit.cs" />
     <Compile Include="IProgressReporter.cs" />
     <Compile Include="IProgressRepresentative.cs" />
     <Compile Include="IReportProgress_OLD.cs" />

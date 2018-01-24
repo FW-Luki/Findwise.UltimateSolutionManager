@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Findwise.Sharepoint.SolutionInstaller.Controllers;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -17,33 +18,6 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         {
             InitializeComponent();
         }
-
-        internal ToolStrip PrimaryToolStrip => toolStrip1;
-        internal ToolStrip SecondaryToolStrip => toolStrip2;
-
-        internal event EventHandler NewProjectRequested;
-        internal event EventHandler LoadProjectRequested;
-        internal event EventHandler SaveProjectRequested;
-        internal event EventHandler CancelRequested;
-
-        private void NewToolStripButton_Click(object sender, EventArgs e)
-        {
-            NewProjectRequested?.Invoke(this, EventArgs.Empty);
-        }
-        private void OpenToolStripButton_Click(object sender, EventArgs e)
-        {
-            LoadProjectRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void SaveToolStripButton_Click(object sender, EventArgs e)
-        {
-            SaveProjectRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void CancelToolStripButton_Click(object sender, EventArgs e)
-        {
-            CancelRequested?.Invoke(this, EventArgs.Empty);
-        }
     }
 
     public class MainToolStripView : IComponentView
@@ -51,22 +25,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         private MainToolStripViewDesigner designer = new MainToolStripViewDesigner();
 
         public Control Control => designer.PrimaryToolStrip;
-
+        public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
-
-
-        public event EventHandler NewProjectRequested;
-        public event EventHandler LoadProjectRequested;
-        public event EventHandler SaveProjectRequested;
-        public event EventHandler CancelRequested;
 
 
         public MainToolStripView()
         {
-            designer.NewProjectRequested += (s_, e_) => NewProjectRequested?.Invoke(this, EventArgs.Empty);
-            designer.LoadProjectRequested += (s_, e_) => LoadProjectRequested?.Invoke(this, EventArgs.Empty);
-            designer.SaveProjectRequested += (s_, e_) => SaveProjectRequested?.Invoke(this, EventArgs.Empty);
-            designer.CancelRequested += (s_, e_) => CancelRequested?.Invoke(this, EventArgs.Empty);
+            designer.NewToolStripButton.Click += (s_, e_) => Controller.GetController<ProjectManager>(Controllers).Saver.New();
+            designer.OpenToolStripButton.Click += (s_, e_) => Controller.GetController<ProjectManager>(Controllers).Saver.Load();
+            designer.SaveToolStripButton.Click += (s_, e_) => Controller.GetController<ProjectManager>(Controllers).Saver.Save();
+            //designer.CancelToolStripButton.Click += (s_, e_) => CancellationController or sth...
         }
 
 

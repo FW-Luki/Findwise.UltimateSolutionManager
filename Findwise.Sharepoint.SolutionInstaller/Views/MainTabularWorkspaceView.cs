@@ -48,11 +48,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
     }
 
 
-    public class MainTabularWorkspaceView : IComponentView, ILateInit
+    public class MainTabularWorkspaceView : IComponentView
     {
         private readonly MainTabularWorkspaceViewDesigner designer = new MainTabularWorkspaceViewDesigner();
 
         public Control Control => designer.TabControl;
+        public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
 
         public IMainView CurrentView => designer.SelectedView;
@@ -89,12 +90,6 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             designer.InstallerModuleMainView1.MoveDownRequested += (s_, e_) => ProjectManager.MoveDownModules(GetSelectedModules());
             designer.InstallerModuleMainView1.RefreshRequested += (s_, e_) => ProjectManager.RefreshModuleStatus();
             designer.InstallerModuleMainView1.ProceedRequested += (s_, e_) => ProjectManager.InstallAllModules();
-        }
-
-
-        public void Init()
-        {
-            OnViewChanged();
         }
 
 

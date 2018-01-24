@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Findwise.Sharepoint.SolutionInstaller.Controls;
+using Findwise.Sharepoint.SolutionInstaller.Controllers;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -29,6 +30,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         private MainToolboxViewDesigner designer = new MainToolboxViewDesigner();
 
         public Control Control => designer.Panel;
+        public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
 
         public event EventHandler<ModuleCreatedEventArgs> ModuleCreated;

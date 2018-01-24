@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Findwise.Sharepoint.SolutionInstaller.Controllers;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -29,7 +30,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         private MainStatusStripViewDesigner designer = new MainStatusStripViewDesigner();
 
         public Control Control => designer.StatusStrip;
-
+        public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
 
         public void SetProgress(ReportProgressEventArgs rpevent)

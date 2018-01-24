@@ -11,6 +11,7 @@ using Findwise.Sharepoint.SolutionInstaller.Controls;
 using log4net;
 using System.Threading;
 using Findwise.Sharepoint.SolutionInstaller.Properties;
+using Findwise.Sharepoint.SolutionInstaller.Controllers;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -72,6 +73,8 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public ToolStrip ToolStrip => toolStrip1;
 
         public bool ToolBoxAvailable => true;
+
+        public Controller[] Controllers { set => throw new NotImplementedException(); }
         #endregion
 
 

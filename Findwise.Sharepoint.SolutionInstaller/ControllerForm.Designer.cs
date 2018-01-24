@@ -65,10 +65,6 @@
             tableLayout1.Row = 0;
             tableLayout1.RowStyle = new System.Windows.Forms.RowStyle();
             this.MainToolStripView1.Layout = tableLayout1;
-            this.MainToolStripView1.NewProjectRequested += new System.EventHandler(this.MainToolStripView1_NewProjectRequested);
-            this.MainToolStripView1.LoadProjectRequested += new System.EventHandler(this.MainToolStripView1_LoadProjectRequested);
-            this.MainToolStripView1.SaveProjectRequested += new System.EventHandler(this.MainToolStripView1_SaveProjectRequested);
-            this.MainToolStripView1.CancelRequested += new System.EventHandler(this.MainToolStripView1_CancelRequested);
             // 
             // MainStatusStripView1
             // 
