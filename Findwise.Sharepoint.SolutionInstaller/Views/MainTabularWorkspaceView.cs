@@ -53,7 +53,18 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         private readonly MainTabularWorkspaceViewDesigner designer = new MainTabularWorkspaceViewDesigner();
 
         public Control Control => designer.TabControl;
-        public Controller[] Controllers { get; set; }
+
+        private Controller[] _controllers;
+        public Controller[] Controllers
+        {
+            get { return _controllers; }
+            set
+            {
+                _controllers = value;
+                OnViewChanged();
+            }
+        }
+
         public TableLayout Layout { get; set; } = new TableLayout();
 
         public IMainView CurrentView => designer.SelectedView;
@@ -81,13 +92,25 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         public MainTabularWorkspaceView()
         {
-            designer.HandleCreated += (s_, e_) => OnViewChanged();
+            //designer.HandleCreated += (s_, e_) => OnViewChanged();
             designer.TabControl.SelectedIndexChanged += (s_, e_) => OnViewChanged();
 
             designer.InstallerModuleMainView1.DuplicateRequested += (s_, e_) => ProjectManager.DuplicateModule();
-            designer.InstallerModuleMainView1.DeleteRequested += (s_, e_) => ProjectManager.DeleteModule(GetSelectedModules());
-            designer.InstallerModuleMainView1.MoveUpRequested += (s_, e_) => ProjectManager.MoveUpModules(GetSelectedModules());
-            designer.InstallerModuleMainView1.MoveDownRequested += (s_, e_) => ProjectManager.MoveDownModules(GetSelectedModules());
+            designer.InstallerModuleMainView1.DeleteRequested += (s_, e_) => ProjectManager.DeleteModules(GetSelectedModules());
+
+            designer.InstallerModuleMainView1.MoveUpRequested += (s_, e_) =>
+            {
+                var modules = GetSelectedModules();
+                ProjectManager.MoveUpModules(modules);
+                designer.InstallerModuleMainView1.SelectedObjects = modules.ToArray();
+            };
+            designer.InstallerModuleMainView1.MoveDownRequested += (s_, e_) =>
+            {
+                var modules = GetSelectedModules();
+                ProjectManager.MoveDownModules(modules);
+                designer.InstallerModuleMainView1.SelectedObjects = modules.ToArray();
+            };
+
             designer.InstallerModuleMainView1.RefreshRequested += (s_, e_) => ProjectManager.RefreshModuleStatus();
             designer.InstallerModuleMainView1.ProceedRequested += (s_, e_) => ProjectManager.InstallAllModules();
         }

@@ -17,7 +17,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public InstallerModuleMainViewDesigner()
         {
             InitializeComponent();
-            dataGridView1.AutoGenerateColumns = false;
+            DataGridView1.AutoGenerateColumns = false;
             ToolStrip.Visible = false;
         }
     }
@@ -36,7 +36,6 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         public Image Icon { get; set; } = null;
 
-        //#error Podepnij datasource do DatagridView
         private object _datasource;
         public object DataSource
         {
@@ -44,13 +43,24 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             set
             {
                 _datasource = value;
-                designer.dataGridView1.DataSource = _datasource;
+                designer.DataGridView1.DataSource = _datasource;
             }
         }
 
         public string SelectedObjectTitle => null;
 
-        public object[] SelectedObjects { get; set; }
+        public object[] SelectedObjects
+        {
+            get
+            {
+                return designer.DataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem).ToArray();
+            }
+            set
+            {
+                designer.DataGridView1.ClearSelection();
+                designer.DataGridView1.Rows.Cast<DataGridViewRow>().Where(r => value.Contains(r.DataBoundItem)).ToList().ForEach(r => r.Selected = true);
+            }
+        }
 
         public ToolStrip ToolStrip => designer.ToolStrip;
 

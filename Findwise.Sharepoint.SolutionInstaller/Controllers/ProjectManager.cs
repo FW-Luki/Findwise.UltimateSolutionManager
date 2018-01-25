@@ -126,15 +126,37 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         public void DuplicateModule()
         {
         }
-        public void DeleteModule(IEnumerable<IInstallerModule> modules)
+        public void DeleteModules(IEnumerable<IInstallerModule> modules)
         {
+            modules.ToList().ForEach(m => Project.ModuleList.Remove(m));
         }
 
         public void MoveUpModules(IEnumerable<IInstallerModule> modules)
         {
+            var selected = modules.OrderBy(m => Project.ModuleList.IndexOf(m)).ToList();
+            if (Project.ModuleList.IndexOf(selected.FirstOrDefault()) > 0)
+            {
+                selected.ForEach(m =>
+                {
+                    var idx = Project.ModuleList.IndexOf(m);
+                    Project.ModuleList.Remove(m);
+                    Project.ModuleList.Insert(idx - 1, m);
+                });
+            }
         }
         public void MoveDownModules(IEnumerable<IInstallerModule> modules)
         {
+            var selected = modules.OrderBy(m => Project.ModuleList.IndexOf(m)).Reverse().ToList();
+            if (Project.ModuleList.IndexOf(selected.FirstOrDefault()) < Project.ModuleList.Count - 1)
+            {
+                selected.ForEach(m =>
+                {
+                    var idx = Project.ModuleList.IndexOf(m);
+                    Project.ModuleList.Remove(m);
+                    Project.ModuleList.Insert(idx + 1, m);
+                });
+                //dataGridView1.Rows.Cast<DataGridViewRow>().ToList().ForEach(r => r.Selected = selected.Contains(r.DataBoundItem as IInstallerModule));
+            }
         }
 
         public void RefreshModuleStatus(IInstallerModule singleModule = null)
