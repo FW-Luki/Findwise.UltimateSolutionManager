@@ -20,7 +20,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
     {
         private readonly ILog logger;
 
-        private readonly InstallerModuleView _installerModuleListView = new InstallerModuleView();
+        private readonly InstallerModuleView_OLD _installerModuleListView = new InstallerModuleView_OLD();
         private readonly MasterPropertiesView _masterPropertiesView = new MasterPropertiesView();
 
         private readonly Project_OLD.Manager _projectManager = new Project_OLD.Manager();

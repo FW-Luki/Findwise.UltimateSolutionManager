@@ -48,7 +48,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
     }
 
 
-    public class MainTabularWorkspaceView : IComponentView
+    public class MainTabularWorkspaceView : IComponentView, IMainViewContainer
     {
         private readonly MainTabularWorkspaceViewDesigner designer = new MainTabularWorkspaceViewDesigner();
 
@@ -111,14 +111,33 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                 designer.InstallerModuleMainView1.SelectedObjects = modules.ToArray();
             };
 
-            designer.InstallerModuleMainView1.RefreshRequested += (s_, e_) => ProjectManager.RefreshModuleStatus();
-            designer.InstallerModuleMainView1.ProceedRequested += (s_, e_) => ProjectManager.InstallAllModules();
+            designer.InstallerModuleMainView1.RefreshRequested += async (s_, e_) =>
+            {
+                await ProjectManager.RefreshModuleStatus();
+            };
+            designer.InstallerModuleMainView1.ProceedRequested += async (s_, e_) =>
+            {
+                await ProjectManager.InstallAllModules();
+            };
+
+            SetupSelectionChangedEvents();
+        }
+
+
+        public void RefreshAllViews()
+        {
+            designer.GetFields<IMainView>().ToList().ForEach(v => v.RefreshView());
         }
 
 
         private IEnumerable<IInstallerModule> GetSelectedModules()
         {
             return designer.InstallerModuleMainView1.SelectedObjects?.OfType<IInstallerModule>() ?? Enumerable.Empty<IInstallerModule>();
+        }
+
+        private void SetupSelectionChangedEvents()
+        {
+            designer.GetFields<IMainView>().ToList().ForEach(v => v.SelectionChanged += (s_, e_) => SelectedObjectsChanged?.Invoke(this, EventArgs.Empty));
         }
 
 

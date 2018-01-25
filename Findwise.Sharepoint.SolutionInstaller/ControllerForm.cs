@@ -33,11 +33,6 @@ namespace Findwise.Sharepoint.SolutionInstaller
             await LoadModules();
         }
 
-        private IEnumerable<T> GetFields<T>()
-        {
-            return GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(f => typeof(T).IsAssignableFrom(f.FieldType)).Select(f => (T)f.GetValue(this));
-        }
-
         private void LayoutViews()
         {
             foreach (var view in GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(f => typeof(IComponentView).IsAssignableFrom(f.FieldType)).Select(f => (IComponentView)f.GetValue(this)))
@@ -75,16 +70,16 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void SetupProgressReporting()
         {
-            GetFields<IProgressReporter>().ToList().ForEach(c => c.ReportProgress += OnReportProgress);
+            this.GetFields<IProgressReporter>().ToList().ForEach(c => c.ReportProgress += OnReportProgress);
         }
         private void OnReportProgress(object sender, ReportProgressEventArgs e)
         {
-            Parallel.ForEach(GetFields<IProgressRepresentative>(), c => c.SetProgress(e));
+            Parallel.ForEach(this.GetFields<IProgressRepresentative>(), c => c.SetProgress(e));
         }
 
         private void SetupErrorNotifying()
         {
-            GetFields<IErrorNotifier>().ToList().ForEach(c => c.ErrorOccured += OnErrorOccured);
+            this.GetFields<IErrorNotifier>().ToList().ForEach(c => c.ErrorOccured += OnErrorOccured);
         }
         private void OnErrorOccured(object sender, ErrorOccuredEventArgs e)
         {
@@ -112,9 +107,9 @@ namespace Findwise.Sharepoint.SolutionInstaller
         private void InitViewsWithControllers()
         {
             //Parallel.ForEach(GetFields<ILateInit>(), c => c.Init());
-            foreach (var view in GetFields<IView>())
+            foreach (var view in this.GetFields<IView>())
             {
-                view.Controllers = GetFields<Controller>().ToArray();
+                view.Controllers = this.GetFields<Controller>().ToArray();
             }
         }
 
@@ -122,6 +117,18 @@ namespace Findwise.Sharepoint.SolutionInstaller
         {
             ProjectManager1.WindowTitleBase = Text;
             DataBindings.Add(nameof(Text), ProjectManager1, nameof(ProjectManager1.WindowTitle));
+        }
+
+        private void ProjectManager1_ModuleStatusChanged(object sender, EventArgs e)
+        {
+            foreach (var view in this.GetFields<IMainViewContainer>())
+            {
+                view.RefreshAllViews();
+            }
+        }
+        private void ProjectManager1_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+
         }
 
         private void MainTabularWorkspaceView1_ViewChanged(object sender, EventArgs e)
@@ -141,6 +148,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
             else
             {
                 MainToolStripView1.MergeToolStrip(MainTabularWorkspaceView1.CurrentView.ToolStrip);
+                MainToolboxView1.Control.Enabled = MainTabularWorkspaceView1.CurrentView.ToolBoxAvailable;
                 MainViewSelectedObjectsChanged();
             }
         }
@@ -157,5 +165,9 @@ namespace Findwise.Sharepoint.SolutionInstaller
             }
         }
 
+        private void MainToolboxView1_ModuleAdded(object sender, MainToolboxView.ModuleAddedEventArgs e)
+        {
+            MainTabularWorkspaceView1.CurrentView.SelectedObjects = new[] { e.Module.Configuration };
+        }
     }
 }

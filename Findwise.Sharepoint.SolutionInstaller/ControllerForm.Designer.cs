@@ -60,6 +60,7 @@
             // 
             // MainToolStripView1
             // 
+            this.MainToolStripView1.Controllers = null;
             tableLayout1.Column = 0;
             tableLayout1.ColumnSpan = 3;
             tableLayout1.Row = 0;
@@ -68,6 +69,7 @@
             // 
             // MainStatusStripView1
             // 
+            this.MainStatusStripView1.Controllers = null;
             tableLayout2.Column = 0;
             tableLayout2.ColumnSpan = 3;
             tableLayout2.Row = 3;
@@ -76,6 +78,7 @@
             // 
             // MainPropertyGridView1
             // 
+            this.MainPropertyGridView1.Controllers = null;
             tableLayout3.Column = 2;
             tableLayout3.ColumnStyle = new System.Windows.Forms.ColumnStyle();
             tableLayout3.Row = 1;
@@ -85,13 +88,16 @@
             // 
             // MainToolboxView1
             // 
+            this.MainToolboxView1.Controllers = null;
             tableLayout4.Column = 0;
             tableLayout4.ColumnStyle = new System.Windows.Forms.ColumnStyle();
             tableLayout4.Row = 1;
             this.MainToolboxView1.Layout = tableLayout4;
+            this.MainToolboxView1.ModuleAdded += new System.EventHandler<Findwise.Sharepoint.SolutionInstaller.Views.MainToolboxView.ModuleAddedEventArgs>(this.MainToolboxView1_ModuleAdded);
             // 
             // MainTabularWorkspaceView1
             // 
+            this.MainTabularWorkspaceView1.Controllers = null;
             tableLayout5.Column = 1;
             tableLayout5.ColumnStyle = new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F);
             tableLayout5.Row = 1;
@@ -106,9 +112,12 @@
             this.ProjectManager1.EmptyProjectName = "New project";
             this.ProjectManager1.IsModified = false;
             this.ProjectManager1.WindowTitleBase = null;
+            this.ProjectManager1.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.ProjectManager1_PropertyChanged);
+            this.ProjectManager1.ModuleStatusChanged += new System.EventHandler(this.ProjectManager1_ModuleStatusChanged);
             // 
             // MainLogView1
             // 
+            this.MainLogView1.Controllers = null;
             tableLayout6.Column = 0;
             tableLayout6.ColumnSpan = 3;
             tableLayout6.Row = 2;

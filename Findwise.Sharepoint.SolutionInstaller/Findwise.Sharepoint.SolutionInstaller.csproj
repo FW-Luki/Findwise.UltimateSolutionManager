@@ -88,6 +88,7 @@
     <Compile Include="Controls\SizeablePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Helpers.cs" />
     <Compile Include="ICancellable.cs" />
     <Compile Include="IErrorNotifier.cs" />
     <Compile Include="IProgressReporter.cs" />
@@ -120,11 +121,12 @@
     <Compile Include="StatusName.cs" />
     <Compile Include="Views\IComponentView.cs" />
     <Compile Include="Views\IMainView.cs" />
-    <Compile Include="Views\InstallerModuleMainView.cs">
+    <Compile Include="Views\IMainViewContainer.cs" />
+    <Compile Include="Views\WorkspaceInstallerModulesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\InstallerModuleMainView.Designer.cs">
-      <DependentUpon>InstallerModuleMainView.cs</DependentUpon>
+    <Compile Include="Views\WorkspaceInstallerModulesView.Designer.cs">
+      <DependentUpon>WorkspaceInstallerModulesView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MainLogView.cs">
       <SubType>UserControl</SubType>
@@ -139,11 +141,11 @@
       <DependentUpon>MainTabularWorkspaceView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\IMainView_OLD.cs" />
-    <Compile Include="Views\InstallerModuleView.cs">
+    <Compile Include="Views\InstallerModuleView_OLD.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\InstallerModuleView.Designer.cs">
-      <DependentUpon>InstallerModuleView.cs</DependentUpon>
+    <Compile Include="Views\InstallerModuleView_OLD.Designer.cs">
+      <DependentUpon>InstallerModuleView_OLD.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\IStatusConsumer.cs" />
     <Compile Include="Views\IStatusProducer.cs" />
@@ -197,11 +199,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Views\InstallerModuleMainView.resx">
-      <DependentUpon>InstallerModuleMainView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\WorkspaceInstallerModulesView.resx">
+      <DependentUpon>WorkspaceInstallerModulesView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\InstallerModuleView.resx">
-      <DependentUpon>InstallerModuleView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\InstallerModuleView_OLD.resx">
+      <DependentUpon>InstallerModuleView_OLD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainLogView.resx">
       <DependentUpon>MainLogView.cs</DependentUpon>
@@ -258,6 +260,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Icons\if_emblem-unreadable_15398.png" />
+    <None Include="Icons\brick-icon.png" />
     <Content Include="if_system-installer_15355.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

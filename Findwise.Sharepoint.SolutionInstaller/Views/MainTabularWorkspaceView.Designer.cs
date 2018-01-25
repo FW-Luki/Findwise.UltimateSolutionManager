@@ -33,8 +33,8 @@
             Findwise.Sharepoint.SolutionInstaller.Views.TableLayout tableLayout2 = new Findwise.Sharepoint.SolutionInstaller.Views.TableLayout();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.InstallerModuleMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.InstallerModuleMainView();
-            this.installerModuleMainView2 = new Findwise.Sharepoint.SolutionInstaller.Views.InstallerModuleMainView();
+            this.InstallerModuleMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceInstallerModulesView();
+            this.installerModuleMainView2 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceInstallerModulesView();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -55,25 +55,29 @@
             // 
             // InstallerModuleMainView1
             // 
+            this.InstallerModuleMainView1.Controllers = null;
             this.InstallerModuleMainView1.DataSource = null;
-            this.InstallerModuleMainView1.Icon = null;
+            this.InstallerModuleMainView1.Icon = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.brick_icon;
             tableLayout1.Column = 0;
             tableLayout1.Row = 0;
             this.InstallerModuleMainView1.Layout = tableLayout1;
             this.InstallerModuleMainView1.Order = 0;
-            this.InstallerModuleMainView1.SelectedObjects = null;
+            this.InstallerModuleMainView1.SelectedObjects = new Findwise.Configuration.ConfigurationBase[0];
             this.InstallerModuleMainView1.Title = "Installer Modules";
+            this.InstallerModuleMainView1.ToolBoxAvailable = true;
             // 
             // installerModuleMainView2
             // 
+            this.installerModuleMainView2.Controllers = null;
             this.installerModuleMainView2.DataSource = null;
             this.installerModuleMainView2.Icon = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Delete_46730;
             tableLayout2.Column = 0;
             tableLayout2.Row = 0;
             this.installerModuleMainView2.Layout = tableLayout2;
             this.installerModuleMainView2.Order = 1;
-            this.installerModuleMainView2.SelectedObjects = null;
+            this.installerModuleMainView2.SelectedObjects = new Findwise.Configuration.ConfigurationBase[0];
             this.installerModuleMainView2.Title = "Test panel";
+            this.installerModuleMainView2.ToolBoxAvailable = false;
             // 
             // MainTabularWorkspaceViewDesigner
             // 
@@ -89,7 +93,7 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.ImageList imageList1;
-        private InstallerModuleMainView installerModuleMainView2;
-        internal InstallerModuleMainView InstallerModuleMainView1;
+        private WorkspaceInstallerModulesView installerModuleMainView2;
+        internal WorkspaceInstallerModulesView InstallerModuleMainView1;
     }
 }

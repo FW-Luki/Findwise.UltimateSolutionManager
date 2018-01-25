@@ -38,7 +38,7 @@
             this.ToolboxPanel.GripPosition = System.Windows.Forms.DockStyle.Right;
             this.ToolboxPanel.Location = new System.Drawing.Point(0, 0);
             this.ToolboxPanel.Name = "ToolboxPanel";
-            this.ToolboxPanel.Size = new System.Drawing.Size(150, 150);
+            this.ToolboxPanel.Size = new System.Drawing.Size(160, 150);
             this.ToolboxPanel.TabIndex = 5;
             // 
             // MainToolboxViewDesigner
@@ -47,6 +47,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ToolboxPanel);
             this.Name = "MainToolboxViewDesigner";
+            this.Size = new System.Drawing.Size(160, 150);
             this.ResumeLayout(false);
 
         }

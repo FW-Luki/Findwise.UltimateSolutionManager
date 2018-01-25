@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Findwise.Sharepoint.SolutionInstaller.Controls;
 using Findwise.Sharepoint.SolutionInstaller.Controllers;
+using Findwise.Sharepoint.SolutionInstaller.Properties;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -33,15 +34,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
 
-        //public event EventHandler<ModuleCreatedEventArgs> ModuleCreated;
-        //public class ModuleCreatedEventArgs : EventArgs
-        //{
-        //    public IInstallerModule Module { get; }
-        //    public ModuleCreatedEventArgs(IInstallerModule module)
-        //    {
-        //        Module = module;
-        //    }
-        //}
+        public event EventHandler<ModuleAddedEventArgs> ModuleAdded;
+        public class ModuleAddedEventArgs : EventArgs
+        {
+            public IInstallerModule Module { get; }
+            public ModuleAddedEventArgs(IInstallerModule module)
+            {
+                Module = module;
+            }
+        }
+
 
         public void AddModule(Type moduleType)
         {
@@ -58,7 +60,18 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         public void EndAddingModules()
         {
+            if (!designer.Panel.Controls.OfType<Button>().Any(b => b.Tag is Type t && typeof(IInstallerModule).IsAssignableFrom(t)))
+            {
+                Control.Invoke(new MethodInvoker(() =>
+                {
+                    var butt = GetToolboxButton("No modules found", Resources.if_emblem_unreadable_15398);
+                    butt.Click -= ToolboxButton_Click;
+                    butt.Enabled = false;
+                    designer.Panel.Controls.Add(butt);
+                }));
+            }
         }
+
 
         private Button GetToolboxButton(string text, Image image, object tag = null)
         {
@@ -84,10 +97,9 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             if ((sender as Button)?.Tag is Type moduleType)
             {
                 var module = (IInstallerModule)Activator.CreateInstance(moduleType);
-                //ModuleCreated?.Invoke(this, new ModuleCreatedEventArgs(module));
                 module.FriendlyName = $"{module.Name} {Controller.GetController<ProjectManager>(Controllers).Project.ModuleList.Count(m => m.GetType() == module.GetType()) + 1}";
-                //module.StatusChanged += Module_StatusChanged;
                 Controller.GetController<ProjectManager>(Controllers).AddModule(module);
+                ModuleAdded?.Invoke(this, new ModuleAddedEventArgs(module));
             }
         }
 

@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Findwise.Configuration;
 using Findwise.PluginManager;
 using Findwise.Sharepoint.SolutionInstaller.Models;
+using log4net;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 {
     public class ProjectManager : Controller, IProgressReporter, INotifyPropertyChanged
     {
+        private readonly ILog logger;
+
+
         public string WindowTitleBase { get; set; }
 
         private const string WindowTitleFormatDefaultValue = "{0}{1} - {2}";
@@ -64,6 +69,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 
         public ProjectManager()
         {
+            logger = LogManager.GetLogger(GetType());
             Saver = new ProjectSaverHelper(this);
             NewProject();
         }
@@ -89,7 +95,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                 module.AfterLoad();
             }
 
-            proj.Modules.ToList().ForEach(m => m.StatusChanged += (s_, e_) => ModuleStatusChanged?.Invoke(this, EventArgs.Empty));
+            proj.Modules.ToList().ForEach(m => m.StatusChanged += Module_StatusChanged);
             Project = proj;
         }
 
@@ -121,6 +127,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         public void AddModule(IInstallerModule module)
         {
             Project.ModuleList.Add(module);
+            module.StatusChanged += Module_StatusChanged;
         }
 
         public void DuplicateModule()
@@ -128,7 +135,11 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         }
         public void DeleteModules(IEnumerable<IInstallerModule> modules)
         {
-            modules.ToList().ForEach(m => Project.ModuleList.Remove(m));
+            foreach (var module in modules)
+            {
+                Project.ModuleList.Remove(module);
+                module.StatusChanged -= Module_StatusChanged;
+            }
         }
 
         public void MoveUpModules(IEnumerable<IInstallerModule> modules)
@@ -155,15 +166,120 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                     Project.ModuleList.Remove(m);
                     Project.ModuleList.Insert(idx + 1, m);
                 });
-                //dataGridView1.Rows.Cast<DataGridViewRow>().ToList().ForEach(r => r.Selected = selected.Contains(r.DataBoundItem as IInstallerModule));
             }
         }
 
-        public void RefreshModuleStatus(IInstallerModule singleModule = null)
+        public async Task RefreshModuleStatus(IInstallerModule singleModule = null, bool throwIfCancelled = false)
         {
+            await Task.Run(() =>
+            {
+                var options = new ParallelOptions()
+                {
+                    //CancellationToken = GetCancellationToken()
+                };
+                try
+                {
+                    IEnumerable<IInstallerModule> modules;
+                    if (singleModule != null) modules = new[] { singleModule };
+                    else modules = Project.ModuleList;
+                    var currow = 0;
+                    Parallel.ForEach(modules, options, module =>
+                    {
+                        Interlocked.Add(ref currow, 1);
+                        ReportProgress?.Invoke(this, new ReportProgressEventArgs(++currow, modules.Count(), "Refreshing list...", OperationTag.Active));
+                        try
+                        {
+                            options.CancellationToken.ThrowIfCancellationRequested();
+                            //logger.Info($"Module {module.Name} - Checking status...");
+                            if (module != null && module.Status != InstallerModuleStatus.Refreshing)
+                                module.CheckStatus();
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Warn($"Error checking status of module {module.FriendlyName}.", ex);
+                        }
+                    });
+                }
+                catch (OperationCanceledException)
+                {
+                    if (throwIfCancelled) throw;
+                }
+                finally
+                {
+                    ReportProgress?.Invoke(this, new ReportProgressEventArgs(0, StatusName.Idle, OperationTag.None));
+                }
+            });
         }
-        public void InstallAllModules()
+
+        public async Task InstallAllModules()
         {
+            try
+            {
+                await RefreshModuleStatus(throwIfCancelled: true);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var options = new ParallelOptions()
+                    {
+                        //CancellationToken = GetCancellationToken()
+                    };
+                    Parallel.ForEach(Project.ModuleList.Where(m => m.Status == InstallerModuleStatus.NotInstalled), options, module =>
+                    {
+                        try
+                        {
+                            options.CancellationToken.ThrowIfCancellationRequested();
+                            module.PrepareInstall();
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Warn($"Error preparing module {module.FriendlyName} for install.", ex);
+                        }
+                    });
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+
+                var refreshTasks = new List<Task>();
+                //var token = GetCancellationToken();
+                var pending = Project.ModuleList.Where(m => m.Status == InstallerModuleStatus.InstallationPending);
+                var curmod = 0;
+                var allmods = pending.Count();
+                foreach (var module in pending)
+                {
+                    ReportProgress?.Invoke(this, new ReportProgressEventArgs(++curmod, allmods, $"Installing module {module.FriendlyName ?? module.Name}...", OperationTag.Active));
+                    try
+                    {
+                        //token.ThrowIfCancellationRequested();
+                        module.Install();
+                        refreshTasks.Add(Task.Run(() => module.CheckStatus()));
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Warn($"Error installing module {module.FriendlyName}.", ex);
+                    }
+                }
+                Task.WaitAll(refreshTasks.ToArray());
+                ReportProgress?.Invoke(this, new ReportProgressEventArgs(0, StatusName.Idle, OperationTag.None));
+            });
+        }
+
+
+        private void Module_StatusChanged(object sender, EventArgs e)
+        {
+            ModuleStatusChanged?.Invoke(this, EventArgs.Empty);
         }
 
 

@@ -15,7 +15,7 @@ using Findwise.Sharepoint.SolutionInstaller.Controllers;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
-    public partial class InstallerModuleView : UserControl, IMainView_OLD, ICancellable
+    public partial class InstallerModuleView_OLD : UserControl, IMainView_OLD, ICancellable
     {
         #region Fields
         private readonly ILog logger;
@@ -87,7 +87,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
 
         #region Constructor
-        public InstallerModuleView()
+        public InstallerModuleView_OLD()
         {
             InitializeComponent();
             dataGridView1.AutoGenerateColumns = false;

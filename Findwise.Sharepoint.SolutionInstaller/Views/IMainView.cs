@@ -16,7 +16,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         string SelectedObjectTitle { get; }
         object[] SelectedObjects { get; set; }
         ToolStrip ToolStrip { get; }
-        bool ToolBoxAvailable { get; }
+        bool ToolBoxAvailable { get; set; }
 
         int Order { get; set; }
 

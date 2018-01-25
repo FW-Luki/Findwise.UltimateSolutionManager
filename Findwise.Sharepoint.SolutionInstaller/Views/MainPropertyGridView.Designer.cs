@@ -48,7 +48,7 @@
             this.sizeablePanel1.GripPosition = System.Windows.Forms.DockStyle.Left;
             this.sizeablePanel1.Location = new System.Drawing.Point(0, 0);
             this.sizeablePanel1.Name = "sizeablePanel1";
-            this.sizeablePanel1.Size = new System.Drawing.Size(150, 150);
+            this.sizeablePanel1.Size = new System.Drawing.Size(320, 150);
             this.sizeablePanel1.TabIndex = 0;
             // 
             // propertyGrid1
@@ -58,7 +58,7 @@
             this.propertyGrid1.Location = new System.Drawing.Point(0, 50);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.propertyGrid1.Size = new System.Drawing.Size(150, 100);
+            this.propertyGrid1.Size = new System.Drawing.Size(320, 100);
             this.propertyGrid1.TabIndex = 7;
             // 
             // PropertyGridMergeToolStrip
@@ -68,7 +68,7 @@
             this.PropertyGridMergeToolStrip.Location = new System.Drawing.Point(0, 25);
             this.PropertyGridMergeToolStrip.Name = "PropertyGridMergeToolStrip";
             this.PropertyGridMergeToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            this.PropertyGridMergeToolStrip.Size = new System.Drawing.Size(150, 25);
+            this.PropertyGridMergeToolStrip.Size = new System.Drawing.Size(320, 25);
             this.PropertyGridMergeToolStrip.TabIndex = 6;
             this.PropertyGridMergeToolStrip.Text = "toolStrip3";
             // 
@@ -87,7 +87,7 @@
             this.SelectedObjectToolStrip.Location = new System.Drawing.Point(0, 0);
             this.SelectedObjectToolStrip.Name = "SelectedObjectToolStrip";
             this.SelectedObjectToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            this.SelectedObjectToolStrip.Size = new System.Drawing.Size(150, 25);
+            this.SelectedObjectToolStrip.Size = new System.Drawing.Size(320, 25);
             this.SelectedObjectToolStrip.SpecialBackgroundImage = null;
             this.SelectedObjectToolStrip.TabIndex = 5;
             // 
@@ -97,6 +97,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.sizeablePanel1);
             this.Name = "MainPropertyGridViewDesigner";
+            this.Size = new System.Drawing.Size(320, 150);
             this.sizeablePanel1.ResumeLayout(false);
             this.sizeablePanel1.PerformLayout();
             this.PropertyGridMergeToolStrip.ResumeLayout(false);

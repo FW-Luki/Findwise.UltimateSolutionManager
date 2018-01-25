@@ -63,6 +63,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap brick_icon {
+            get {
+                object obj = ResourceManager.GetObject("brick-icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_Delete_46730 {
             get {
                 object obj = ResourceManager.GetObject("if_Delete_46730", resourceCulture);
@@ -86,6 +96,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Properties {
         internal static System.Drawing.Bitmap if_down_alt_11066 {
             get {
                 object obj = ResourceManager.GetObject("if_down_alt_11066", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_emblem_unreadable_15398 {
+            get {
+                object obj = ResourceManager.GetObject("if_emblem_unreadable_15398", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

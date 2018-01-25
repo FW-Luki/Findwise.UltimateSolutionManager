@@ -1,6 +1,6 @@
 ﻿namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
-    partial class InstallerModuleView
+    partial class InstallerModuleView_OLD
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstallerModuleView));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstallerModuleView_OLD));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.NumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IconColumn = new System.Windows.Forms.DataGridViewImageColumn();
