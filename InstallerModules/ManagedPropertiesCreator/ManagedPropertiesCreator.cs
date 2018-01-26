@@ -27,9 +27,9 @@ namespace ManagedPropertiesCreator
                 var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
                 var owner = new SearchObjectOwner(SearchObjectLevel.Ssa);
 
-                var existedManagedProperty = ExistedManagedProperty(myConfiguration.SearchApplicationName, myConfiguration.ManagedPropertyDefinitions);
+                var existedManagedProperty = ExistedManagedProperty(myConfiguration.SearchApplicationName, myConfiguration.ManagedProperties);
 
-                Status = existedManagedProperty.Count() == myConfiguration.ManagedPropertyDefinitions.Count() && IsManagedPropertyHaveAllCrawledProperties(existedManagedProperty) ? InstallerModuleStatus.Installed : InstallerModuleStatus.NotInstalled;
+                Status = existedManagedProperty.Count() == myConfiguration.ManagedProperties.Count() && IsManagedPropertyHaveAllCrawledProperties(existedManagedProperty) ? InstallerModuleStatus.Installed : InstallerModuleStatus.NotInstalled;
             }
             catch (Exception ex)
             {
@@ -45,8 +45,8 @@ namespace ManagedPropertiesCreator
             var owner = new SearchObjectOwner(SearchObjectLevel.Ssa);
 
             var managedProperties = content.SearchApplication.GetManagedProperties();
-            var notInstalledManagedProperty = myConfiguration.ManagedPropertyDefinitions.Where(s => !managedProperties.Any(my => s.Name == my.Name));
-            var installedManagedProperty = myConfiguration.ManagedPropertyDefinitions.Where(s => managedProperties.Any(my => s.Name == my.Name));
+            var notInstalledManagedProperty = myConfiguration.ManagedProperties.Where(s => !managedProperties.Any(my => s.Name == my.Name));
+            var installedManagedProperty = myConfiguration.ManagedProperties.Where(s => managedProperties.Any(my => s.Name == my.Name));
 
             try
             {
@@ -91,7 +91,7 @@ namespace ManagedPropertiesCreator
             var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
             var owner = new SearchObjectOwner(SearchObjectLevel.Ssa);
 
-            var existedManagedProperty = ExistedManagedProperty(myConfiguration.SearchApplicationName, myConfiguration.ManagedPropertyDefinitions);
+            var existedManagedProperty = ExistedManagedProperty(myConfiguration.SearchApplicationName, myConfiguration.ManagedProperties);
             try
             {
                 foreach (var managedProperty in existedManagedProperty)
@@ -114,7 +114,7 @@ namespace ManagedPropertiesCreator
             var owner = new SearchObjectOwner(SearchObjectLevel.Ssa);
 
             var mappedCrawledProperties = new List<CrawledPropertyInfo>();
-            myConfiguration.ManagedPropertyDefinitions.ToList().ForEach(mpd =>
+            myConfiguration.ManagedProperties.ToList().ForEach(mpd =>
             {
                 ManagedPropertyInfo emi = existedManagedProperty.FirstOrDefault(element => element.Name == mpd.Name);
                 if (emi != null)
@@ -141,7 +141,7 @@ namespace ManagedPropertiesCreator
             CategoryDetails categoryDetails = new CategoryDetails();
 
             CategoryInfoCollection categories = content.SearchApplication.GetAllCategories(owner);
-            var categoryNameCrawledProperties = myConfiguration.ManagedPropertyDefinitions.Where(my => my.Name == mp.Name).Select(x => x.CrawledPropertiesCategory).First();
+            var categoryNameCrawledProperties = myConfiguration.ManagedProperties.Where(my => my.Name == mp.Name).Select(x => x.CrawledPropertiesCategory).First();
             var categoryInfo = categories.First(c => c.Name == categoryNameCrawledProperties);
             var categoryCrawledProperty = content.SearchApplication.GetAllCrawledProperties(null, categoryInfo.Name, 1, owner).First();
 
@@ -207,3 +207,4 @@ namespace ManagedPropertiesCreator
         }
     }
 }
+    

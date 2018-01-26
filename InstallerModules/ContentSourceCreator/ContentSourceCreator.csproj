@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5B789D08-FFCB-4A60-AE07-0C4F83C32811}</ProjectGuid>
+    <ProjectGuid>{4EB663AA-0BF7-42CD-8316-532F1861C10B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ManagedPropertiesCreator</RootNamespace>
-    <AssemblyName>ManagedPropertiesCreator</AssemblyName>
+    <RootNamespace>ContentSourceCreator</RootNamespace>
+    <AssemblyName>ContentSourceCreator</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,14 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Office.Server, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
     <Reference Include="Microsoft.Office.Server.Search, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.SharePoint, Version=16.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,10 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoryDetails.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="ManagedPropertiesCreator.cs" />
+    <Compile Include="ContentSourceCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileSourceConfiguration.cs" />
+    <Compile Include="ExchangeSourceConfiguration.cs" />
+    <Compile Include="SharePointSourceConfiguration.cs" />
+    <Compile Include="WebSourceConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\findwise.configuration\Findwise.Configuration\Findwise.Configuration.csproj">
@@ -60,16 +60,13 @@
       <Name>Findwise.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Findwise.Sharepoint.SolutionInstaller\Findwise.Sharepoint.SolutionInstaller.csproj">
-      <Project>{8b445b1d-c230-4c75-97ba-7ce90fbff360}</Project>
+      <Project>{8B445B1D-C230-4C75-97BA-7CE90FBFF360}</Project>
       <Name>Findwise.Sharepoint.SolutionInstaller</Name>
     </ProjectReference>
     <ProjectReference Include="..\InstallerModule\InstallerModule.csproj">
       <Project>{B7FB54BC-C86E-4559-B69B-6A0CA7977406}</Project>
       <Name>InstallerModule</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
