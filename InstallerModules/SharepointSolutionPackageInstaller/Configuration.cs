@@ -5,17 +5,77 @@ using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using Findwise.Configuration;
 using Findwise.Configuration.TypeEditors;
 
 namespace SharepointSolutionPackageInstaller
 {
-    public class Configuration : ConfigurationBase
+    public class Configuration : ConfigurationBase, IBindableComponent
     {
         [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IPackageConfiguration))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public IPackageConfiguration PackageConfiguration { get; set; }
+
+
+        public Configuration()
+        {
+            DataBindings = new ControlBindingsCollection(this);
+        }
+
+
+        #region IBindableComponent Support
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ControlBindingsCollection DataBindings { get; }
+
+        [Browsable(false)]
+        public BindingContext BindingContext { get; set; } = new BindingContext();
+
+        #region IComponent Support
+        [Browsable(false)]
+        public ISite Site { get; set; } = null;
+
+        public event EventHandler Disposed;
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+                Disposed?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~Configuration() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+        #endregion
+        #endregion
     }
 
 

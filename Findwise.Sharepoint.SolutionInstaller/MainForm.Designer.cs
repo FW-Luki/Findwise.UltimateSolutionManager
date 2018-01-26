@@ -1,6 +1,6 @@
 ﻿namespace Findwise.Sharepoint.SolutionInstaller
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -42,7 +42,10 @@
             this.StatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InstallColumn = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.propertyGrid1 = new Findwise.Sharepoint.SolutionInstaller.Controls.PropertyGridEx();
+            this.PropertyGridMergeToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.SelectedObjectToolStrip = new Findwise.Sharepoint.SolutionInstaller.Controls.FancyToolStrip();
             this.toolStrip1 = new Findwise.Sharepoint.SolutionInstaller.Controls.FancyToolStrip();
             this.NewToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.OpenToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
@@ -60,6 +63,8 @@
             this.sizeablePanel1 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.Indicator = new Findwise.Sharepoint.SolutionInstaller.Controls.FancyIndicator();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.sizeablePanel2 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.LogWindowContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -71,8 +76,6 @@
             this.SingleClickInstallButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.dataGridViewHideableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
             this.dataGridViewDisableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -81,6 +84,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.PropertyGridMergeToolStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.sizeablePanel2.SuspendLayout();
@@ -215,6 +219,8 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.propertyGrid1);
+            this.groupBox2.Controls.Add(this.PropertyGridMergeToolStrip);
+            this.groupBox2.Controls.Add(this.SelectedObjectToolStrip);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
@@ -227,12 +233,42 @@
             // 
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.propertyGrid1.Location = new System.Drawing.Point(3, 16);
+            this.propertyGrid1.Location = new System.Drawing.Point(3, 66);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.propertyGrid1.Size = new System.Drawing.Size(314, 555);
-            this.propertyGrid1.TabIndex = 0;
+            this.propertyGrid1.Size = new System.Drawing.Size(314, 505);
+            this.propertyGrid1.TabIndex = 4;
             this.propertyGrid1.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid1_PropertyValueChanged);
+            // 
+            // PropertyGridMergeToolStrip
+            // 
+            this.PropertyGridMergeToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1});
+            this.PropertyGridMergeToolStrip.Location = new System.Drawing.Point(3, 41);
+            this.PropertyGridMergeToolStrip.Name = "PropertyGridMergeToolStrip";
+            this.PropertyGridMergeToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
+            this.PropertyGridMergeToolStrip.Size = new System.Drawing.Size(314, 25);
+            this.PropertyGridMergeToolStrip.TabIndex = 3;
+            this.PropertyGridMergeToolStrip.Text = "toolStrip3";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            // 
+            // SelectedObjectToolStrip
+            // 
+            this.SelectedObjectToolStrip.BackgroundGradientColor = System.Drawing.Color.Empty;
+            this.SelectedObjectToolStrip.Location = new System.Drawing.Point(3, 16);
+            this.SelectedObjectToolStrip.Name = "SelectedObjectToolStrip";
+            this.SelectedObjectToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
+            this.SelectedObjectToolStrip.Size = new System.Drawing.Size(314, 25);
+            this.SelectedObjectToolStrip.SpecialBackgroundImage = null;
+            this.SelectedObjectToolStrip.TabIndex = 1;
             // 
             // toolStrip1
             // 
@@ -259,7 +295,6 @@
             this.toolStrip1.Size = new System.Drawing.Size(1008, 39);
             this.toolStrip1.SpecialBackgroundImage = ((System.Drawing.Image)(resources.GetObject("toolStrip1.SpecialBackgroundImage")));
             this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
             // 
             // NewToolStripButton
             // 
@@ -433,6 +468,17 @@
             this.Indicator.Size = new System.Drawing.Size(32, 20);
             this.Indicator.Text = "toolStripStatusLabel1";
             // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(128, 16);
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(26, 17);
+            this.toolStripStatusLabel1.Text = "Idle";
+            // 
             // sizeablePanel2
             // 
             this.sizeablePanel2.Caption = "Log";
@@ -500,25 +546,14 @@
             this.dataGridViewDisableButtonColumn1.Name = "dataGridViewDisableButtonColumn1";
             this.dataGridViewDisableButtonColumn1.ReadOnly = true;
             // 
-            // toolStripProgressBar1
-            // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(128, 16);
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(26, 17);
-            this.toolStripStatusLabel1.Text = "Idle";
-            // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 747);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Findwise Sharepoint Solution Installer";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
@@ -531,6 +566,9 @@
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.PropertyGridMergeToolStrip.ResumeLayout(false);
+            this.PropertyGridMergeToolStrip.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -556,7 +594,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private Controls.LockableToolStripButton DuplicateToolStripButton;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private Controls.LockableToolStripButton DeleteToolStripButton;
@@ -585,6 +622,10 @@
         private Controls.FancyIndicator Indicator;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private Controls.FancyToolStrip SelectedObjectToolStrip;
+        private Controls.PropertyGridEx propertyGrid1;
+        private System.Windows.Forms.ToolStrip PropertyGridMergeToolStrip;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

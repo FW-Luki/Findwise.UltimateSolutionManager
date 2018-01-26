@@ -15,6 +15,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
 
         public Color BackgroundGradientColor { get; set; }
 
+        public override string Text
+        {
+            get { return base.Text; }
+            set
+            {
+                base.Text = value;
+                Invalidate();
+            }
+        }
+
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
@@ -40,6 +50,11 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
                 var destSize = new SizeF(SpecialBackgroundImage.Width * factor, SpecialBackgroundImage.Height * factor);
                 var destRect = new RectangleF(new Point(Width - (int)destSize.Width - Padding.Right, 0), destSize);
                 e.Graphics.DrawImage(SpecialBackgroundImage, destRect);
+            }
+
+            if (!string.IsNullOrEmpty(Text))
+            {
+                TextRenderer.DrawText(e.Graphics, Text, Font, DisplayRectangle, ForeColor, TextFormatFlags.VerticalCenter);
             }
         }
     }

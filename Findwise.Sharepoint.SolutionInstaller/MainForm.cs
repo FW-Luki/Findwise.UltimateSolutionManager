@@ -15,7 +15,7 @@ using log4net;
 
 namespace Findwise.Sharepoint.SolutionInstaller
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private readonly ILog logger;
 
@@ -45,13 +45,17 @@ namespace Findwise.Sharepoint.SolutionInstaller
 #pragma warning restore CS0618 // Type or member is obsolete
         }
 
-        public Form1()
+        public MainForm()
         {
-            logger = LogManager.GetLogger(GetType());
             InitializeComponent();
+
             dataGridView1.AutoGenerateColumns = false;
 
+            propertyGrid1.MergeToolStrip(PropertyGridMergeToolStrip);
+            PropertyGridMergeToolStrip.Dispose();
+
             LogRichTextBoxAppender.Configure("ColoredTextBox", richTextBox1);
+            logger = LogManager.GetLogger(GetType());
         }
 
         private void Module_StatusChanged(object sender, EventArgs e)
@@ -486,7 +490,24 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
-            propertyGrid1.SelectedObjects = dataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => (r.DataBoundItem as IInstallerModule)?.Configuration).Where(m => m != null).ToArray();
+            var modules = dataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => (r.DataBoundItem as IInstallerModule)).Where(m => m != null);
+            propertyGrid1.SelectedObjects = modules.Select(m => m.Configuration).ToArray();
+
+            var count = modules.Count();
+            Type type = null;
+            SelectedObjectToolStrip.Text =
+                count > 0 ?
+                    count > 1 ?
+                        modules.All(m =>
+                        {
+                            var t = m.GetType();
+                            if (type == null) type = t;
+                            return t == type;
+                        }) ?
+                            $"{modules.First().Name} [{modules.Count()}]" :
+                            $"{typeof(IInstallerModule).Name}[{modules.Count()}]" :
+                        modules.First().FriendlyName ?? modules.First().Name :
+                    string.Empty;
         }
 
         private async void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -581,5 +602,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
             }
         }
         private const string IdleStatusName = "Ready";
+
+        private void toolStrip2_SizeChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
