@@ -24,12 +24,12 @@ namespace ContentSourceCreator
         [DisplayName("Crawl Settings")]
         public bool CrawlSettings { get; set; }
 
-        [Editor(typeof(TypeScheduleClassEditor), typeof(UITypeEditor)), TypeScheduleTypeEditor.Options(BaseType = typeof(IContentScheduleConfiguration))]
+        [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IContentScheduleConfiguration))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         [DisplayName("Incremental Crawl")]
         public IContentScheduleConfiguration IncrementalCrawlConfiguration { get; set; }
 
-        [Editor(typeof(TypeScheduleClassEditor), typeof(UITypeEditor)), TypeScheduleTypeEditor.Options(BaseType = typeof(IContentScheduleConfiguration))]
+        [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IContentScheduleConfiguration))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         [DisplayName("Full Crawl")]
         public IContentScheduleConfiguration FullCrawlConfiguration { get; set; }
