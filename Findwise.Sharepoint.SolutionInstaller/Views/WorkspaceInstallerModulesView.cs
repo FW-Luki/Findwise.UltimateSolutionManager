@@ -51,13 +51,36 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
-        public string SelectedObjectTitle => null;
+        private IEnumerable<object> _selectedObjects => designer.DataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem);
+        private IEnumerable<IInstallerModule> _selectedModules => _selectedObjects.OfType<IInstallerModule>().Where(m => m != null);
+
+        public string SelectedObjectTitle
+        {
+            get
+            {
+                var count = _selectedModules.Count();
+                Type type = null;
+                return
+                    count > 0 ?
+                        count > 1 ?
+                            _selectedModules.All(m =>
+                            {
+                                var t = m.GetType();
+                                if (type == null) type = t;
+                                return t == type;
+                            }) ?
+                                $"{_selectedModules.First().Name} [{_selectedModules.Count()}]" :
+                                $"{typeof(IInstallerModule).Name}[{_selectedModules.Count()}]" :
+                            _selectedModules.First().FriendlyName ?? _selectedModules.First().Name :
+                        string.Empty;
+            }
+        }
 
         public object[] SelectedObjects
         {
             get
             {
-                return designer.DataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem).ToArray();
+                return _selectedObjects.ToArray();
             }
             set
             {
