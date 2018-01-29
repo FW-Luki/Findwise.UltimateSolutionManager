@@ -143,12 +143,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
         {
             if (MyToolStrip != null && toolStrip != null)
             {
-                MyToolStrip.Items.Add(new ToolStripSeparator());
+                MyToolStrip.Items.Add(new FancyToolStripSeparator());
                 //myToolStrip.AllowMerge = true;
                 //toolStrip.AllowMerge = true;
                 //ToolStripManager.Merge(myToolStrip, toolStrip);
                 //ToolStripManager.Merge(toolStrip, myToolStrip);
-                MyToolStrip.Items.AddRange(toolStrip.Items);
+                MyToolStrip.Items.AddRange(toolStrip.Items.OfType<ToolStripItem>().ToArray());
             }
         }
     }

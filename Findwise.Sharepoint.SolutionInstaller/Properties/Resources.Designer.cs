@@ -103,6 +103,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap if_draft_46845 {
+            get {
+                object obj = ResourceManager.GetObject("if_draft_46845", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_emblem_unreadable_15398 {
             get {
                 object obj = ResourceManager.GetObject("if_emblem_unreadable_15398", resourceCulture);

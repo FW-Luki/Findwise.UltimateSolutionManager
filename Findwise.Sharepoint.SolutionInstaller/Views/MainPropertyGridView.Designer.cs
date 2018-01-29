@@ -33,6 +33,7 @@
             this.propertyGrid1 = new Findwise.Sharepoint.SolutionInstaller.Controls.PropertyGridEx();
             this.PropertyGridMergeToolStrip = new System.Windows.Forms.ToolStrip();
             this.BindingWindowToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.RestoreDefaultToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.SelectedObjectToolStrip = new Findwise.Sharepoint.SolutionInstaller.Controls.FancyToolStrip();
             this.sizeablePanel1.SuspendLayout();
             this.PropertyGridMergeToolStrip.SuspendLayout();
@@ -64,7 +65,8 @@
             // PropertyGridMergeToolStrip
             // 
             this.PropertyGridMergeToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.BindingWindowToolStripButton});
+            this.BindingWindowToolStripButton,
+            this.RestoreDefaultToolStripButton});
             this.PropertyGridMergeToolStrip.Location = new System.Drawing.Point(0, 25);
             this.PropertyGridMergeToolStrip.Name = "PropertyGridMergeToolStrip";
             this.PropertyGridMergeToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
@@ -80,6 +82,16 @@
             this.BindingWindowToolStripButton.Name = "BindingWindowToolStripButton";
             this.BindingWindowToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.BindingWindowToolStripButton.Text = "toolStripButton1";
+            // 
+            // RestoreDefaultToolStripButton
+            // 
+            this.RestoreDefaultToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RestoreDefaultToolStripButton.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_draft_46845;
+            this.RestoreDefaultToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RestoreDefaultToolStripButton.Name = "RestoreDefaultToolStripButton";
+            this.RestoreDefaultToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.RestoreDefaultToolStripButton.Text = "Restore default value for selected property";
+            this.RestoreDefaultToolStripButton.Click += new System.EventHandler(this.RestoreDefaultToolStripButton_Click);
             // 
             // SelectedObjectToolStrip
             // 
@@ -113,5 +125,6 @@
         private System.Windows.Forms.ToolStrip PropertyGridMergeToolStrip;
         private System.Windows.Forms.ToolStripButton BindingWindowToolStripButton;
         private Controls.FancyToolStrip SelectedObjectToolStrip;
+        private System.Windows.Forms.ToolStripButton RestoreDefaultToolStripButton;
     }
 }

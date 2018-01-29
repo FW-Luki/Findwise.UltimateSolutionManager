@@ -17,6 +17,9 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public MainPropertyGridViewDesigner()
         {
             InitializeComponent();
+
+            propertyGrid1.MergeToolStrip(PropertyGridMergeToolStrip);
+            PropertyGridMergeToolStrip.Visible = false;
         }
 
         internal Panel Panel => sizeablePanel1;
@@ -24,6 +27,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         internal string Title { get => SelectedObjectToolStrip.Text; set => SelectedObjectToolStrip.Text = value; }
 
         internal object[] SelectedObjects { get => propertyGrid1.SelectedObjects; set => propertyGrid1.SelectedObjects = value; }
+
+
+        private void RestoreDefaultToolStripButton_Click(object sender, EventArgs e)
+        {
+            propertyGrid1.ResetSelectedProperty();
+        }
     }
 
     public class MainPropertyGridView : IComponentView

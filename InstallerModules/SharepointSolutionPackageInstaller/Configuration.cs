@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using Findwise.Configuration;
+using Findwise.Configuration.TypeConverters;
 using Findwise.Configuration.TypeEditors;
 
 namespace SharepointSolutionPackageInstaller
@@ -15,7 +16,8 @@ namespace SharepointSolutionPackageInstaller
     public class Configuration : ConfigurationBase, IBindableComponent
     {
         [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IPackageConfiguration))]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [TypeConverter(typeof(DisplayNameExpandableObjectConverter))]
+        [DefaultValue(null)]
         public IPackageConfiguration PackageConfiguration { get; set; }
 
 
@@ -85,6 +87,7 @@ namespace SharepointSolutionPackageInstaller
         string GetPackagePath();
     }
 
+    [DisplayName("Direct package file")]
     public class DirectPackageFileConfiguration : ConfigurationBase, IPackageConfiguration
     {
         [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
@@ -101,6 +104,7 @@ namespace SharepointSolutionPackageInstaller
         }
     }
 
+    [DisplayName("Visual Studio project")]
     public class VisualStudioProjectFileConfiguration : ConfigurationBase, IPackageConfiguration
     {
         [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
