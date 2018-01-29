@@ -30,11 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             Findwise.Sharepoint.SolutionInstaller.Views.TableLayout tableLayout1 = new Findwise.Sharepoint.SolutionInstaller.Views.TableLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainTabularWorkspaceViewDesigner));
             Findwise.Sharepoint.SolutionInstaller.Views.TableLayout tableLayout2 = new Findwise.Sharepoint.SolutionInstaller.Views.TableLayout();
+            Findwise.Sharepoint.SolutionInstaller.Views.TableLayout tableLayout3 = new Findwise.Sharepoint.SolutionInstaller.Views.TableLayout();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.InstallerModuleMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceInstallerModulesView();
-            this.installerModuleMainView2 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceInstallerModulesView();
+            this.BindingsMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceBindingsMainView();
+            this.workspaceBindingsMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceBindingsMainView();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -62,22 +65,37 @@
             tableLayout1.Row = 0;
             this.InstallerModuleMainView1.Layout = tableLayout1;
             this.InstallerModuleMainView1.Order = 0;
-            this.InstallerModuleMainView1.SelectedObjects = new Findwise.Configuration.ConfigurationBase[0];
+            this.InstallerModuleMainView1.SelectedObjects = new object[0];
             this.InstallerModuleMainView1.Title = "Installer Modules";
             this.InstallerModuleMainView1.ToolBoxAvailable = true;
             // 
-            // installerModuleMainView2
+            // BindingsMainView1
             // 
-            this.installerModuleMainView2.Controllers = null;
-            this.installerModuleMainView2.DataSource = null;
-            this.installerModuleMainView2.Icon = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Delete_46730;
+            this.BindingsMainView1.Controllers = null;
+            this.BindingsMainView1.DataSource = null;
+            this.BindingsMainView1.Icon = ((System.Drawing.Image)(resources.GetObject("BindingsMainView1.Icon")));
             tableLayout2.Column = 0;
             tableLayout2.Row = 0;
-            this.installerModuleMainView2.Layout = tableLayout2;
-            this.installerModuleMainView2.Order = 1;
-            this.installerModuleMainView2.SelectedObjects = new Findwise.Configuration.ConfigurationBase[0];
-            this.installerModuleMainView2.Title = "Test panel";
-            this.installerModuleMainView2.ToolBoxAvailable = false;
+            this.BindingsMainView1.Layout = tableLayout2;
+            this.BindingsMainView1.Order = 1;
+            this.BindingsMainView1.SelectedObjects = null;
+            this.BindingsMainView1.Title = "Data Binding Sources";
+            this.BindingsMainView1.ToolBoxAvailable = false;
+            this.BindingsMainView1.UseDefaultIcon = true;
+            // 
+            // workspaceBindingsMainView1
+            // 
+            this.workspaceBindingsMainView1.Controllers = null;
+            this.workspaceBindingsMainView1.DataSource = null;
+            this.workspaceBindingsMainView1.Icon = null;
+            tableLayout3.Column = 0;
+            tableLayout3.Row = 0;
+            this.workspaceBindingsMainView1.Layout = tableLayout3;
+            this.workspaceBindingsMainView1.Order = 1;
+            this.workspaceBindingsMainView1.SelectedObjects = null;
+            this.workspaceBindingsMainView1.Title = "Master Configurations";
+            this.workspaceBindingsMainView1.ToolBoxAvailable = false;
+            this.workspaceBindingsMainView1.UseDefaultIcon = false;
             // 
             // MainTabularWorkspaceViewDesigner
             // 
@@ -93,7 +111,8 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.ImageList imageList1;
-        private WorkspaceInstallerModulesView installerModuleMainView2;
         internal WorkspaceInstallerModulesView InstallerModuleMainView1;
+        internal WorkspaceBindingsMainView BindingsMainView1;
+        private WorkspaceBindingsMainView workspaceBindingsMainView1;
     }
 }

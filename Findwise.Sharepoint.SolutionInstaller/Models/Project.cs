@@ -15,6 +15,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
         [XmlIgnore, IgnoreDataMember]
         public string Name { get; set; }
 
+
         public IInstallerModule[] Modules
         {
             get { return ModuleList.ToArray(); }
@@ -23,5 +24,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
 
         [XmlIgnore, IgnoreDataMember]
         public BindingList<IInstallerModule> ModuleList { get; set; } = new BindingList<IInstallerModule>();
+
+
+        public BindingItem[] BindingSources { get; set; }
+
+
+        [XmlIgnore, IgnoreDataMember]
+        public BindingList<BindingItem> BindingSourcesList { get; set; } = new BindingList<BindingItem>();
     }
 }

@@ -123,7 +123,28 @@
   <metadata name="InstallerModuleMainView1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="installerModuleMainView2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="BindingsMainView1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>323, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="BindingsMainView1.Icon" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAKcSURBVEhLtZRLaBNRFIYr6rIgCOLGrQs3IqhddNH6aEHR
+        pZsqCFa0iO7E6kpJG5PWFl3EiqhEFPrA1NCkJCRobALW2AdVAlFMmlebR9s8SNJHusnvPbdzJx1oxkXw
+        wMfhnJn7cebMMHX/PXQ9Wo2+V4ta0PV0aSRdJehCrUEOSVcJIQ6FQohGo4hEIjzHYjHOwsICFhcXZeLx
+        uAzVFKricDjMRSS12Wwcu92uwGIdx+CwiedkMolEIsHPqoppUppOTEqHBNQfs33i9/j9fp6pJjmFqpgm
+        FY8rJhaMWW0IBoOY9E5jaGSU52AggOnZH/ysqlhMuX2Hy8vLnK8kYuKlpSVeU6aa+hSq4lGzSX707dN+
+        c7yF3emCz+dDwKWVoZr6yP9WF4s3THtLpVIy5aIOJrMVLpcLcW8r8v4LPFNNfWw+VxfTowupx+Ph/Prc
+        D3iaMPeiBd5XV7A+eR+bY8dR/HAMXsN5zL2/Dvg6YX93r7qYVkBSsUfOzACf8F84Xreri0lKrKysIJ1O
+        I+k1ID91TmZ2uBHtzfX4aTqt6I8PXK0u/mgelacVq5gxPUDBcVbG1XcUT9r2Y2bopqJvftZWXSw+dppW
+        fFJ/nHoUBpsUGG8cwPqXu4reSO8lEu/aMkohxLRfEpKYpp2YmIDjZQeKhkYFm1NvsG6+regZH10k8e4t
+        oxQ7iQXf7UbMP23AfP+J6rDrus7LJN67ZZRiu1gIaWK32w2n0wmr1QqLxSIj/nz03dM/hO7XdD9UX4UQ
+        ZzIZZLNZ5HI55PN5FAoFrK6uYm1tDRsbGyiVSjxTXS6X2Y++u/rLqyXIIekq8Viv6aILtXDrTsc1Sbdj
+        7GHsYxxiHGGcZJxinGG0MloYzYwGxmHGQUY9g85J+62r+wvEUprjtdB2IAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <metadata name="workspaceBindingsMainView1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>481, 17</value>
   </metadata>
 </root>

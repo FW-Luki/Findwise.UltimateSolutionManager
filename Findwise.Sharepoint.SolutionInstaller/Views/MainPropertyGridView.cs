@@ -38,8 +38,24 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         [Browsable(false)]
         public string SelectedObjectName { get => designer.Title; set => designer.Title = value; }
 
+        private object[] _selectedObjects;
         [Browsable(false)]
-        public object[] SelectedObjects { get => designer.SelectedObjects; set => designer.SelectedObjects = value; }
+        public object[] SelectedObjects
+        {
+            get { return _selectedObjects; }
+            set
+            {
+                _selectedObjects = value;
+                designer.SelectedObjects = value?.Select(obj =>
+                {
+                    var propertiesMemberName = obj.GetType().GetCustomAttributes(true).OfType<ProvidePropertiesAttribute>().FirstOrDefault()?.PropertiesMemberName;
+                    if (!string.IsNullOrEmpty(propertiesMemberName) && obj?.GetType().GetProperty(propertiesMemberName).GetValue(obj) is object propertiesObject)
+                        return propertiesObject;
+                    else
+                        return obj;
+                }).ToArray();
+            }
+        }
 
         #region IComponent Support
         public ISite Site { get; set; }

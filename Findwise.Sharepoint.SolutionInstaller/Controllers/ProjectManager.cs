@@ -14,9 +14,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 {
     public class ProjectManager : Controller, IProgressReporter, INotifyPropertyChanged
     {
+        #region Fileds
         private readonly ILog logger;
+        #endregion
 
 
+        #region Properties
         public string WindowTitleBase { get; set; }
 
         private const string WindowTitleFormatDefaultValue = "{0}{1} - {2}";
@@ -61,20 +64,27 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         }
 
         public ProjectSaverHelper Saver { get; }
+        #endregion
 
 
+        #region Events
         public event EventHandler<ReportProgressEventArgs> ReportProgress;
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler ModuleStatusChanged;
+        #endregion
 
+
+        #region Constructor
         public ProjectManager()
         {
             logger = LogManager.GetLogger(GetType());
             Saver = new ProjectSaverHelper(this);
             NewProject();
         }
+        #endregion
 
 
+        #region Code Project
         public void NewProject()
         {
             Project = new Project();
@@ -122,8 +132,9 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
             Project.Name = System.IO.Path.GetFileName(filename);
             NotifyProjectChange();
         }
+        #endregion
 
-
+        #region Code Modules
         public void AddModule(IInstallerModule module)
         {
             Project.ModuleList.Add(module);
@@ -281,8 +292,20 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         {
             ModuleStatusChanged?.Invoke(this, EventArgs.Empty);
         }
+        #endregion
+
+        #region DataBindings
+        public void AddDataBindingSource(/*BindingItem item*/)
+        {
+            Project.BindingSourcesList.AddNew();
+        }
+        #endregion
+
+        #region Code Common
+        #endregion
 
 
+        #region Classes
         public class ProjectSaverHelper //ToDo: make separate controller out of this class.
         {
             private const string DefaultExtension = "xml";
@@ -366,5 +389,6 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                 return false;
             }
         }
+        #endregion
     }
 }

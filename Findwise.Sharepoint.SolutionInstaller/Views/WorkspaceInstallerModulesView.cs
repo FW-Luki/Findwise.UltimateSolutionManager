@@ -57,17 +57,13 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         {
             get
             {
-                return designer.DataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => GetDataBoundConfig(r.DataBoundItem)).ToArray();
+                return designer.DataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem).ToArray();
             }
             set
             {
                 designer.DataGridView1.ClearSelection();
-                designer.DataGridView1.Rows.Cast<DataGridViewRow>().Where(r => value.Contains(GetDataBoundConfig(r.DataBoundItem))).ToList().ForEach(r => r.Selected = true);
+                designer.DataGridView1.Rows.Cast<DataGridViewRow>().Where(r => value.Contains(r.DataBoundItem)).ToList().ForEach(r => r.Selected = true);
             }
-        }
-        private Configuration.ConfigurationBase GetDataBoundConfig(object item)
-        {
-            return (item as IInstallerModule)?.Configuration;
         }
 
         public ToolStrip ToolStrip => designer.ToolStrip;

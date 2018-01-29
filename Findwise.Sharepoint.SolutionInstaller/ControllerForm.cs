@@ -167,7 +167,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         private void MainToolboxView1_ModuleAdded(object sender, MainToolboxView.ModuleAddedEventArgs e)
         {
-            MainTabularWorkspaceView1.CurrentView.SelectedObjects = new[] { e.Module.Configuration };
+            MainTabularWorkspaceView1.CurrentView.SelectedObjects = new[] { e.Module };
         }
     }
 }

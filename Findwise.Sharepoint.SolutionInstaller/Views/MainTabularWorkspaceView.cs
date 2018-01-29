@@ -25,7 +25,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         }
         private void LayoutViews()
         {
-            foreach (var view in GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(f => typeof(IMainView).IsAssignableFrom(f.FieldType)).Select(f => (IMainView)f.GetValue(this)).OrderBy(v => v.Order))
+            foreach (var view in this.GetFields<IMainView>().OrderBy(v => v.Order))
             {
                 AddTabPage(view);
             }
@@ -95,6 +95,14 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             //designer.HandleCreated += (s_, e_) => OnViewChanged();
             designer.TabControl.SelectedIndexChanged += (s_, e_) => OnViewChanged();
 
+            SetupInstallerModuleListEvents();
+            SetupBindingSourceListEvents();
+
+            SetupSelectionChangedEvents();
+        }
+
+        private void SetupInstallerModuleListEvents()
+        {
             designer.InstallerModuleMainView1.DuplicateRequested += (s_, e_) => ProjectManager.DuplicateModule();
             designer.InstallerModuleMainView1.DeleteRequested += (s_, e_) => ProjectManager.DeleteModules(GetSelectedModules());
 
@@ -119,8 +127,15 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             {
                 await ProjectManager.InstallAllModules();
             };
+        }
+        private void SetupBindingSourceListEvents()
+        {
+            designer.BindingsMainView1.AddRequested += (s_, e_) => ProjectManager.AddDataBindingSource();
+        }
 
-            SetupSelectionChangedEvents();
+        private void SetupSelectionChangedEvents()
+        {
+            designer.GetFields<IMainView>().ToList().ForEach(v => v.SelectionChanged += (s_, e_) => SelectedObjectsChanged?.Invoke(this, EventArgs.Empty));
         }
 
 
@@ -133,11 +148,6 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         private IEnumerable<IInstallerModule> GetSelectedModules()
         {
             return designer.InstallerModuleMainView1.SelectedObjects?.OfType<IInstallerModule>() ?? Enumerable.Empty<IInstallerModule>();
-        }
-
-        private void SetupSelectionChangedEvents()
-        {
-            designer.GetFields<IMainView>().ToList().ForEach(v => v.SelectionChanged += (s_, e_) => SelectedObjectsChanged?.Invoke(this, EventArgs.Empty));
         }
 
 

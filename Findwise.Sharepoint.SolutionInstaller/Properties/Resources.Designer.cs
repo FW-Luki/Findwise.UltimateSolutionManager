@@ -113,6 +113,36 @@ namespace Findwise.Sharepoint.SolutionInstaller.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap if_list_add_15304 {
+            get {
+                object obj = ResourceManager.GetObject("if_list-add_15304", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_Lock_65762 {
+            get {
+                object obj = ResourceManager.GetObject("if_Lock_65762", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_Lock_Open_65761 {
+            get {
+                object obj = ResourceManager.GetObject("if_Lock_Open_65761", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_process_stop_15322 {
             get {
                 object obj = ResourceManager.GetObject("if_process-stop_15322", resourceCulture);
@@ -136,6 +166,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Properties {
         internal static System.Drawing.Bitmap if_system_shutdown_15326 {
             get {
                 object obj = ResourceManager.GetObject("if_system-shutdown_15326", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap if_text_x_generic_15420 {
+            get {
+                object obj = ResourceManager.GetObject("if_text_x_generic_15420", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

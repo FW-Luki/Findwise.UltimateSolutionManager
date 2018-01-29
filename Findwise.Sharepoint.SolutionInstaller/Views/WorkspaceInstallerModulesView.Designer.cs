@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkspaceInstallerModulesViewDesigner));
             this.TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.DataGridView1 = new System.Windows.Forms.DataGridView();
@@ -38,17 +38,18 @@
             this.FriendlyNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.dataGridViewHideableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
             this.InstallColumn = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
+            this.ToolStrip = new System.Windows.Forms.ToolStrip();
             this.DuplicateToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.DeleteToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MoveUpToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.MoveDownToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.RefreshToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.InstallAllToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.dataGridViewHideableButtonColumn1 = new Findwise.Sharepoint.SolutionInstaller.Controls.DataGridViewHideableButtonColumn();
             this.SingleClickInstallButtonTimer = new System.Windows.Forms.Timer(this.components);
             this.SingleClickInstallButtonToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.TableLayoutPanel.SuspendLayout();
@@ -98,10 +99,10 @@
             // 
             // NumberColumn
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "#\\.";
-            dataGridViewCellStyle3.NullValue = null;
-            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Format = "#\\.";
+            dataGridViewCellStyle4.NullValue = null;
+            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle4;
             this.NumberColumn.HeaderText = "";
             this.NumberColumn.Name = "NumberColumn";
             this.NumberColumn.ReadOnly = true;
@@ -136,6 +137,12 @@
             this.StatusColumn.ReadOnly = true;
             this.StatusColumn.Width = 120;
             // 
+            // InstallColumn
+            // 
+            this.InstallColumn.HeaderText = "";
+            this.InstallColumn.Name = "InstallColumn";
+            this.InstallColumn.ReadOnly = true;
+            // 
             // ToolStrip
             // 
             this.ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -146,33 +153,12 @@
             this.MoveDownToolStripButton,
             this.toolStripSeparator2,
             this.RefreshToolStripButton,
-            this.InstallAllToolStripButton});
+            this.InstallAllToolStripButton,
+            this.toolStripComboBox1});
             this.ToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ToolStrip.Name = "ToolStrip";
             this.ToolStrip.Size = new System.Drawing.Size(320, 39);
             this.ToolStrip.TabIndex = 3;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
-            // 
-            // dataGridViewHideableButtonColumn1
-            // 
-            this.dataGridViewHideableButtonColumn1.HeaderText = "";
-            this.dataGridViewHideableButtonColumn1.Name = "dataGridViewHideableButtonColumn1";
-            this.dataGridViewHideableButtonColumn1.ReadOnly = true;
-            // 
-            // InstallColumn
-            // 
-            this.InstallColumn.HeaderText = "";
-            this.InstallColumn.Name = "InstallColumn";
-            this.InstallColumn.ReadOnly = true;
             // 
             // DuplicateToolStripButton
             // 
@@ -199,6 +185,11 @@
             this.DeleteToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.DeleteToolStripButton.Text = "Delete";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
+            // 
             // MoveUpToolStripButton
             // 
             this.MoveUpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -223,6 +214,11 @@
             this.MoveDownToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.MoveDownToolStripButton.Text = "Move down";
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
+            // 
             // RefreshToolStripButton
             // 
             this.RefreshToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -246,6 +242,21 @@
             this.InstallAllToolStripButton.OperationTrait = null;
             this.InstallAllToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.InstallAllToolStripButton.Text = "Install All";
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboBox1.DropDownWidth = 160;
+            this.toolStripComboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Standard;
+            this.toolStripComboBox1.IntegralHeight = false;
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(160, 48);
+            // 
+            // dataGridViewHideableButtonColumn1
+            // 
+            this.dataGridViewHideableButtonColumn1.HeaderText = "";
+            this.dataGridViewHideableButtonColumn1.Name = "dataGridViewHideableButtonColumn1";
+            this.dataGridViewHideableButtonColumn1.ReadOnly = true;
             // 
             // SingleClickInstallButtonTimer
             // 
@@ -292,5 +303,6 @@
         private Controls.DataGridViewHideableButtonColumn dataGridViewHideableButtonColumn1;
         internal System.Windows.Forms.Timer SingleClickInstallButtonTimer;
         internal System.Windows.Forms.ToolTip SingleClickInstallButtonToolTip;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
     }
 }
