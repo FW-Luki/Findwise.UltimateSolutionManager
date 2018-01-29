@@ -77,6 +77,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             {
                 _projectManager = value;
                 designer.InstallerModuleMainView1.DataSource = _projectManager.Project.ModuleList;
+                _projectManager.PropertyChanged += (s_, e_) => designer.InstallerModuleMainView1.DataSource = _projectManager.Project.ModuleList;
             }
         }
 
