@@ -9,6 +9,7 @@ using Findwise.Sharepoint.SolutionInstaller;
 
 namespace Findwise.InstallerModule
 {
+    [ProvideProperties(nameof(Configuration))]
     public abstract class InstallerModuleBase : IInstallerModule
     {
         public abstract string Name { get; }

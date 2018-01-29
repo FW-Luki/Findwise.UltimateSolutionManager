@@ -96,6 +96,7 @@
     <Compile Include="IErrorNotifier.cs" />
     <Compile Include="IProgressReporter.cs" />
     <Compile Include="IProgressRepresentative.cs" />
+    <Compile Include="ProvidePropertiesAttribute.cs" />
     <Compile Include="IReportProgress_OLD.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -110,6 +111,7 @@
     <Compile Include="InstallerModuleStatus.cs" />
     <Compile Include="ISaveLoadAware.cs" />
     <Compile Include="LogRichTextBoxAppender.cs" />
+    <Compile Include="Models\BindingItem.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Program.cs" />
@@ -122,6 +124,12 @@
       <DependentUpon>PropertyBindingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StatusName.cs" />
+    <Compile Include="Views\WorkspaceBindingsMainView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\WorkspaceBindingsMainView.Designer.cs">
+      <DependentUpon>WorkspaceBindingsMainView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\IComponentView.cs" />
     <Compile Include="Views\IMainView.cs" />
     <Compile Include="Views\IMainViewContainer.cs" />
@@ -202,6 +210,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\WorkspaceBindingsMainView.resx">
+      <DependentUpon>WorkspaceBindingsMainView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\WorkspaceInstallerModulesView.resx">
       <DependentUpon>WorkspaceInstallerModulesView.cs</DependentUpon>
     </EmbeddedResource>
@@ -265,6 +276,10 @@
   <ItemGroup>
     <None Include="Icons\if_emblem-unreadable_15398.png" />
     <None Include="Icons\brick-icon.png" />
+    <None Include="Icons\if_list-add_15304.png" />
+    <None Include="Icons\if_text-x-generic_15420.png" />
+    <None Include="Icons\if_Lock_65762.png" />
+    <None Include="Icons\if_Lock-Open_65761.png" />
     <None Include="Icons\if_draft_46845.png" />
     <Content Include="if_system-installer_15355.ico" />
   </ItemGroup>
