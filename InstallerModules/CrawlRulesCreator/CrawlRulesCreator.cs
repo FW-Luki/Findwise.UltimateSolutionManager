@@ -6,6 +6,8 @@ using Findwise.Configuration;
 using Microsoft.Office.Server.Search.Administration;
 using CrawlRulesCreator.Properties;
 using Findwise.InstallerModule;
+using log4net;
+using System.Runtime.CompilerServices;
 
 namespace CrawlRulesCreator
 {
@@ -31,13 +33,13 @@ namespace CrawlRulesCreator
                 else
                     Status = InstallerModuleStatus.NotInstalled;
             }
-            catch
+            catch(Exception ex)
             {
                 Status = InstallerModuleStatus.Error;
+                LogError(ex);
                 throw;
             }
-        }
-
+        }        
         public override void Install()
         {
             Status = InstallerModuleStatus.Installing;
@@ -52,9 +54,10 @@ namespace CrawlRulesCreator
                     content.CrawlRules.Create(rule.IsExclude ? CrawlRuleType.ExclusionRule : CrawlRuleType.InclusionRule, rule.Path);
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 Status = InstallerModuleStatus.Error;
+                LogError(ex);
                 throw;
             }
         }
@@ -79,14 +82,15 @@ namespace CrawlRulesCreator
                     allMyCrawlRules.ToList().ForEach(element => element.Delete());
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 Status = InstallerModuleStatus.Error;
+                LogError(ex);
                 throw;
             }
         }
         
-        private Content SearchApplicationContent(string searchApplicationName)
+        private static Content SearchApplicationContent(string searchApplicationName)
         {
             var context = SearchContext.GetContext(searchApplicationName);
             return  new Content(context);

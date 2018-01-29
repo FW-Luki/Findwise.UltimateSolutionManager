@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Findwise.Configuration;
 using Microsoft.Office.Server.Search.Administration;
 using Microsoft.Office.Server.Search.Administration.Query;
+using ResultSourceCreator.Properties;
 using Findwise.InstallerModule;
 
 namespace ResultSourceCreator
@@ -15,7 +16,7 @@ namespace ResultSourceCreator
     {
         public override string Name => "Result Source Creator";
 
-        public override System.Drawing.Image Icon => null;
+        public override System.Drawing.Image Icon => Resources.if_Configuration_2202267;
 
         private Configuration myConfiguration = new Configuration();
         public override ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }
@@ -63,15 +64,24 @@ namespace ResultSourceCreator
 
         public override void Uninstall()
         {
-            throw new NotImplementedException();
+            Status = InstallerModuleStatus.Uninstalling;
+            try
+            {
+                var resultSource = GetResultSource();
+
+                if (resultSource != null)
+                    fm.RemoveSource(resultSource);
+            }
+            catch
+            {
+                Status = InstallerModuleStatus.Error;
+            }
         }
         private Content SearchApplicationContent(string searchApplicationName)
         {
-            string ssaName = searchApplicationName;
-            SearchContext context = SearchContext.GetContext(ssaName);
-            Content content = new Content(context);
+            SearchContext context = SearchContext.GetContext(searchApplicationName);
+            return new Content(context);
 
-            return content;
         }
         private Source GetResultSource()
         {
@@ -80,9 +90,7 @@ namespace ResultSourceCreator
             fm = new FederationManager(ssa);
             owner = new SearchObjectOwner(SearchObjectLevel.Ssa);
 
-            var resultSource = fm.GetSourceByName(myConfiguration.ResultSourceName, owner);
-
-            return resultSource;
+            return fm.GetSourceByName(myConfiguration.ResultSourceName, owner);
         }
     }
 }

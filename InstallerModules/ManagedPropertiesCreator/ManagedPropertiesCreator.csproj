@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F16A19EB-4DEE-49E9-A50E-853F72236121}</ProjectGuid>
+    <ProjectGuid>{5B789D08-FFCB-4A60-AE07-0C4F83C32811}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ResultSourceCreator</RootNamespace>
-    <AssemblyName>ResultSourceCreator</AssemblyName>
+    <RootNamespace>ManagedPropertiesCreator</RootNamespace>
+    <AssemblyName>ManagedPropertiesCreator</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -49,13 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryDetails.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="ResultSourceCreator.cs" />
+    <Compile Include="ManagedPropertiesCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,7 +60,7 @@
       <Name>Findwise.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Findwise.Sharepoint.SolutionInstaller\Findwise.Sharepoint.SolutionInstaller.csproj">
-      <Project>{8B445B1D-C230-4C75-97BA-7CE90FBFF360}</Project>
+      <Project>{8b445b1d-c230-4c75-97ba-7ce90fbff360}</Project>
       <Name>Findwise.Sharepoint.SolutionInstaller</Name>
     </ProjectReference>
     <ProjectReference Include="..\InstallerModule\InstallerModule.csproj">
@@ -73,13 +69,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="if_Configuration_2202267.png" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
