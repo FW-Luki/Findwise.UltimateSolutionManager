@@ -35,16 +35,17 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         public void SetProgress(ReportProgressEventArgs rpevent)
         {
-            if (Control.InvokeRequired)
-            {
-                Control.BeginInvoke(new MethodInvoker(() => SetProgress(rpevent)));
-            }
-            else
+            //if (Control.InvokeRequired)
+            //{
+            //    Control.BeginInvoke(new MethodInvoker(() => SetProgress(rpevent)));
+            //}
+            //else
+            Control.BeginInvoke(new MethodInvoker(() =>
             {
                 designer.Active = rpevent.Tags.HasFlag(OperationTag.Active);
                 designer.Message = rpevent.Message;
                 designer.Value = rpevent.Percentage;
-            }
+            }));
         }
 
 

@@ -88,7 +88,6 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         public void NewProject()
         {
             Project = new Project();
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Project)));
         }
 
         public void LoadProject(string filename)
@@ -117,7 +116,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 
             foreach (var module in saveAwareModules)
             {
-                ReportProgress?.Invoke(this, new ReportProgressEventArgs(++curmod, allmods, "Saving project...", OperationTag.Active | OperationTag.Cancellable));
+                ReportProgress?.Invoke(this, new ReportProgressEventArgs(++curmod, allmods, "Saving project..", OperationTag.Active | OperationTag.Cancellable));
                 module.BeforeSave();
             }
 
@@ -347,6 +346,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                         {
                             System.Windows.Forms.MessageBox.Show(ex.Message, "Error loading project", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                         }
+                        finally
+                        {
+                            _manager.ReportProgress?.Invoke(this, new ReportProgressEventArgs(0, StatusName.Idle, OperationTag.None));
+                        }
                     }
                 }
             }
@@ -384,6 +387,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                     catch (Exception ex)
                     {
                         System.Windows.Forms.MessageBox.Show(ex.Message, "Error loading project", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        _manager.ReportProgress?.Invoke(this, new ReportProgressEventArgs(0, StatusName.Idle, OperationTag.None));
                     }
                 }
                 return false;
