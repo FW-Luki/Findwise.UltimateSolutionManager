@@ -26,7 +26,20 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         internal string Title { get => SelectedObjectToolStrip.Text; set => SelectedObjectToolStrip.Text = value; }
 
-        internal object[] SelectedObjects { get => propertyGrid1.SelectedObjects; set => propertyGrid1.SelectedObjects = value; }
+        internal object[] SelectedObjects
+        {
+            get { return propertyGrid1.SelectedObjects; }
+            set
+            {
+                PropertyValueChangedEventHandler h = (s_, e_) => PropertyGridSelectedValueChanged?.Invoke(this, EventArgs.Empty);
+                propertyGrid1.PropertyValueChanged -= h;
+                propertyGrid1.SelectedObjects = value;
+                propertyGrid1.PropertyValueChanged += h;
+            }
+        }
+
+
+        internal event EventHandler PropertyGridSelectedValueChanged;
 
 
         private void RestoreDefaultToolStripButton_Click(object sender, EventArgs e)
@@ -65,6 +78,15 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                 }).ToArray();
             }
         }
+
+
+        public MainPropertyGridView()
+        {
+            designer.PropertyGridSelectedValueChanged += (s_, e_) => PropertyGridSelectedValueChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+
+        public event EventHandler PropertyGridSelectedValueChanged;
 
         #region IComponent Support
         public ISite Site { get; set; }

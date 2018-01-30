@@ -124,11 +124,11 @@
       <DependentUpon>PropertyBindingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StatusName.cs" />
-    <Compile Include="Views\WorkspaceBindingsMainView.cs">
+    <Compile Include="Views\WorkspaceBindingsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\WorkspaceBindingsMainView.Designer.cs">
-      <DependentUpon>WorkspaceBindingsMainView.cs</DependentUpon>
+    <Compile Include="Views\WorkspaceBindingsView.Designer.cs">
+      <DependentUpon>WorkspaceBindingsView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\IComponentView.cs" />
     <Compile Include="Views\IMainView.cs" />
@@ -191,6 +191,7 @@
     <Compile Include="Views\MasterPropertiesView.Designer.cs">
       <DependentUpon>MasterPropertiesView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\WorkspaceViewBase.cs" />
     <EmbeddedResource Include="ControllerForm.resx">
       <DependentUpon>ControllerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -210,8 +211,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Views\WorkspaceBindingsMainView.resx">
-      <DependentUpon>WorkspaceBindingsMainView.cs</DependentUpon>
+    <EmbeddedResource Include="Views\WorkspaceBindingsView.resx">
+      <DependentUpon>WorkspaceBindingsView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\WorkspaceInstallerModulesView.resx">
       <DependentUpon>WorkspaceInstallerModulesView.cs</DependentUpon>

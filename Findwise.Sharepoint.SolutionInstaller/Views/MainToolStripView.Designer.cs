@@ -33,7 +33,7 @@
             this.NewToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.OpenToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.SaveToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator1 = new SolutionInstaller.Controls.FancyToolStripSeparator();
             this.SecondaryToolStrip = new System.Windows.Forms.ToolStrip();
             this.CancelToolStripButton = new Findwise.Sharepoint.SolutionInstaller.Controls.LockableToolStripButton();
             this.PrimaryToolStrip.SuspendLayout();
@@ -138,7 +138,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private Controls.FancyToolStripSeparator toolStripSeparator1;
         internal Controls.LockableToolStripButton CancelToolStripButton;
         internal Controls.FancyToolStrip PrimaryToolStrip;
         internal System.Windows.Forms.ToolStrip SecondaryToolStrip;
