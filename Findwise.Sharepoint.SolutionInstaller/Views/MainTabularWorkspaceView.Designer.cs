@@ -36,8 +36,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.InstallerModuleMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceInstallerModulesView();
-            this.BindingsMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceBindingsMainView();
-            this.workspaceBindingsMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceBindingsMainView();
+            this.BindingsMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceBindingsView();
+            this.workspaceBindingsMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceBindingsView();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -112,7 +112,7 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.ImageList imageList1;
         internal WorkspaceInstallerModulesView InstallerModuleMainView1;
-        internal WorkspaceBindingsMainView BindingsMainView1;
-        private WorkspaceBindingsMainView workspaceBindingsMainView1;
+        internal WorkspaceBindingsView BindingsMainView1;
+        private WorkspaceBindingsView workspaceBindingsMainView1;
     }
 }

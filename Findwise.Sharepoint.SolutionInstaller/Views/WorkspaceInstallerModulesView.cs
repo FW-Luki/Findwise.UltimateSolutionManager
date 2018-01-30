@@ -25,36 +25,29 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
     }
 
 
-    public class WorkspaceInstallerModulesView : IComponentView, IMainView
+    public class WorkspaceInstallerModulesView : WorkspaceViewBase
     {
-        private readonly ILog logger;
-
         private readonly WorkspaceInstallerModulesViewDesigner designer = new WorkspaceInstallerModulesViewDesigner();
+        protected override IDisposable DisposableDesigner => designer;
 
-        public Control Control => designer.TableLayoutPanel;
-        public Controller[] Controllers { get; set; }
-        public TableLayout Layout { get; set; } = new TableLayout();
+        public override Control Control => designer.TableLayoutPanel;
 
+        public override ToolStrip ToolStrip => designer.ToolStrip;
 
-        public string Title { get; set; } = "Installer Modules";
-
-        public Image Icon { get; set; } = null;
-
-        private object _datasource;
-        public object DataSource
+        public override object DataSource
         {
-            get { return _datasource; }
+            get { return base.DataSource; }
             set
             {
-                _datasource = value;
-                designer.DataGridView1.DataSource = _datasource;
+                base.DataSource = value;
+                designer.DataGridView1.DataSource = value;
             }
         }
 
         private IEnumerable<object> _selectedObjects => designer.DataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem);
         private IEnumerable<IInstallerModule> _selectedModules => _selectedObjects.OfType<IInstallerModule>().Where(m => m != null);
 
-        public string SelectedObjectTitle
+        public override string SelectedObjectTitle
         {
             get
             {
@@ -76,7 +69,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
-        public object[] SelectedObjects
+        public override object[] SelectedObjects
         {
             get
             {
@@ -89,29 +82,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
-        public ToolStrip ToolStrip => designer.ToolStrip;
 
-        public bool ToolBoxAvailable { get; set; } = true;
-
-        public int Order { get; set; }
-
-        public event EventHandler SelectionChanged;
-
-        public void RefreshView()
+        public override void RefreshView()
         {
-            var dgv = designer.DataGridView1;
-            if (dgv.InvokeRequired)
-            {
-                dgv.Invoke(new MethodInvoker(() => RefreshView()));
-            }
-            else
-            {
-                dgv.Refresh();
-            }
+            RefreshDataGridView(designer.DataGridView1);
         }
 
-
-        private const string ToolStripButtonEventsCategoryName = "Commands";
 
         [Category(ToolStripButtonEventsCategoryName)]
         public event EventHandler DuplicateRequested;
@@ -132,9 +108,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public event EventHandler ProceedRequested;
 
 
-        public WorkspaceInstallerModulesView()
+        public WorkspaceInstallerModulesView() : base()
         {
-            logger = LogManager.GetLogger(GetType());
+            ToolBoxAvailable = true;
+            Order = 0;
+            Title = "Installer Modules";
+            Icon = null;
 
             designer.DuplicateToolStripButton.Click += (s_, e_) => DuplicateRequested?.Invoke(this, EventArgs.Empty);
             designer.DeleteToolStripButton.Click += (s_, e_) => DeleteRequested?.Invoke(this, EventArgs.Empty);
@@ -153,7 +132,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            SelectionChanged?.Invoke(this, EventArgs.Empty);
+            OnSelectionChanged();
         }
 
         private void DataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -244,61 +223,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                     {
                         try
                         {
-                            logger.Info($"Invoking action {action.Method.Name} for module {(designer.DataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName}...");
+                            Logger.Info($"Invoking action {action.Method.Name} for module {(designer.DataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName}...");
                             action.Invoke();
                         }
                         catch (Exception ex)
                         {
-                            logger.Info($"Error invoking action {action.Method.Name} for module {(designer.DataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName} - [{ex.Message}]");
+                            Logger.Info($"Error invoking action {action.Method.Name} for module {(designer.DataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName} - [{ex.Message}]");
                         }
                     }
                 });
             }
         }
-
-
-        #region IComponent Support
-        public ISite Site { get; set; }
-
-        public event EventHandler Disposed;
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                    designer.Dispose();
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                disposedValue = true;
-                Disposed?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~MainToolboxView() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
-        }
-        #endregion
-        #endregion
-
     }
 }

@@ -168,6 +168,16 @@ namespace Findwise.Sharepoint.SolutionInstaller
         private void MainToolboxView1_ModuleAdded(object sender, MainToolboxView.ModuleAddedEventArgs e)
         {
             MainTabularWorkspaceView1.CurrentView.SelectedObjects = new[] { e.Module };
+            ProjectManager1.IsModified = true;
+        }
+
+        private async void MainPropertyGridView1_PropertyGridItemChanged(object sender, EventArgs e)
+        {
+            ProjectManager1.IsModified = true;
+
+            var selectedModules = MainTabularWorkspaceView1.CurrentView.SelectedObjects.OfType<IInstallerModule>();
+            if (selectedModules.Any())
+                await ProjectManager1.RefreshModuleStatus(pickModules: selectedModules);
         }
     }
 }

@@ -33,8 +33,22 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 
         [Browsable(false)]
         public bool IsEmpty => string.IsNullOrEmpty(ProjectName);
+        private bool _isModified;
         [Browsable(false)]
-        public bool IsModified { get; set; }
+        public bool IsModified
+        {
+            get { return _isModified; }
+            set
+            {
+                _isModified = value;
+                var propertyChangedEventHandler = PropertyChanged;
+                if (propertyChangedEventHandler != null)
+                {
+                    propertyChangedEventHandler(this, new PropertyChangedEventArgs(nameof(IsModified)));
+                    propertyChangedEventHandler(this, new PropertyChangedEventArgs(nameof(WindowTitle)));
+                }
+            }
+        }
 
         public string WindowTitle => string.Format(WindowTitleFormat, IsModified ? "* " : "", IsEmpty ? EmptyProjectName : ProjectName, WindowTitleBase);
 
@@ -88,10 +102,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         public void NewProject()
         {
             Project = new Project();
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Project)));
+            IsModified = false;
         }
 
-        public void LoadProject(string filename)
+        public async void LoadProject(string filename)
         {
             var proj = ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename), new PluginSerializationBinder());
             proj.Name = System.IO.Path.GetFileName(filename);
@@ -107,6 +121,8 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 
             proj.Modules.ToList().ForEach(m => m.StatusChanged += Module_StatusChanged);
             Project = proj;
+            IsModified = false;
+            await RefreshModuleStatus();
         }
 
         public void SaveProject(string filename)
@@ -117,7 +133,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 
             foreach (var module in saveAwareModules)
             {
-                ReportProgress?.Invoke(this, new ReportProgressEventArgs(++curmod, allmods, "Saving project...", OperationTag.Active | OperationTag.Cancellable));
+                ReportProgress?.Invoke(this, new ReportProgressEventArgs(++curmod, allmods, "Saving project..", OperationTag.Active | OperationTag.Cancellable));
                 module.BeforeSave();
             }
 
@@ -131,6 +147,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 
             Project.Name = System.IO.Path.GetFileName(filename);
             NotifyProjectChange();
+            IsModified = false;
         }
         #endregion
 
@@ -180,7 +197,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
             }
         }
 
-        public async Task RefreshModuleStatus(IInstallerModule singleModule = null, bool throwIfCancelled = false)
+        public async Task RefreshModuleStatus(IEnumerable<IInstallerModule> pickModules = null, bool throwIfCancelled = false)
         {
             await Task.Run(() =>
             {
@@ -191,7 +208,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                 try
                 {
                     IEnumerable<IInstallerModule> modules;
-                    if (singleModule != null) modules = new[] { singleModule };
+                    if (pickModules != null) modules = pickModules;
                     else modules = Project.ModuleList;
                     var currow = 0;
                     Parallel.ForEach(modules, options, module =>
@@ -298,6 +315,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         public void AddDataBindingSource(/*BindingItem item*/)
         {
             Project.BindingSourcesList.AddNew();
+            //Project.BindingSourcesList.Add(new BindingItem());
         }
         #endregion
 
@@ -347,6 +365,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                         {
                             System.Windows.Forms.MessageBox.Show(ex.Message, "Error loading project", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                         }
+                        finally
+                        {
+                            _manager.ReportProgress?.Invoke(this, new ReportProgressEventArgs(0, StatusName.Idle, OperationTag.None));
+                        }
                     }
                 }
             }
@@ -384,6 +406,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                     catch (Exception ex)
                     {
                         System.Windows.Forms.MessageBox.Show(ex.Message, "Error loading project", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        _manager.ReportProgress?.Invoke(this, new ReportProgressEventArgs(0, StatusName.Idle, OperationTag.None));
                     }
                 }
                 return false;

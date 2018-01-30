@@ -85,6 +85,7 @@
             this.MainPropertyGridView1.Layout = tableLayout3;
             this.MainPropertyGridView1.SelectedObjectName = "";
             this.MainPropertyGridView1.SelectedObjects = new object[0];
+            this.MainPropertyGridView1.PropertyGridSelectedValueChanged += new System.EventHandler(this.MainPropertyGridView1_PropertyGridItemChanged);
             // 
             // MainToolboxView1
             // 
@@ -123,6 +124,7 @@
             tableLayout6.Row = 2;
             tableLayout6.RowStyle = new System.Windows.Forms.RowStyle();
             this.MainLogView1.Layout = tableLayout6;
+            this.MainLogView1.LoggerName = "ColoredTextBox";
             // 
             // ModuleLoader1
             // 
