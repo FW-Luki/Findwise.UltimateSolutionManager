@@ -1,4 +1,5 @@
-﻿using Findwise.InstallerModule;
+﻿using ContentSourceCreator.Properties;
+using Findwise.InstallerModule;
 using Findwise.Sharepoint.SolutionInstaller;
 using Microsoft.Office.Server.Search.Administration;
 using System;
@@ -11,7 +12,7 @@ namespace ContentSourceCreator
     {
         public override string Name => "Content Source Creator";
 
-        public override System.Drawing.Image Icon => null;
+        public override System.Drawing.Image Icon => Resources.if_edit_find_15278;
 
         private Configuration myConfiguration = new Configuration();
         public override Findwise.Configuration.ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }

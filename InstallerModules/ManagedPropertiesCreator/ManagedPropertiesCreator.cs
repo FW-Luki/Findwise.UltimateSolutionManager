@@ -7,6 +7,7 @@ using Microsoft.Office.Server.Search.Administration;
 using Findwise.Sharepoint.SolutionInstaller;
 using System.Collections.Generic;
 using static ManagedPropertiesCreator.Configuration;
+using ManagedPropertiesCreator.Properties;
 
 namespace ManagedPropertiesCreator
 {
@@ -14,7 +15,7 @@ namespace ManagedPropertiesCreator
     {
         public override string Name => "Managed Properties Creator";
 
-        public override System.Drawing.Image Icon => null;
+        public override System.Drawing.Image Icon => Resources.if_accessories_text_editor_15334;
 
         private Configuration myConfiguration = new Configuration();
         public override ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }
