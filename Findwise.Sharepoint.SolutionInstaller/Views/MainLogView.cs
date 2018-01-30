@@ -21,6 +21,11 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         internal Panel Panel => LogPanel;
         internal RichTextBox TextBox => richTextBox1;
+
+        private void ClearLogWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Clear();
+        }
     }
 
 
