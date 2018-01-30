@@ -1,6 +1,6 @@
 ﻿namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
-    partial class WorkspaceBindingsMainViewDesigner
+    partial class WorkspaceBindingsViewDesigner
     {
         /// <summary> 
         /// Required designer variable.

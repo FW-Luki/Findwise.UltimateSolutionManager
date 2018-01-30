@@ -20,7 +20,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         }
 
         internal Panel Panel => LogPanel;
-
+        internal RichTextBox TextBox => richTextBox1;
     }
 
 
@@ -31,6 +31,17 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public Control Control => designer.Panel;
         public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
+
+        private string _loggerName;
+        public string LoggerName
+        {
+            get { return _loggerName; }
+            set
+            {
+                _loggerName = value;
+                LogRichTextBoxAppender.Configure(value, designer.TextBox);
+            }
+        }
 
         #region IComponent Support
         public ISite Site { get; set; }
