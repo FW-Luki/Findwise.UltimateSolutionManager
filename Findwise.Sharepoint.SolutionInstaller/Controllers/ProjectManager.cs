@@ -105,7 +105,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
             IsModified = false;
         }
 
-        public void LoadProject(string filename)
+        public async void LoadProject(string filename)
         {
             var proj = ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename), new PluginSerializationBinder());
             proj.Name = System.IO.Path.GetFileName(filename);
@@ -122,6 +122,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
             proj.Modules.ToList().ForEach(m => m.StatusChanged += Module_StatusChanged);
             Project = proj;
             IsModified = false;
+            await RefreshModuleStatus();
         }
 
         public void SaveProject(string filename)
