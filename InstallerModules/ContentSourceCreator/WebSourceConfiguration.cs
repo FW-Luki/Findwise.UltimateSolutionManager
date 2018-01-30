@@ -20,9 +20,7 @@ namespace ContentSourceCreator
         [Description("Type the URLs from which the search system should start crawling.")]
         [DisplayName("Start Addresses")]
         public string[] StartAddresses { get; set; }
-        [Description("Specify the behavior for crawling this type of content.")]
-        [DisplayName("Crawl Settings")]
-        public bool CrawlSettings { get; set; }
+       
 
         [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IContentScheduleConfiguration))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -33,6 +31,11 @@ namespace ContentSourceCreator
         [TypeConverter(typeof(ExpandableObjectConverter))]
         [DisplayName("Full Crawl")]
         public IContentScheduleConfiguration FullCrawlConfiguration { get; set; }
+
+        [Description("Specify the behavior for crawling this type of content.")]
+        [DefaultValue(true)]
+        [DisplayName("Crawl Settings")]
+        public bool CrawlSettings { get; set; }
 
         [Description("Page depth is the number of links that the crawler follows on the same host name, starting from each start address in the content source.")]
         [DisplayName("Limit Page Depth")]
@@ -64,7 +67,7 @@ namespace ContentSourceCreator
             {
                 SetScheduleForContentSource(content, myConfiguration, incrementalScheduleType, webContentSource, false);
             }
-            else if (fullScheduleType != null)
+            if (fullScheduleType != null)
             {
                 SetScheduleForContentSource(content, myConfiguration, fullScheduleType, webContentSource, true);
             }

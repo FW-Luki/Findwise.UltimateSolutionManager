@@ -20,9 +20,6 @@ namespace ContentSourceCreator
         [Description("Type the URLs from which the search system should start crawling.")]
         [DisplayName("Start Addresses")]
         public string[] StartAddresses { get; set; }
-        [Description("Specify the behavior for crawling this type of content. Choose true if you want: 'Crawl the folder and all subfolders of each start address' or false for 'Only crawl the folder of each start address'")]
-        [DisplayName("Crawl Settings")]
-        public bool CrawlSettings { get; set; }
 
         [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IContentScheduleConfiguration))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -33,6 +30,11 @@ namespace ContentSourceCreator
         [TypeConverter(typeof(ExpandableObjectConverter))]
         [DisplayName("Full Crawl")]
         public IContentScheduleConfiguration FullCrawlConfiguration { get; set; }
+
+        [Description("Specify the behavior for crawling this type of content. Choose true if you want: 'Crawl the folder and all subfolders of each start address' or false for 'Only crawl the folder of each start address'")]
+        [DefaultValue(true)]
+        [DisplayName("Crawl Settings")]
+        public bool CrawlSettings { get; set; }
 
         SearchAdministration.ContentSourceType IContentSourceConfiguration.ContentSourceType { get => SearchAdministration.ContentSourceType.Exchange; }
 
@@ -56,7 +58,7 @@ namespace ContentSourceCreator
             {
                 SetScheduleForContentSource(content, myConfiguration, incrementalScheduleType, exchangeContentSource, false);
             }
-            else if (fullScheduleType != null)
+            if (fullScheduleType != null)
             {
                 SetScheduleForContentSource(content, myConfiguration, fullScheduleType, exchangeContentSource, true);
             }

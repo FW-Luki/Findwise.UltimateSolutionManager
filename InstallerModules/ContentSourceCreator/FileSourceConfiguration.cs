@@ -23,9 +23,6 @@ namespace ContentSourceCreator
         [Description(@"Type the URLs from which the search system should start crawling. Examples: \\server\directory, or file://server/directory")]
         [DisplayName("Start Addresses")]
         public string[] StartAddresses { get; set; }
-        [Description("Specify the behavior for crawling this type of content. Choose true if you want: 'Crawl the folder and all subfolders of each start address' or false for 'Only crawl the folder of each start address'")]
-        [DisplayName("Crawl Settings")]
-        public bool CrawlSettings { get; set; }
 
         [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IContentScheduleConfiguration))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -38,6 +35,11 @@ namespace ContentSourceCreator
         [Description("Select the crawl schedules for this content source.")]
         [DisplayName("Full Crawl")]
         public IContentScheduleConfiguration FullCrawlConfiguration { get; set; }
+
+        [Description("Specify the behavior for crawling this type of content. Choose true if you want: 'Crawl the folder and all subfolders of each start address' or false for 'Only crawl the folder of each start address'")]
+        [DefaultValue(true)]
+        [DisplayName("Crawl Settings")]
+        public bool CrawlSettings { get; set; }
 
         SearchAdministration.ContentSourceType IContentSourceConfiguration.ContentSourceType { get => SearchAdministration.ContentSourceType.File; }
 

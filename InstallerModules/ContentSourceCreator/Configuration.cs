@@ -30,10 +30,10 @@ namespace ContentSourceCreator
     {
         string ContentSourceName { get; set; }
         string[] StartAddresses { get; set; }
-        bool CrawlSettings { get; set; }
         SearchAdministration.ContentSourceType ContentSourceType { get; }
         IContentScheduleConfiguration IncrementalCrawlConfiguration { get; set; }
         IContentScheduleConfiguration FullCrawlConfiguration { get; set; }
+        bool CrawlSettings { get; set; }
 
     }
     public interface IContentScheduleConfiguration
