@@ -19,7 +19,7 @@ namespace ContentSourceCreator
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
 
-        [Editor(typeof(ContentSourceClassEditor), typeof(UITypeEditor)), ContentSourceTypeEditor.Options(BaseType = typeof(IContentSourceConfiguration))]
+        [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IContentSourceConfiguration))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         [Description("Select what type of content will be crawled. Note: This cannot be changed after this content source is created because other settings depend on it.")]
         [DisplayName("Content Source Type")]
@@ -38,7 +38,6 @@ namespace ContentSourceCreator
     }
     public interface IContentScheduleConfiguration
     {
-        int CrawlScheduleRunEveryInterval { get; set; }
         int CrawlScheduleStartDateTime { get; set; }
         IRepeatConfiguration RepeatConfiguration { get; set; }
     }
@@ -67,7 +66,7 @@ namespace ContentSourceCreator
     }
     public class Weekly : ConfigurationBase, IContentScheduleConfiguration
     {
-        [Description("Run every: x days")]
+        [Description("Run every: x weeks")]
         [DisplayName("Run every")]
         public int CrawlScheduleRunEveryInterval { get; set; }
         [Description("Choose day of week")]
@@ -89,9 +88,6 @@ namespace ContentSourceCreator
     }
     public class Monthly : ConfigurationBase, IContentScheduleConfiguration
     {
-        [Description("Run every: x days")]
-        [DisplayName("Run every")]
-        public int CrawlScheduleRunEveryInterval { get; set; }
         [DisplayName("Day of Month")]
         public SearchAdministration.DaysOfMonth DaysOfMonth { get; set; }
         [DisplayName("Month of Year")]
@@ -128,26 +124,4 @@ namespace ContentSourceCreator
     public class DontRepeat : ConfigurationBase, IRepeatConfiguration
     {
     }
-
-    //public enum TypeContentSource
-    //{
-    //    SharePoint = SearchAdministration.ContentSourceType.SharePoint,
-    //    Web = SearchAdministration.ContentSourceType.Web,
-    //    File = SearchAdministration.ContentSourceType.File,
-    //    Exchange = SearchAdministration.ContentSourceType.Exchange,
-    //    Business = SearchAdministration.ContentSourceType.Business,
-    //}
-    //public enum ContentSourceCrawlScheduleType
-    //{
-    //    None,
-    //    Full,
-    //    Incremental
-    //}
-    //public enum TypeOfSchedule
-    //{
-    //    None,
-    //    Daily,
-    //    Weekly,
-    //    Monthly
-    //}
 }

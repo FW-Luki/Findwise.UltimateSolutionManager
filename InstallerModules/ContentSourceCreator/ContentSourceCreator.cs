@@ -53,40 +53,17 @@ namespace ContentSourceCreator
                         break;
 
                     case (ContentSourceType.File):
-                        var fileSource = myConfiguration.ContentSourceConfiguration as FileSourceConfiguration;
-                        FileShareContentSource fileContentSource = (FileShareContentSource)contentSources.Create(typeof(FileShareContentSource), myConfiguration.ContentSourceConfiguration.ContentSourceName);
-                        foreach (var startAddress in myConfiguration.ContentSourceConfiguration.StartAddresses)
-                        {
-                            fileContentSource.StartAddresses.Add(new Uri(startAddress));
-                        }
-                        fileContentSource.FollowDirectories = fileSource.CrawlSettings;
-                        fileContentSource.StartFullCrawl();
-                        fileContentSource.Update();
+                        FileSourceConfiguration fileSourceConfiguration = new FileSourceConfiguration();
+                        fileSourceConfiguration.CreateContentType(content, myConfiguration, contentSources);
                         break;
 
                     case (ContentSourceType.SharePoint):
-                        var sharePointSource = myConfiguration.ContentSourceConfiguration as SharePointSourceConfiguration;
-                        SharePointContentSource sharepointContentSource = (SharePointContentSource)contentSources.Create(typeof(SharePointContentSource), myConfiguration.ContentSourceConfiguration.ContentSourceName);
-                        foreach (var startAddress in myConfiguration.ContentSourceConfiguration.StartAddresses)
-                        {
-                            sharepointContentSource.StartAddresses.Add(new Uri(startAddress));
-                        }
-                        sharepointContentSource.FollowDirectories = sharePointSource.CrawlSettings;
-                        sharepointContentSource.StartFullCrawl();
-                        sharepointContentSource.Update();
+                        SharePointSourceConfiguration sharePointSourceConfiguration = new SharePointSourceConfiguration();
+                        sharePointSourceConfiguration.CreateContentType(content, myConfiguration, contentSources);
                         break;
                     case (ContentSourceType.Web):
-                        var webSource = myConfiguration.ContentSourceConfiguration as WebSourceConfiguration;
-                        WebContentSource webContentSource = (WebContentSource)contentSources.Create(typeof(WebContentSource), myConfiguration.ContentSourceConfiguration.ContentSourceName);
-                        foreach (var startAddress in myConfiguration.ContentSourceConfiguration.StartAddresses)
-                        {
-                            webContentSource.StartAddresses.Add(new Uri(startAddress));
-                        }
-                        webContentSource.MaxPageEnumerationDepth = webSource.MaxPageEnumerationDepth;
-                        webContentSource.MaxSiteEnumerationDepth = webSource.MaxSiteEnumerationDepth;
-
-                        webContentSource.StartFullCrawl();
-                        webContentSource.Update();
+                        WebSourceConfiguration webSourceConfiguration = new WebSourceConfiguration();
+                        webSourceConfiguration.CreateContentType(content, myConfiguration, contentSources);
                         break;
                     default:
                         Status = InstallerModuleStatus.Error;
