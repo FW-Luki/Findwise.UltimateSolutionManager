@@ -41,98 +41,23 @@ namespace ContentSourceCreator
         [DisplayName("Crawl Settings")]
         public bool CrawlSettings { get; set; }
 
-        SearchAdministration.ContentSourceType IContentSourceConfiguration.ContentSourceType { get => SearchAdministration.ContentSourceType.File; }
-
         public override string ToString()
         {
             return GetType().Name;
         }
-        public void CreateContentType(Content content, Configuration myConfiguration, ContentSourceCollection contentSources)
+        public ContentSource GetContentSource(Content content, Configuration myConfiguration, ContentSourceCollection contentSources)
         {
-            try
+            var fileSource = myConfiguration.ContentSourceConfiguration as FileSourceConfiguration;
+            FileShareContentSource fileContentSource = (FileShareContentSource)contentSources.Create(typeof(FileShareContentSource), myConfiguration.ContentSourceConfiguration.ContentSourceName);
+            foreach (var startAddress in myConfiguration.ContentSourceConfiguration.StartAddresses)
             {
-                var fileSource = myConfiguration.ContentSourceConfiguration as FileSourceConfiguration;
-                FileShareContentSource fileContentSource = (FileShareContentSource)contentSources.Create(typeof(FileShareContentSource), myConfiguration.ContentSourceConfiguration.ContentSourceName);
-                foreach (var startAddress in myConfiguration.ContentSourceConfiguration.StartAddresses)
-                {
-                    fileContentSource.StartAddresses.Add(new Uri(startAddress));
-                }
-                fileContentSource.FollowDirectories = fileSource.CrawlSettings;
-
-                var incrementalScheduleType = myConfiguration.ContentSourceConfiguration.IncrementalCrawlConfiguration.GetType().Name;
-                var fullScheduleType = myConfiguration.ContentSourceConfiguration.FullCrawlConfiguration.GetType().Name;
-                if (incrementalScheduleType != null)
-                {
-                    SetScheduleForContentSource(content, myConfiguration, incrementalScheduleType, fileContentSource, false);
-                }
-                if (fullScheduleType != null)
-                {
-                    SetScheduleForContentSource(content, myConfiguration, fullScheduleType, fileContentSource, true);
-                }
-                fileContentSource.StartFullCrawl();
-                fileContentSource.Update();
+                fileContentSource.StartAddresses.Add(new Uri(startAddress));
             }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public void SetScheduleForContentSource(Content content, Configuration myConfiguration, string scheduleType, FileShareContentSource fileContentSource, bool isFullCrawl)
-        {
-            switch (scheduleType)
-            {
-                case ("Daily"):
-                    var daily = isFullCrawl ? myConfiguration.ContentSourceConfiguration.FullCrawlConfiguration as Daily : myConfiguration.ContentSourceConfiguration.IncrementalCrawlConfiguration as Daily;
-                    DailySchedule dailySchedule = new DailySchedule(content.SearchApplication);
-                    dailySchedule.DaysInterval = daily.CrawlScheduleRunEveryInterval;
-                    dailySchedule.StartHour = daily.CrawlScheduleStartDateTime;
+            fileContentSource.FollowDirectories = fileSource.CrawlSettings;
 
-                    var repeatName = daily.RepeatConfiguration.GetType().Name;
-                    if (repeatName == "Repeat")
-                    {
-                        var repeatConfiguration = isFullCrawl ? myConfiguration.ContentSourceConfiguration.FullCrawlConfiguration.RepeatConfiguration as Repeat : myConfiguration.ContentSourceConfiguration.IncrementalCrawlConfiguration.RepeatConfiguration as Repeat;
-                        dailySchedule.RepeatInterval = repeatConfiguration.CrawlScheduleRepeatInterval;
-                        dailySchedule.RepeatDuration = repeatConfiguration.CrawlScheduleRepeatDuration;
-                    }
-                    var scheduleD = isFullCrawl ? fileContentSource.FullCrawlSchedule = dailySchedule: fileContentSource.IncrementalCrawlSchedule = dailySchedule;
-                    fileContentSource.Update();
-                    break;
-                case ("Weekly"):
-                    var weekly = isFullCrawl ? myConfiguration.ContentSourceConfiguration.FullCrawlConfiguration as Weekly : myConfiguration.ContentSourceConfiguration.IncrementalCrawlConfiguration as Weekly;
-                    WeeklySchedule weeklySchedule = new WeeklySchedule(content.SearchApplication);
-                    weeklySchedule.WeeksInterval = weekly.CrawlScheduleRunEveryInterval;
-                    weeklySchedule.DaysOfWeek = weekly.DaysOfWeek;
-                    weeklySchedule.StartHour = weekly.CrawlScheduleStartDateTime;
+            fileContentSource.Update();
 
-                    repeatName = weekly.RepeatConfiguration.GetType().Name;
-                    if (repeatName == "Repeat")
-                    {
-                        var repeatConfiguration = isFullCrawl ? myConfiguration.ContentSourceConfiguration.FullCrawlConfiguration.RepeatConfiguration as Repeat : myConfiguration.ContentSourceConfiguration.IncrementalCrawlConfiguration.RepeatConfiguration as Repeat;
-                        weeklySchedule.RepeatInterval = repeatConfiguration.CrawlScheduleRepeatInterval;
-                        weeklySchedule.RepeatDuration = repeatConfiguration.CrawlScheduleRepeatDuration;
-                    }
-                    var scheduleW = isFullCrawl ? fileContentSource.FullCrawlSchedule = weeklySchedule : fileContentSource.IncrementalCrawlSchedule = weeklySchedule;
-                    fileContentSource.Update();
-                    fileContentSource.Update();
-                    break;
-                case ("Monthly"):
-                    var monthly = isFullCrawl ? myConfiguration.ContentSourceConfiguration.FullCrawlConfiguration as Monthly : myConfiguration.ContentSourceConfiguration.IncrementalCrawlConfiguration as Monthly;
-                    MonthlyDateSchedule monthlySchedule = new MonthlyDateSchedule(content.SearchApplication);
-                    monthlySchedule.DaysOfMonth = monthly.DaysOfMonth;
-                    monthlySchedule.MonthsOfYear = monthly.MonthsOfYear;
-                    monthlySchedule.StartHour = monthly.CrawlScheduleStartDateTime;
-
-                    repeatName = monthly.RepeatConfiguration.GetType().Name;
-                    if (repeatName == "Repeat")
-                    {
-                        var repeatConfiguration = isFullCrawl ? myConfiguration.ContentSourceConfiguration.FullCrawlConfiguration.RepeatConfiguration as Repeat : myConfiguration.ContentSourceConfiguration.IncrementalCrawlConfiguration.RepeatConfiguration as Repeat;
-                        monthlySchedule.RepeatInterval = repeatConfiguration.CrawlScheduleRepeatInterval;
-                        monthlySchedule.RepeatDuration = repeatConfiguration.CrawlScheduleRepeatDuration;
-                    }
-                    var scheduleM = isFullCrawl ? fileContentSource.FullCrawlSchedule = monthlySchedule : fileContentSource.IncrementalCrawlSchedule = monthlySchedule;
-                    fileContentSource.Update();
-                    break;
-            }
+            return fileContentSource;
         }
     }
 }

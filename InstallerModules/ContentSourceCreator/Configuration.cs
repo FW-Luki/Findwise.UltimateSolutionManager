@@ -11,6 +11,7 @@ using System.Drawing.Design;
 using Findwise.Configuration.TypeEditors;
 using System.Windows.Forms.Design;
 using Findwise.Configuration.TypeConverters;
+using Microsoft.Office.Server.Search.Administration;
 
 namespace ContentSourceCreator
 {
@@ -30,19 +31,24 @@ namespace ContentSourceCreator
     {
         string ContentSourceName { get; set; }
         string[] StartAddresses { get; set; }
-        SearchAdministration.ContentSourceType ContentSourceType { get; }
         IContentScheduleConfiguration IncrementalCrawlConfiguration { get; set; }
         IContentScheduleConfiguration FullCrawlConfiguration { get; set; }
-        bool CrawlSettings { get; set; }
-
+        ContentSource GetContentSource(Content content, Configuration myConfiguration, SearchAdministration.ContentSourceCollection contentSources);
     }
     public interface IContentScheduleConfiguration
     {
         int CrawlScheduleStartDateTime { get; set; }
         IRepeatConfiguration RepeatConfiguration { get; set; }
+        Schedule GetSchedule(Content content);
     }
     public interface IRepeatConfiguration
     {
+    }
+
+    public interface ICrawlSettingsConfiguration
+    {
+        int? MaxPageEnumerationDepth { get; set; }
+        int? MaxSiteEnumerationDepth { get; set; }
     }
 
     public class Daily : ConfigurationBase, IContentScheduleConfiguration
@@ -58,6 +64,17 @@ namespace ContentSourceCreator
         [TypeConverter(typeof(DisplayNameExpandableObjectConverter))]
         [DisplayName("Repeat within the day")]
         public IRepeatConfiguration RepeatConfiguration { get; set; }
+
+        public Schedule GetSchedule(Content content)
+        {
+            DailySchedule dailySchedule = new DailySchedule(content.SearchApplication)
+            {
+                DaysInterval = this.CrawlScheduleRunEveryInterval,
+                StartHour = this.CrawlScheduleStartDateTime
+            };
+
+            return dailySchedule;
+        }
 
         public override string ToString()
         {
@@ -81,6 +98,18 @@ namespace ContentSourceCreator
         [DisplayName("Repeat within the day")]
         public IRepeatConfiguration RepeatConfiguration { get; set; }
 
+        public Schedule GetSchedule(Content content)
+        {
+            WeeklySchedule weeklySchedule = new WeeklySchedule(content.SearchApplication)
+            {
+                WeeksInterval = this.CrawlScheduleRunEveryInterval,
+                DaysOfWeek = this.DaysOfWeek,
+                StartHour = this.CrawlScheduleStartDateTime
+            };
+
+            return weeklySchedule;
+        }
+
         public override string ToString()
         {
             return GetType().Name;
@@ -100,6 +129,18 @@ namespace ContentSourceCreator
         [TypeConverter(typeof(DisplayNameExpandableObjectConverter))]
         [DisplayName("Repeat within the day")]
         public IRepeatConfiguration RepeatConfiguration { get; set; }
+
+        public Schedule GetSchedule(Content content)
+        {
+            MonthlyDateSchedule monthlySchedule = new MonthlyDateSchedule(content.SearchApplication)
+            {
+                DaysOfMonth = this.DaysOfMonth,
+                MonthsOfYear = this.MonthsOfYear,
+                StartHour = this.CrawlScheduleStartDateTime
+            };
+
+            return monthlySchedule;
+        }
 
         public override string ToString()
         {
@@ -123,5 +164,32 @@ namespace ContentSourceCreator
     [DisplayName("Don't repeat")]
     public class DontRepeat : ConfigurationBase, IRepeatConfiguration
     {
+    }
+
+    [DisplayName("Only crawl within the server of each start address")]
+    public class OnlyCrawlWithinTheServerOfEachStartAddress : ICrawlSettingsConfiguration
+    {
+        [ReadOnly(true)]
+        public int? MaxPageEnumerationDepth { get; set; } = null;
+        [ReadOnly(true)]
+        public int? MaxSiteEnumerationDepth { get; set; } = 0;
+    }
+    [DisplayName("Only crawl the first page of each start address")]
+    public class OnlyCrawltheFirstPageOfEachStartAddress : ICrawlSettingsConfiguration
+    {
+        [ReadOnly(true)]
+        public int? MaxPageEnumerationDepth { get; set; } = 0;
+        [ReadOnly(true)]
+        public int? MaxSiteEnumerationDepth { get; set; } = 0;
+    }
+    [DisplayName("Custom")]
+    public class Custom : ICrawlSettingsConfiguration
+    {
+        [Description("Page depth is the number of links that the crawler follows on the same host name, starting from each start address in the content source.")]
+        [DisplayName("Limit Page Depth")]
+        public int? MaxPageEnumerationDepth { get; set; }
+        [Description("Server hops are how many times the crawler moves from one host name to another host name.")]
+        [DisplayName("Limit Server Hops")]
+        public int? MaxSiteEnumerationDepth { get; set; }
     }
 }
