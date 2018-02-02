@@ -12,6 +12,7 @@ using log4net;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Controllers
 {
+    [System.ComponentModel.DesignerCategory("")]
     public class ProjectManager : Controller, IProgressReporter, INotifyPropertyChanged
     {
         #region Fileds
@@ -105,9 +106,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
             IsModified = false;
         }
 
-        public async void LoadProject(string filename)
+        public async Task LoadProject(string filename)
         {
-            var proj = ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename), new PluginSerializationBinder());
+            ReportProgress?.Invoke(this, new ReportProgressEventArgs(StatusName.MarqueeProgressBarStyle, "Loading project...", OperationTag.Active | OperationTag.Cancellable));
+
+            Project proj = null;
+            await Task.Run(() => proj = ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename), new PluginSerializationBinder()));
             proj.Name = System.IO.Path.GetFileName(filename);
 
             var curmod = 0;
@@ -311,11 +315,34 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         }
         #endregion
 
-        #region DataBindings
+        #region Code DataBindings
         public void AddDataBindingSource(/*BindingItem item*/)
         {
-            Project.BindingSourcesList.AddNew();
-            //Project.BindingSourcesList.Add(new BindingItem());
+            if (!Project.MasterConfigurationList.Any())
+                AddMasterConfig("Default");
+
+            //var item = Project.BindingSourcesList.AddNew();
+            //item.Name = "New item " + (Project.BindingSourcesList.Count());
+            var item = new BindingItem()
+            {
+                Name = "New item " + Project.BindingSourceList.Count(),
+            };
+            foreach (var master in Project.MasterConfigurationList)
+                item.ValueDictionary.Add(master, null);
+            Project.BindingSourceList.Add(item);
+        }
+        #endregion
+
+        #region Code MasterConfigs
+        public void AddMasterConfig(string name = null)
+        {
+            var master = new MasterConfig()
+            {
+                Name = name ?? "New item " + Project.MasterConfigurationList.Count()
+            };
+            Project.MasterConfigurationList.Add(master);
+            foreach (var item in Project.BindingSourceList)
+                item.ValueDictionary.Add(master, null);
         }
         #endregion
 
@@ -351,7 +378,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                     _manager.NewProject();
                 }
             }
-            public void Load()
+            public async Task Load()
             {
                 if (AskForProjectSave("Save current project before loading another?", "Load project"))
                 {
@@ -359,7 +386,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                     {
                         try
                         {
-                            _manager.LoadProject(_openDialog.FileName);
+                            await _manager.LoadProject(_openDialog.FileName);
                         }
                         catch (Exception ex)
                         {

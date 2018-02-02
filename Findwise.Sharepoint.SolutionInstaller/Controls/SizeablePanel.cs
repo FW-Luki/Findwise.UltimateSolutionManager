@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Controls
 {
-    internal class SizeablePanel : Panel
+    public class SizeablePanel : Panel
     {
         #region WinForms Designer
         private Splitter splitter1;
@@ -83,6 +83,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
             base.Controls.Add(groupBox1);
             base.Controls.Add(splitter1);
             groupBox1.Controls.Add(panel1);
+            //ControlAdded += (s_, e_) => panel1.Controls.Add(e_.Control);
         }
 
         private void splitter1_MouseDown(object sender, MouseEventArgs e)
