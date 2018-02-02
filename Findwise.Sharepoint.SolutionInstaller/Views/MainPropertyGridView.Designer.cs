@@ -168,7 +168,7 @@
         private System.Windows.Forms.ToolStrip MasterConfigSelectToolStrip;
         private Controls.PropertyGridEx propertyGrid1;
         private Controls.FancyToolStrip SelectedObjectToolStrip;
-        private System.Windows.Forms.ToolStripComboBox MasterConfigSelectComboBox;
         private System.Windows.Forms.ToolStripButton HelpToolStripButton;
+        internal System.Windows.Forms.ToolStripComboBox MasterConfigSelectComboBox;
     }
 }

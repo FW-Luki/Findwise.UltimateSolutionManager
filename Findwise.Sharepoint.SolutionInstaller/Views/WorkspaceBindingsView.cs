@@ -27,6 +27,9 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
     public class WorkspaceBindingsView : WorkspaceViewBase
     {
+        private const string AddingItemErrorMessage = "Error adding item";
+        private const string DeletingItemErrorMessage = "Error deleting item";
+
         private readonly Image defaultImage;
 
         private readonly WorkspaceBindingsViewDesigner designer = new WorkspaceBindingsViewDesigner();
@@ -35,6 +38,9 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         [Category(ToolStripButtonEventsCategoryName)]
         public event EventHandler AddRequested;
+
+        [Category(ToolStripButtonEventsCategoryName)]
+        public event EventHandler DeleteRequested;
 
 
         public WorkspaceBindingsView()
@@ -50,16 +56,28 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                 g.DrawImage(Resources.if_Lock_65762, new Rectangle(defaultImage.Width - size.Width, defaultImage.Height / 2 - size.Height / 2, size.Width, size.Height));
             }
 
-            designer.AddToolStripButton.Click += (s_, e_) => AddRequested?.Invoke(this, EventArgs.Empty);
+            designer.AddToolStripButton.Click += (s_, e_) => ProtectedInvoke(AddRequested, errorTitle: AddingItemErrorMessage);
+            designer.DeleteToolStripButton.Click += (s_, e_) => ProtectedInvoke(DeleteRequested, errorTitle: DeletingItemErrorMessage);
 
             designer.DataGridView1.SelectionChanged += DataGridView_SelectionChanged;
-
         }
 
 
         private void DataGridView_SelectionChanged(object sender, EventArgs e)
         {
             OnSelectionChanged();
+        }
+
+        private void ProtectedInvoke(EventHandler handler, string errorTitle = null, string errorMessage = null)
+        {
+            try
+            {
+                handler?.Invoke(this, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(errorMessage ?? ex.Message, errorTitle ?? handler.Method.Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Findwise.Sharepoint.SolutionInstaller.Controllers;
 using Findwise.Configuration;
+using Findwise.Sharepoint.SolutionInstaller.Models;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -93,6 +94,18 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public TableLayout Layout { get; set; } = new TableLayout();
 
 
+        private ProjectManager _projectManager;
+        public ProjectManager ProjectManager
+        {
+            get { return _projectManager; }
+            set
+            {
+                _projectManager = value;
+                BindDataSources();
+                _projectManager.PropertyChanged += (s_, e_) => BindDataSources(); ;
+            }
+        }
+
         [Browsable(false)]
         public string SelectedObjectName { get => designer.Title; set => designer.Title = value; }
 
@@ -115,15 +128,23 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
+        public MasterConfig MasterConfig
+        {
+            get { return designer.MasterConfigSelectComboBox.SelectedItem as MasterConfig; }
+        }
+
+
+        public event EventHandler PropertyGridSelectedValueChanged;
+
+        public event EventHandler SelectedMasterConfigurationChanged;
+
 
         public MainPropertyGridView()
         {
             designer.PropertyGridSelectedValueChanged += (s_, e_) => PropertyGridSelectedValueChanged?.Invoke(this, EventArgs.Empty);
             designer.HelpButtonClicked += Designer_HelpButtonClicked;
+            designer.MasterConfigSelectComboBox.SelectedIndexChanged += (s_, e_) => SelectedMasterConfigurationChanged?.Invoke(this, EventArgs.Empty);
         }
-
-
-        public event EventHandler PropertyGridSelectedValueChanged;
 
 
         private void Designer_HelpButtonClicked(object sender, EventArgs e)
@@ -150,6 +171,11 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
+        private void BindDataSources()
+        {
+            designer.MasterConfigSelectComboBox.ComboBox.DataSource = _projectManager.Project.MasterConfigurationList;
+        }
+        
 
         #region IComponent Support
         public ISite Site { get; set; }

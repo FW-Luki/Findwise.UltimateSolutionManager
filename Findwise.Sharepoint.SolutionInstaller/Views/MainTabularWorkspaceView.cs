@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using Findwise.Sharepoint.SolutionInstaller.Controllers;
+using Findwise.Sharepoint.SolutionInstaller.Models;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -133,10 +134,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         private void SetupBindingSourceListEvents()
         {
             designer.BindingsMainView1.AddRequested += (s_, e_) => ProjectManager.AddDataBindingSource();
+            designer.BindingsMainView1.DeleteRequested+= (s_, e_) => ProjectManager.DeleteDataBindingSource(GetSelectedBindingItems());
         }
         private void SetupMasterConfigListEvents()
         {
             designer.MasterConfigMainView1.AddRequested += (s_, e_) => ProjectManager.AddMasterConfig();
+            designer.MasterConfigMainView1.DeleteRequested += (s_, e_) => ProjectManager.DeleteMasterConfig(GetSelectedMasterConfigs());
         }
 
         private void SetupSelectionChangedEvents()
@@ -154,6 +157,14 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         private IEnumerable<IInstallerModule> GetSelectedModules()
         {
             return designer.InstallerModuleMainView1.SelectedObjects?.OfType<IInstallerModule>() ?? Enumerable.Empty<IInstallerModule>();
+        }
+        private IEnumerable<BindingItem> GetSelectedBindingItems()
+        {
+            return designer.BindingsMainView1.SelectedObjects?.OfType<BindingItem>() ?? Enumerable.Empty<BindingItem>();
+        }
+        private IEnumerable<MasterConfig> GetSelectedMasterConfigs()
+        {
+            return designer.MasterConfigMainView1.SelectedObjects?.OfType<MasterConfig>() ?? Enumerable.Empty<MasterConfig>();
         }
 
         private void BindDataSources()

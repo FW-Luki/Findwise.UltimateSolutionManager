@@ -182,5 +182,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
             if (selectedModules.Any())
                 await ProjectManager1.RefreshModuleStatus(pickModules: selectedModules);
         }
+        private void MainPropertyGridView1_SelectedMasterConfigurationChanged(object sender, EventArgs e)
+        {
+            ProjectManager1.SetMasterConfig(MainPropertyGridView1.MasterConfig);
+            MainTabularWorkspaceView1.RefreshAllViews();
+        }
     }
 }
