@@ -63,8 +63,8 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         private void PropertyGrid1_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
         {
-            var helpLinkAttribs = e.NewSelection.PropertyDescriptor.Attributes.OfType<HelpLinkAttribute>();
-            if (helpLinkAttribs.Any())
+            var helpLinkAttribs = e.NewSelection.PropertyDescriptor?.Attributes.OfType<HelpLinkAttribute>();
+            if (helpLinkAttribs?.Any()??false)
             {
                 var helpLinkAttrib = helpLinkAttribs.First();
                 HelpToolStripButton.Tag = helpLinkAttrib.Url;
