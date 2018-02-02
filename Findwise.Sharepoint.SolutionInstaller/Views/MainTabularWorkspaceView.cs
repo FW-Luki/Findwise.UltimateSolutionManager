@@ -76,9 +76,8 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             set
             {
                 _projectManager = value;
-                designer.InstallerModuleMainView1.DataSource = _projectManager.Project.ModuleList;
-                designer.BindingsMainView1.DataSource = _projectManager.Project.BindingSourcesList;
-                _projectManager.PropertyChanged += (s_, e_) => designer.InstallerModuleMainView1.DataSource = _projectManager.Project.ModuleList;
+                BindDataSources();
+                _projectManager.PropertyChanged += (s_, e_) => BindDataSources(); ;
             }
         }
 
@@ -99,6 +98,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
             SetupInstallerModuleListEvents();
             SetupBindingSourceListEvents();
+            SetupMasterConfigListEvents();
 
             SetupSelectionChangedEvents();
         }
@@ -134,6 +134,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         {
             designer.BindingsMainView1.AddRequested += (s_, e_) => ProjectManager.AddDataBindingSource();
         }
+        private void SetupMasterConfigListEvents()
+        {
+            designer.MasterConfigMainView1.AddRequested += (s_, e_) => ProjectManager.AddMasterConfig();
+        }
 
         private void SetupSelectionChangedEvents()
         {
@@ -150,6 +154,13 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         private IEnumerable<IInstallerModule> GetSelectedModules()
         {
             return designer.InstallerModuleMainView1.SelectedObjects?.OfType<IInstallerModule>() ?? Enumerable.Empty<IInstallerModule>();
+        }
+
+        private void BindDataSources()
+        {
+            designer.InstallerModuleMainView1.DataSource = _projectManager.Project.ModuleList;
+            designer.BindingsMainView1.DataSource = _projectManager.Project.BindingSourceList;
+            designer.MasterConfigMainView1.DataSource = _projectManager.Project.MasterConfigurationList;
         }
 
 

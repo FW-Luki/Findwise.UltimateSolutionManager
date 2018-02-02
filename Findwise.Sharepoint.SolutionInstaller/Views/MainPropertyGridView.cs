@@ -8,19 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Findwise.Sharepoint.SolutionInstaller.Controllers;
+using Findwise.Configuration;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
     [ToolboxItem(false)]
     public partial class MainPropertyGridViewDesigner : UserControl
     {
+        private readonly string defaultHelpButtonText;
+
         public MainPropertyGridViewDesigner()
         {
             InitializeComponent();
 
             propertyGrid1.MergeToolStrip(PropertyGridMergeToolStrip);
             PropertyGridMergeToolStrip.Visible = false;
+
+            defaultHelpButtonText = HelpToolStripButton.Text;
+            propertyGrid1.SelectedGridItemChanged += PropertyGrid1_SelectedGridItemChanged;
         }
+
 
         internal Panel Panel => sizeablePanel1;
 
@@ -40,11 +47,40 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
 
         internal event EventHandler PropertyGridSelectedValueChanged;
+        //internal event SelectedGridItemChangedEventHandler PropertyGridSelectedGridItemChanged;
+        internal event EventHandler HelpButtonClicked;
 
 
         private void RestoreDefaultToolStripButton_Click(object sender, EventArgs e)
         {
             propertyGrid1.ResetSelectedProperty();
+        }
+
+        private void MasterConfigSelectToolStrip_SizeChanged(object sender, EventArgs e)
+        {
+            MasterConfigSelectComboBox.Width = MasterConfigSelectToolStrip.DisplayRectangle.Width - MasterConfigSelectToolStrip.Padding.Horizontal;
+        }
+
+        private void PropertyGrid1_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
+        {
+            var helpLinkAttribs = e.NewSelection.PropertyDescriptor.Attributes.OfType<HelpLinkAttribute>();
+            if (helpLinkAttribs.Any())
+            {
+                var helpLinkAttrib = helpLinkAttribs.First();
+                HelpToolStripButton.Tag = helpLinkAttrib.Url;
+                HelpToolStripButton.Text = helpLinkAttrib.Text ?? defaultHelpButtonText;
+                HelpToolStripButton.ToolTipText = helpLinkAttrib.Description ?? defaultHelpButtonText;
+                HelpToolStripButton.Enabled = true;
+            }
+            else
+            {
+                HelpToolStripButton.Enabled = false;
+            }
+        }
+
+        private void HelpToolStripButton_Click(object sender, EventArgs e)
+        {
+            HelpButtonClicked?.Invoke(sender, e);
         }
     }
 
@@ -83,10 +119,37 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public MainPropertyGridView()
         {
             designer.PropertyGridSelectedValueChanged += (s_, e_) => PropertyGridSelectedValueChanged?.Invoke(this, EventArgs.Empty);
+            designer.HelpButtonClicked += Designer_HelpButtonClicked;
         }
 
 
         public event EventHandler PropertyGridSelectedValueChanged;
+
+
+        private void Designer_HelpButtonClicked(object sender, EventArgs e)
+        {
+            var button = sender as ToolStripItem;
+            if (button?.Tag is string url)
+            {
+                var owner = Control.FindForm();
+                var point = button.Owner.PointToScreen(button.Owner.Location);
+                var leftMargin = SystemInformation.CaptionHeight;
+                var helpWindow = new Form()
+                {
+                    StartPosition = FormStartPosition.Manual,
+                    Location = new Point(owner.Left + leftMargin, point.Y + button.Owner.Height),
+                    Size = new Size(owner.Width - leftMargin - (owner.Right - point.X) + button.Bounds.Right, owner.Height - (point.Y - owner.Top) - 2 * leftMargin)
+                };
+                var helpBrowser = new WebBrowser()
+                {
+                    Parent = helpWindow,
+                    Dock = DockStyle.Fill,
+                    Url = new Uri(url)
+                };
+                helpWindow.Show(owner);
+            }
+        }
+
 
         #region IComponent Support
         public ISite Site { get; set; }

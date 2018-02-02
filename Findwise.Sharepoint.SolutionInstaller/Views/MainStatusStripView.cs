@@ -23,6 +23,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         internal bool Active { get => Indicator.Active; set => Indicator.Active = value; }
         internal string Message { get => toolStripStatusLabel1.Text; set => toolStripStatusLabel1.Text = value; }
         internal int Value { get => toolStripProgressBar1.Value; set => toolStripProgressBar1.Value = value; }
+        internal ProgressBarStyle Style { get => toolStripProgressBar1.Style; set => toolStripProgressBar1.Style = value; }
     }
 
     public class MainStatusStripView : IComponentView, IProgressRepresentative
@@ -44,7 +45,15 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             {
                 designer.Active = rpevent.Tags.HasFlag(OperationTag.Active);
                 designer.Message = rpevent.Message;
-                designer.Value = rpevent.Percentage;
+                if (rpevent.Percentage == StatusName.MarqueeProgressBarStyle)
+                {
+                    designer.Style = ProgressBarStyle.Marquee;
+                }
+                else
+                {
+                    designer.Style = ProgressBarStyle.Blocks;
+                    designer.Value = rpevent.Percentage;
+                }
             }));
         }
 

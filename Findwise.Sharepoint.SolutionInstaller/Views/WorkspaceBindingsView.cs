@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using log4net;
 using Findwise.Sharepoint.SolutionInstaller.Controllers;
 using Findwise.Sharepoint.SolutionInstaller.Properties;
+using Findwise.Sharepoint.SolutionInstaller.Models;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -50,12 +51,48 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
 
             designer.AddToolStripButton.Click += (s_, e_) => AddRequested?.Invoke(this, EventArgs.Empty);
+
+            designer.DataGridView1.SelectionChanged += DataGridView_SelectionChanged;
+
         }
 
-        #region IMainView Support
-        public override string SelectedObjectTitle => null;
 
-        public override object[] SelectedObjects { get => base.SelectedObjects; set => base.SelectedObjects = value; }
+        private void DataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            OnSelectionChanged();
+        }
+
+
+        #region IMainView Support
+        private IEnumerable<object> _selectedObjects => designer.DataGridView1.SelectedRows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem);
+        private IEnumerable<BindingItem> _selectedModules => _selectedObjects.OfType<BindingItem>().Where(m => m != null);
+
+        public override string SelectedObjectTitle
+        {
+            get
+            {
+                var count = _selectedModules.Count();
+                return
+                    count > 0 ?
+                        count > 1 ?
+                            $"{typeof(BindingItem).Name}[{_selectedModules.Count()}]" :
+                            _selectedModules.First().Name ?? $"{typeof(BindingItem).Name}({_selectedModules.First().Id})" :
+                        string.Empty;
+            }
+        }
+
+        public override object[] SelectedObjects
+        {
+            get
+            {
+                return _selectedObjects.ToArray();
+            }
+            set
+            {
+                designer.DataGridView1.ClearSelection();
+                designer.DataGridView1.Rows.Cast<DataGridViewRow>().Where(r => value.Contains(r.DataBoundItem)).ToList().ForEach(r => r.Selected = true);
+            }
+        }
         #endregion
 
         #region IComponentView Support

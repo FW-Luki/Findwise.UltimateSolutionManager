@@ -37,7 +37,7 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.InstallerModuleMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceInstallerModulesView();
             this.BindingsMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceBindingsView();
-            this.workspaceBindingsMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceBindingsView();
+            this.MasterConfigMainView1 = new Findwise.Sharepoint.SolutionInstaller.Views.WorkspaceBindingsView();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -83,19 +83,19 @@
             this.BindingsMainView1.ToolBoxAvailable = false;
             this.BindingsMainView1.UseDefaultIcon = true;
             // 
-            // workspaceBindingsMainView1
+            // MasterConfigMainView1
             // 
-            this.workspaceBindingsMainView1.Controllers = null;
-            this.workspaceBindingsMainView1.DataSource = null;
-            this.workspaceBindingsMainView1.Icon = null;
+            this.MasterConfigMainView1.Controllers = null;
+            this.MasterConfigMainView1.DataSource = null;
+            this.MasterConfigMainView1.Icon = null;
             tableLayout3.Column = 0;
             tableLayout3.Row = 0;
-            this.workspaceBindingsMainView1.Layout = tableLayout3;
-            this.workspaceBindingsMainView1.Order = 1;
-            this.workspaceBindingsMainView1.SelectedObjects = null;
-            this.workspaceBindingsMainView1.Title = "Master Configurations";
-            this.workspaceBindingsMainView1.ToolBoxAvailable = false;
-            this.workspaceBindingsMainView1.UseDefaultIcon = false;
+            this.MasterConfigMainView1.Layout = tableLayout3;
+            this.MasterConfigMainView1.Order = 1;
+            this.MasterConfigMainView1.SelectedObjects = null;
+            this.MasterConfigMainView1.Title = "Master Configurations";
+            this.MasterConfigMainView1.ToolBoxAvailable = false;
+            this.MasterConfigMainView1.UseDefaultIcon = false;
             // 
             // MainTabularWorkspaceViewDesigner
             // 
@@ -113,6 +113,6 @@
         private System.Windows.Forms.ImageList imageList1;
         internal WorkspaceInstallerModulesView InstallerModuleMainView1;
         internal WorkspaceBindingsView BindingsMainView1;
-        private WorkspaceBindingsView workspaceBindingsMainView1;
+        internal WorkspaceBindingsView MasterConfigMainView1;
     }
 }

@@ -128,7 +128,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
         }
         private void ProjectManager1_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-
+            foreach (var view in this.GetFields<IMainViewContainer>())
+            {
+                view.RefreshAllViews();
+            }
         }
 
         private void MainTabularWorkspaceView1_ViewChanged(object sender, EventArgs e)
