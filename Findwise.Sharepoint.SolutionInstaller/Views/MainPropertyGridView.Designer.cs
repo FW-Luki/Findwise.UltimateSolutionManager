@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainPropertyGridViewDesigner));
             this.sizeablePanel1 = new Findwise.Sharepoint.SolutionInstaller.Controls.SizeablePanel();
             this.propertyGrid1 = new Findwise.Sharepoint.SolutionInstaller.Controls.PropertyGridEx();
             this.SelectedObjectToolStrip = new Findwise.Sharepoint.SolutionInstaller.Controls.FancyToolStrip();
             this.MasterConfigSelectToolStrip = new System.Windows.Forms.ToolStrip();
             this.MasterConfigSelectComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.PropertyGridMergeToolStrip = new System.Windows.Forms.ToolStrip();
-            this.BindingWindowToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.RestoreDefaultToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.BindPropertyToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.UnbindPropertyToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.NonBindableToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.HelpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.sizeablePanel1.SuspendLayout();
             this.MasterConfigSelectToolStrip.SuspendLayout();
@@ -100,8 +102,11 @@
             // PropertyGridMergeToolStrip
             // 
             this.PropertyGridMergeToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.BindingWindowToolStripButton,
             this.RestoreDefaultToolStripButton,
+            this.BindPropertyToolStripDropDownButton,
+            this.UnbindPropertyToolStripButton,
+            this.NonBindableToolStripButton,
+            this.toolStripSeparator1,
             this.HelpToolStripButton});
             this.PropertyGridMergeToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PropertyGridMergeToolStrip.Name = "PropertyGridMergeToolStrip";
@@ -109,16 +114,6 @@
             this.PropertyGridMergeToolStrip.Size = new System.Drawing.Size(320, 25);
             this.PropertyGridMergeToolStrip.TabIndex = 6;
             this.PropertyGridMergeToolStrip.Text = "toolStrip3";
-            // 
-            // BindingWindowToolStripButton
-            // 
-            this.BindingWindowToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BindingWindowToolStripButton.Enabled = false;
-            this.BindingWindowToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("BindingWindowToolStripButton.Image")));
-            this.BindingWindowToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.BindingWindowToolStripButton.Name = "BindingWindowToolStripButton";
-            this.BindingWindowToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.BindingWindowToolStripButton.Text = "Property binding";
             // 
             // RestoreDefaultToolStripButton
             // 
@@ -131,6 +126,40 @@
             this.RestoreDefaultToolStripButton.Text = "Restore default value for selected property";
             this.RestoreDefaultToolStripButton.Click += new System.EventHandler(this.RestoreDefaultToolStripButton_Click);
             // 
+            // BindPropertyToolStripDropDownButton
+            // 
+            this.BindPropertyToolStripDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BindPropertyToolStripDropDownButton.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Lock_65762;
+            this.BindPropertyToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BindPropertyToolStripDropDownButton.Name = "BindPropertyToolStripDropDownButton";
+            this.BindPropertyToolStripDropDownButton.Size = new System.Drawing.Size(29, 22);
+            this.BindPropertyToolStripDropDownButton.Text = "Bind selected property";
+            this.BindPropertyToolStripDropDownButton.Visible = false;
+            // 
+            // UnbindPropertyToolStripButton
+            // 
+            this.UnbindPropertyToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.UnbindPropertyToolStripButton.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Lock_Open_65761;
+            this.UnbindPropertyToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.UnbindPropertyToolStripButton.Name = "UnbindPropertyToolStripButton";
+            this.UnbindPropertyToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.UnbindPropertyToolStripButton.Text = "Unbind selected property";
+            this.UnbindPropertyToolStripButton.Visible = false;
+            // 
+            // NonBindableToolStripButton
+            // 
+            this.NonBindableToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.NonBindableToolStripButton.Enabled = false;
+            this.NonBindableToolStripButton.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Lock_65762;
+            this.NonBindableToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NonBindableToolStripButton.Name = "NonBindableToolStripButton";
+            this.NonBindableToolStripButton.Size = new System.Drawing.Size(23, 22);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // HelpToolStripButton
             // 
             this.HelpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -140,7 +169,6 @@
             this.HelpToolStripButton.Name = "HelpToolStripButton";
             this.HelpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.HelpToolStripButton.Text = "Show help for selected property";
-            this.HelpToolStripButton.Click += new System.EventHandler(this.HelpToolStripButton_Click);
             // 
             // MainPropertyGridViewDesigner
             // 
@@ -163,12 +191,15 @@
 
         private Controls.SizeablePanel sizeablePanel1;
         private System.Windows.Forms.ToolStrip PropertyGridMergeToolStrip;
-        private System.Windows.Forms.ToolStripButton BindingWindowToolStripButton;
         private System.Windows.Forms.ToolStripButton RestoreDefaultToolStripButton;
         private System.Windows.Forms.ToolStrip MasterConfigSelectToolStrip;
         private Controls.PropertyGridEx propertyGrid1;
         private Controls.FancyToolStrip SelectedObjectToolStrip;
-        private System.Windows.Forms.ToolStripButton HelpToolStripButton;
         internal System.Windows.Forms.ToolStripComboBox MasterConfigSelectComboBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        internal System.Windows.Forms.ToolStripButton HelpToolStripButton;
+        internal System.Windows.Forms.ToolStripDropDownButton BindPropertyToolStripDropDownButton;
+        internal System.Windows.Forms.ToolStripButton UnbindPropertyToolStripButton;
+        internal System.Windows.Forms.ToolStripButton NonBindableToolStripButton;
     }
 }

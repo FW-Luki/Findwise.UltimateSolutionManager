@@ -90,6 +90,7 @@ namespace SharepointSolutionPackageInstaller
     [DisplayName("Direct package file")]
     public class DirectPackageFileConfiguration : ConfigurationBase, IPackageConfiguration
     {
+        [Bindable(true)]
         [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
         public string WspPackagePath { get; set; }
 
