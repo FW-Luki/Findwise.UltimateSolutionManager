@@ -24,6 +24,7 @@ namespace ContentSourceCreator
 
         [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(ICrawlSettingsConfiguration))]
         [TypeConverter(typeof(DisplayNameExpandableObjectConverter))]
+        [Description("Specify the behavior for crawling this type of content.")]
         [DisplayName("Crawl Settings")]
         public ICrawlSettingsConfiguration CrawlSettingsConfiguration { get; set; }
 
@@ -36,6 +37,9 @@ namespace ContentSourceCreator
         [TypeConverter(typeof(ExpandableObjectConverter))]
         [DisplayName("Full Crawl")]
         public IContentScheduleConfiguration FullCrawlConfiguration { get; set; }
+        [Description("If you want start full crawl after add content source choose true.")]
+        [DisplayName("Start Full Crawl")]
+        public bool StartFullCrawl { get; set; }
 
         public override string ToString()
         {

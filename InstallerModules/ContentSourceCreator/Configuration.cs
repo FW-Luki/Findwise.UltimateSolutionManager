@@ -33,6 +33,7 @@ namespace ContentSourceCreator
         string[] StartAddresses { get; set; }
         IContentScheduleConfiguration IncrementalCrawlConfiguration { get; set; }
         IContentScheduleConfiguration FullCrawlConfiguration { get; set; }
+        bool StartFullCrawl { get; set; }
         ContentSource GetContentSource(Content content, Configuration myConfiguration, SearchAdministration.ContentSourceCollection contentSources);
     }
     public interface IContentScheduleConfiguration

@@ -35,6 +35,9 @@ namespace ContentSourceCreator
         [DefaultValue(true)]
         [DisplayName("Crawl Settings")]
         public bool CrawlSettings { get; set; }
+        [Description("If you want start full crawl after add content source choose true.")]
+        [DisplayName("Start Full Crawl")]
+        public bool StartFullCrawl { get; set; }
 
         public override string ToString()
         {

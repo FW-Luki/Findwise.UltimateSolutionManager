@@ -40,7 +40,7 @@ namespace ContentSourceCreator
                             {
                                 if (startAddress.Equals(mcsa))
                                 {
-                                    throw new SPDuplicateValuesFoundException("");
+                                    throw new SPDuplicateValuesFoundException("The start address already exists in any content source");
                                 }
                             }
                         }
@@ -68,6 +68,8 @@ namespace ContentSourceCreator
                 IContentSourceConfiguration contentSourceConfiguration = myConfiguration.ContentSourceConfiguration;
                 var contentSource = contentSourceConfiguration?.GetContentSource(content, myConfiguration, contentSources);
                 SetContentSourceCrawlSchedule(content, contentSource, contentSourceConfiguration.IncrementalCrawlConfiguration, contentSourceConfiguration.FullCrawlConfiguration);
+                if(contentSourceConfiguration.StartFullCrawl)
+                    contentSource.StartFullCrawl();
             }
             catch (Exception ex)
             {
