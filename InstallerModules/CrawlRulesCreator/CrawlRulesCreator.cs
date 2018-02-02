@@ -8,6 +8,7 @@ using CrawlRulesCreator.Properties;
 using Findwise.InstallerModule;
 using log4net;
 using System.Runtime.CompilerServices;
+using Microsoft.SharePoint;
 
 namespace CrawlRulesCreator
 {
@@ -26,9 +27,14 @@ namespace CrawlRulesCreator
             try
             {
                 var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
-                var result = myConfiguration.CrawlRuleDefinitions.All(myRule => content.CrawlRules.Any(sharepointRule => myRule.CompareToCrawlRule(sharepointRule)));
+                var crawlRuleExists = myConfiguration.CrawlRuleDefinitions.All(myRule => content.CrawlRules.Any(sharepointRule => myRule.CompareToCrawlRule(sharepointRule)));
 
-                if (result)
+                if(!crawlRuleExists && myConfiguration.CrawlRuleDefinitions.All(myRule => content.CrawlRules.Any(sharepointRule => StringComparer.InvariantCultureIgnoreCase.Compare(myRule.Path, sharepointRule.Path) == 0)))
+                {
+                    throw new SPDuplicateValuesFoundException("The path already exists in any crawl rules. Try again using a different path.");
+                }
+
+                if (crawlRuleExists)
                     Status = InstallerModuleStatus.Installed;
                 else
                     Status = InstallerModuleStatus.NotInstalled;
