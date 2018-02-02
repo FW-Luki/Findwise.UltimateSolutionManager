@@ -32,7 +32,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public MainToolStripView()
         {
             designer.NewToolStripButton.Click += (s_, e_) => Controller.GetController<ProjectManager>(Controllers).Saver.New();
-            designer.OpenToolStripButton.Click += (s_, e_) => Controller.GetController<ProjectManager>(Controllers).Saver.Load();
+            designer.OpenToolStripButton.Click += async (s_, e_) => await Controller.GetController<ProjectManager>(Controllers).Saver.Load();
             designer.SaveToolStripButton.Click += (s_, e_) => Controller.GetController<ProjectManager>(Controllers).Saver.Save();
             //designer.CancelToolStripButton.Click += (s_, e_) => CancellationController or sth...
         }

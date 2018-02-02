@@ -129,6 +129,7 @@ namespace SharepointSolutionPackageInstaller
         {
             [DefaultValue(@"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\MSBuild.exe")]
             [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
+            [HelpLink("https://msdn.microsoft.com/en-us/library/dd393574.aspx")]
             public string MsBuildExecutablePath { get; set; }
 
             [Editor(typeof(ApplicationHelpCommandEditor), typeof(UITypeEditor)), ApplicationHelpCommandEditor.Options(nameof(MsBuildExecutablePath))]

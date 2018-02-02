@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Findwise.Sharepoint.SolutionInstaller
 {
-    //ToDo1: Add morestatus names
+    //ToDo1: Add more status names
     //ToDo2: Get names from resources
     internal static class StatusName
     {
+        public const int MarqueeProgressBarStyle = -1;
+
         public const string Idle = "Ready";
     }
 }

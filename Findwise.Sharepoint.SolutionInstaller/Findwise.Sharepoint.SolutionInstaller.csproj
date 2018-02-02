@@ -69,9 +69,7 @@
     <Compile Include="Controllers\ModuleLoader.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ProjectManager.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Controllers\ProjectManager.cs" />
     <Compile Include="Controls\DataGridViewHideableButton.cs" />
     <Compile Include="Controls\FancyToolStripSeparator.cs">
       <SubType>Component</SubType>
@@ -282,6 +280,7 @@
     <None Include="Icons\if_Lock_65762.png" />
     <None Include="Icons\if_Lock-Open_65761.png" />
     <None Include="Icons\if_draft_46845.png" />
+    <None Include="Icons\if_help-browser_15335.png" />
     <Content Include="if_system-installer_15355.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

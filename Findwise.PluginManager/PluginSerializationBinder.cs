@@ -9,13 +9,16 @@ namespace Findwise.PluginManager
 {
     public sealed class PluginSerializationBinder : SerializationBinder
     {
+        //ToDo: It happens that typeName is "...[]" which means it's an array. It also happens that assemblyName is "0". 
+        //In both cases returned type is null, but I didn't notice any harmful impact of this bahavior.
         public override Type BindToType(string assemblyName, string typeName)
         {
             var type = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a =>
             {
                 try
                 {
-                    return a.GetExportedTypes();
+                    return a.GetTypes();
+                    //return a.GetExportedTypes();
                 }
                 catch
                 {

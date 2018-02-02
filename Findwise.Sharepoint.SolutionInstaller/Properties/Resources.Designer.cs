@@ -123,6 +123,16 @@ namespace Findwise.Sharepoint.SolutionInstaller.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap if_help_browser_15335 {
+            get {
+                object obj = ResourceManager.GetObject("if_help-browser_15335", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_list_add_15304 {
             get {
                 object obj = ResourceManager.GetObject("if_list-add_15304", resourceCulture);
