@@ -1,9 +1,12 @@
-﻿using Findwise.InstallerModule;
+﻿using ContentSourceCreator.Properties;
+using Findwise.InstallerModule;
 using Findwise.Sharepoint.SolutionInstaller;
 using Microsoft.Office.Server.Search.Administration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Microsoft.SharePoint;
 
 namespace ContentSourceCreator
 {
@@ -11,7 +14,7 @@ namespace ContentSourceCreator
     {
         public override string Name => "Content Source Creator";
 
-        public override System.Drawing.Image Icon => null;
+        public override System.Drawing.Image Icon => Resources.if_edit_find_15278;
 
         private Configuration myConfiguration = new Configuration();
         public override Findwise.Configuration.ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }
@@ -21,13 +24,30 @@ namespace ContentSourceCreator
             Status = InstallerModuleStatus.Refreshing;
             try
             {
-                var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
+                var content = GetSearchApplicationContent(myConfiguration.SearchApplicationName);
                 var contentSources = content.ContentSources;
 
-                bool isExistedContentSource = contentSources.Any(x => x.Name == myConfiguration.ContentSourceConfiguration.ContentSourceName);
+                bool contentSourceExists = contentSources.Any(x => x.Name == myConfiguration.ContentSourceConfiguration.ContentSourceName);
 
-                Status = isExistedContentSource ? InstallerModuleStatus.Installed : InstallerModuleStatus.NotInstalled;
+                if (!contentSourceExists)
+                {
+                    myConfiguration.ContentSourceConfiguration.StartAddresses.ToList().ForEach(mcsa =>
+                    {
+                        var contentsourceList = contentSources.ToList();
+                        foreach (ContentSource item in contentsourceList)
+                        {
+                            foreach (var startAddress in item.StartAddresses)
+                            {
+                                if (startAddress.Equals(mcsa))
+                                {
+                                    throw new SPDuplicateValuesFoundException("The start address already exists in any content source");
+                                }
+                            }
+                        }
+                    });
+                }
 
+                Status = contentSourceExists ? InstallerModuleStatus.Installed : InstallerModuleStatus.NotInstalled;
             }
             catch (Exception ex)
             {
@@ -41,34 +61,15 @@ namespace ContentSourceCreator
         {
             Status = InstallerModuleStatus.InstallationPending;
 
-            var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
+            var content = GetSearchApplicationContent(myConfiguration.SearchApplicationName);
             ContentSourceCollection contentSources = content.ContentSources;
             try
             {
-                switch (myConfiguration.ContentSourceConfiguration.ContentSourceType)
-                {
-                    case (ContentSourceType.Exchange):
-                        ExchangeSourceConfiguration exchangeSourceConfiguration = new ExchangeSourceConfiguration();
-                        exchangeSourceConfiguration.CreateContentType(content, myConfiguration, contentSources);
-                        break;
-
-                    case (ContentSourceType.File):
-                        FileSourceConfiguration fileSourceConfiguration = new FileSourceConfiguration();
-                        fileSourceConfiguration.CreateContentType(content, myConfiguration, contentSources);
-                        break;
-
-                    case (ContentSourceType.SharePoint):
-                        SharePointSourceConfiguration sharePointSourceConfiguration = new SharePointSourceConfiguration();
-                        sharePointSourceConfiguration.CreateContentType(content, myConfiguration, contentSources);
-                        break;
-                    case (ContentSourceType.Web):
-                        WebSourceConfiguration webSourceConfiguration = new WebSourceConfiguration();
-                        webSourceConfiguration.CreateContentType(content, myConfiguration, contentSources);
-                        break;
-                    default:
-                        Status = InstallerModuleStatus.Error;
-                        break;
-                }
+                IContentSourceConfiguration contentSourceConfiguration = myConfiguration.ContentSourceConfiguration;
+                var contentSource = contentSourceConfiguration?.GetContentSource(content, myConfiguration, contentSources);
+                SetContentSourceCrawlSchedule(content, contentSource, contentSourceConfiguration.IncrementalCrawlConfiguration, contentSourceConfiguration.FullCrawlConfiguration);
+                if(contentSourceConfiguration.StartFullCrawl)
+                    contentSource.StartFullCrawl();
             }
             catch (Exception ex)
             {
@@ -82,12 +83,18 @@ namespace ContentSourceCreator
             Status = InstallerModuleStatus.Uninstalling;
             try
             {
-                var content = SearchApplicationContent(myConfiguration.SearchApplicationName);
+                var content = GetSearchApplicationContent(myConfiguration.SearchApplicationName);
                 ContentSourceCollection contentSources = content.ContentSources;
 
                 var existedContentSource = contentSources.First(x => x.Name == myConfiguration.ContentSourceConfiguration.ContentSourceName);
 
                 var crawlStatus = existedContentSource.CrawlStatus;
+                if (existedContentSource.ContinuousCrawlStatus == ContinuousCrawlStatus.Completing || existedContentSource.ContinuousCrawlStatus == ContinuousCrawlStatus.Crawling)
+                {
+                    SharePointContentSource sharepoint = (SharePointContentSource)existedContentSource;
+                    sharepoint.EnableContinuousCrawls = false;
+                    sharepoint.Update();
+                }
                 if (crawlStatus != CrawlStatus.Idle)
                 {
                     existedContentSource.StopCrawl();
@@ -107,10 +114,38 @@ namespace ContentSourceCreator
             }
         }
 
-        private static Content SearchApplicationContent(string searchApplicationName)
+        private void SetContentSourceCrawlSchedule(Content content, ContentSource contentSource, IContentScheduleConfiguration incrementalScheduleConfiguration, IContentScheduleConfiguration fullScheduleConfiguration)
+        {
+            if (incrementalScheduleConfiguration != null)
+            {
+                var schedule = incrementalScheduleConfiguration.GetSchedule(content);
+                SetScheduleForContentSource(contentSource, schedule, incrementalScheduleConfiguration, false);
+            }
+            if (fullScheduleConfiguration != null)
+            {
+                var schedule = fullScheduleConfiguration.GetSchedule(content);
+                SetScheduleForContentSource(contentSource, schedule, fullScheduleConfiguration, true);
+            }
+            contentSource.Update();
+        }
+        public void SetScheduleForContentSource(ContentSource contentSource, Schedule schedule, IContentScheduleConfiguration contentScheduleConfiguration, bool isFullCrawl)
+        {
+            if (contentScheduleConfiguration.RepeatConfiguration is Repeat repeat)
+            {
+                schedule.RepeatInterval = repeat.CrawlScheduleRepeatInterval;
+                schedule.RepeatDuration = repeat.CrawlScheduleRepeatDuration;
+            }
+            if (isFullCrawl)
+                contentSource.FullCrawlSchedule = schedule;
+            else
+                contentSource.IncrementalCrawlSchedule = schedule;
+            contentSource.Update();
+        }
+
+        private static Content GetSearchApplicationContent(string searchApplicationName)
         {
             var context = SearchContext.GetContext(searchApplicationName);
             return new Content(context);
-        }        
+        }
     }
 }

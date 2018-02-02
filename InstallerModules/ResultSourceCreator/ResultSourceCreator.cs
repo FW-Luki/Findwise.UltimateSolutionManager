@@ -9,6 +9,7 @@ using Microsoft.Office.Server.Search.Administration;
 using Microsoft.Office.Server.Search.Administration.Query;
 using ResultSourceCreator.Properties;
 using Findwise.InstallerModule;
+using System.Security;
 
 namespace ResultSourceCreator
 {
@@ -50,9 +51,9 @@ namespace ResultSourceCreator
                 {
                     resultSource = fm.CreateSource(owner);
                     resultSource.Name = myConfiguration.ResultSourceName;
-                    resultSource.ProviderId = fm.ListProviders()["Local SharePoint Provider"].Id;
+                    resultSource.Description = myConfiguration.Description;
+                    resultSource.ProviderId = fm.ListProviders()[myConfiguration.TypeConfiguration.Provider].Id;
                 }
-
                 resultSource.CreateQueryTransform(myConfiguration.Query);
                 resultSource.Commit();
             }

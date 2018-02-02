@@ -52,6 +52,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileSourceConfiguration.cs" />
     <Compile Include="ExchangeSourceConfiguration.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SharePointSourceConfiguration.cs" />
     <Compile Include="WebSourceConfiguration.cs" />
   </ItemGroup>
@@ -68,6 +73,16 @@
       <Project>{B7FB54BC-C86E-4559-B69B-6A0CA7977406}</Project>
       <Name>InstallerModule</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="if_edit-find_15278.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
