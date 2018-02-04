@@ -60,11 +60,11 @@ namespace ContentSourceCreator
         public override void Install()
         {
             Status = InstallerModuleStatus.InstallationPending;
-
-            var content = GetSearchApplicationContent(myConfiguration.SearchApplicationName);
-            ContentSourceCollection contentSources = content.ContentSources;
             try
             {
+                var content = GetSearchApplicationContent(myConfiguration.SearchApplicationName);
+                ContentSourceCollection contentSources = content.ContentSources;
+
                 IContentSourceConfiguration contentSourceConfiguration = myConfiguration.ContentSourceConfiguration;
                 var contentSource = contentSourceConfiguration?.GetContentSource(content, myConfiguration, contentSources);
                 SetContentSourceCrawlSchedule(content, contentSource, contentSourceConfiguration.IncrementalCrawlConfiguration, contentSourceConfiguration.FullCrawlConfiguration);

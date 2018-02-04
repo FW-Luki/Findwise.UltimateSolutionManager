@@ -1,4 +1,7 @@
 ﻿using Findwise.InstallerModule;
+using Findwise.Sharepoint.SolutionInstaller;
+using ImpactRulesCreator.Properties;
+using Microsoft.Office.Server.Search.Administration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +14,66 @@ namespace ImpactRulesCreator
     {
         public override string Name => "Impact Rules Creator";
 
-        public override System.Drawing.Image Icon => null;
+        public override System.Drawing.Image Icon => Resources.if_utilities_system_monitor_15358;
 
         private Configuration myConfiguration = new Configuration();
         public override Findwise.Configuration.ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }
 
         public override void CheckStatus()
         {
-            //Status = 
+            Status = InstallerModuleStatus.Refreshing;
+            try
+            {
+                var siteHitRulesCollection = GetSiteHitRules();
+                var siteHitRuleExists = siteHitRulesCollection.Any(x => x.Site == myConfiguration.Site);
+
+                Status = siteHitRuleExists ? InstallerModuleStatus.Installed : InstallerModuleStatus.NotInstalled;
+            }
+            catch (Exception ex)
+            {
+                Status = InstallerModuleStatus.Error;
+                LogError(ex);
+                throw;
+            }
         }
 
         public override void Install()
         {
-            throw new NotImplementedException();
+            Status = InstallerModuleStatus.Installing;
+            try
+            {
+                var siteHitRulesCollection = GetSiteHitRules();
+                siteHitRulesCollection.Create(myConfiguration.Site, myConfiguration.HitRate, SiteHitRuleBehavior.DelayBetweenRequests);
+            }
+            catch (Exception ex)
+            {
+                Status = InstallerModuleStatus.Error;
+                LogError(ex);
+                throw;
+            }
         }
 
         public override void Uninstall()
         {
-            throw new NotImplementedException();
+            Status = InstallerModuleStatus.Uninstalling;
+            try
+            {
+                var siteHitRulesCollection = GetSiteHitRules();
+                var siteHitRuleExist = siteHitRulesCollection.Where(x => x.Site == myConfiguration.Site).First();
+
+                siteHitRuleExist.Delete();
+            }
+            catch (Exception ex)
+            {
+                Status = InstallerModuleStatus.Error;
+                LogError(ex);
+                throw;
+            }
+        }
+        private static SiteHitRulesCollection GetSiteHitRules()
+        {
+            SearchService searchService = SearchService.Service;
+            return searchService.SiteHitRules;
         }
     }
 }
