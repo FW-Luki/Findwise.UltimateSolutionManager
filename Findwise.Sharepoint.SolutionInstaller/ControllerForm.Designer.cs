@@ -83,9 +83,11 @@
             tableLayout3.ColumnStyle = new System.Windows.Forms.ColumnStyle();
             tableLayout3.Row = 1;
             this.MainPropertyGridView1.Layout = tableLayout3;
+            this.MainPropertyGridView1.ProjectManager = this.ProjectManager1;
             this.MainPropertyGridView1.SelectedObjectName = "";
             this.MainPropertyGridView1.SelectedObjects = new object[0];
             this.MainPropertyGridView1.PropertyGridSelectedValueChanged += new System.EventHandler(this.MainPropertyGridView1_PropertyGridItemChanged);
+            this.MainPropertyGridView1.SelectedMasterConfigurationChanged += new System.EventHandler(this.MainPropertyGridView1_SelectedMasterConfigurationChanged);
             // 
             // MainToolboxView1
             // 

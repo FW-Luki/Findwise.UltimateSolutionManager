@@ -64,7 +64,7 @@ namespace ContentSourceCreator
         [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IRepeatConfiguration))]
         [TypeConverter(typeof(DisplayNameExpandableObjectConverter))]
         [DisplayName("Repeat within the day")]
-        public IRepeatConfiguration RepeatConfiguration { get; set; }
+        public IRepeatConfiguration RepeatConfiguration { get; set; } = new DontRepeat();
 
         public Schedule GetSchedule(Content content)
         {
@@ -170,17 +170,17 @@ namespace ContentSourceCreator
     [DisplayName("Only crawl within the server of each start address")]
     public class OnlyCrawlWithinTheServerOfEachStartAddress : ICrawlSettingsConfiguration
     {
-        [ReadOnly(true)]
+        [Browsable(false)]
         public int? MaxPageEnumerationDepth { get; set; } = null;
-        [ReadOnly(true)]
+        [Browsable(false)]
         public int? MaxSiteEnumerationDepth { get; set; } = 0;
     }
     [DisplayName("Only crawl the first page of each start address")]
     public class OnlyCrawltheFirstPageOfEachStartAddress : ICrawlSettingsConfiguration
     {
-        [ReadOnly(true)]
+        [Browsable(false)]
         public int? MaxPageEnumerationDepth { get; set; } = 0;
-        [ReadOnly(true)]
+        [Browsable(false)]
         public int? MaxSiteEnumerationDepth { get; set; } = 0;
     }
     [DisplayName("Custom")]

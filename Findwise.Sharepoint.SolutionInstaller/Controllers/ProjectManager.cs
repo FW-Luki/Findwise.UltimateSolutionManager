@@ -325,24 +325,55 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
             //item.Name = "New item " + (Project.BindingSourcesList.Count());
             var item = new BindingItem()
             {
-                Name = "New item " + Project.BindingSourceList.Count(),
+                Name = "New Binding Item " + Project.BindingSourceList.Count(),
             };
             foreach (var master in Project.MasterConfigurationList)
                 item.ValueDictionary.Add(master, null);
             Project.BindingSourceList.Add(item);
         }
+
+        public void DeleteDataBindingSource(IEnumerable<BindingItem> items)
+        {
+            foreach (var item in items)
+            {
+                Project.BindingSourceList.Remove(item);
+            }
+        }
         #endregion
 
         #region Code MasterConfigs
+        public void SetMasterConfig(MasterConfig item)
+        {
+            foreach (var sourceItem in Project.BindingSourceList)
+            {
+                sourceItem.MasterConfig = item;
+            }
+        }
+
         public void AddMasterConfig(string name = null)
         {
             var master = new MasterConfig()
             {
-                Name = name ?? "New item " + Project.MasterConfigurationList.Count()
+                Name = name ?? "New Master Configuration " + Project.MasterConfigurationList.Count()
             };
             Project.MasterConfigurationList.Add(master);
             foreach (var item in Project.BindingSourceList)
                 item.ValueDictionary.Add(master, null);
+        }
+
+        public void DeleteMasterConfig(IEnumerable<MasterConfig> items)
+        {
+            if (Project.BindingSourceList.Any() && !Project.MasterConfigurationList.Except(items).Any())
+                throw new ArgumentException("Cannot delete all Master Configurations when Binding Source List is not empty.");
+
+            foreach (var item in items)
+            {
+                foreach (var b in Project.BindingSourceList)
+                {
+                    b.ValueDictionary.Remove(item);
+                }
+                Project.MasterConfigurationList.Remove(item);
+            }
         }
         #endregion
 

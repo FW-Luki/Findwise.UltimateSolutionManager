@@ -18,6 +18,7 @@ namespace ManagedPropertiesCreator
         public string SearchApplicationName { get; set; }
         [RefreshProperties(RefreshProperties.All)]
         [Editor(typeof(CsvLoaderEditor), typeof(UITypeEditor))]
+        [HelpLink("https://msdn.microsoft.com/en-us/library/microsoft.sharepoint.search.extended.administration.schema.managedproperty_properties(v=office.14).aspx")]
         public ManagedPropertyDefinition[] ManagedProperties { get; set; }
 
         [TypeConverter(typeof(ExpandableObjectConverter))]

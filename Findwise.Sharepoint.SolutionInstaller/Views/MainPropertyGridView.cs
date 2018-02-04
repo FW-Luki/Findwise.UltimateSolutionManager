@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Findwise.Sharepoint.SolutionInstaller.Controllers;
 using Findwise.Configuration;
+using Findwise.Sharepoint.SolutionInstaller.Models;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
     [ToolboxItem(false)]
     public partial class MainPropertyGridViewDesigner : UserControl
     {
-        private readonly string defaultHelpButtonText;
+        internal readonly string DefaultHelpButtonText;
 
         public MainPropertyGridViewDesigner()
         {
@@ -24,7 +25,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             propertyGrid1.MergeToolStrip(PropertyGridMergeToolStrip);
             PropertyGridMergeToolStrip.Visible = false;
 
-            defaultHelpButtonText = HelpToolStripButton.Text;
+            DefaultHelpButtonText = HelpToolStripButton.Text;
             propertyGrid1.SelectedGridItemChanged += PropertyGrid1_SelectedGridItemChanged;
         }
 
@@ -47,8 +48,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
 
         internal event EventHandler PropertyGridSelectedValueChanged;
-        //internal event SelectedGridItemChangedEventHandler PropertyGridSelectedGridItemChanged;
-        internal event EventHandler HelpButtonClicked;
+        internal event SelectedGridItemChangedEventHandler PropertyGridSelectedGridItemChanged;
 
 
         private void RestoreDefaultToolStripButton_Click(object sender, EventArgs e)
@@ -58,30 +58,14 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         private void MasterConfigSelectToolStrip_SizeChanged(object sender, EventArgs e)
         {
-            MasterConfigSelectComboBox.Width = MasterConfigSelectToolStrip.DisplayRectangle.Width - MasterConfigSelectToolStrip.Padding.Horizontal;
+            MasterConfigSelectComboBox.Width = MasterConfigSelectToolStrip.DisplayRectangle.Width - MasterConfigSelectToolStrip.Padding.Horizontal - MasterConfigSelectComboBox.Margin.Horizontal;
         }
 
         private void PropertyGrid1_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
         {
-            var helpLinkAttribs = e.NewSelection.PropertyDescriptor?.Attributes.OfType<HelpLinkAttribute>();
-            if (helpLinkAttribs?.Any()??false)
-            {
-                var helpLinkAttrib = helpLinkAttribs.First();
-                HelpToolStripButton.Tag = helpLinkAttrib.Url;
-                HelpToolStripButton.Text = helpLinkAttrib.Text ?? defaultHelpButtonText;
-                HelpToolStripButton.ToolTipText = helpLinkAttrib.Description ?? defaultHelpButtonText;
-                HelpToolStripButton.Enabled = true;
-            }
-            else
-            {
-                HelpToolStripButton.Enabled = false;
-            }
+            PropertyGridSelectedGridItemChanged?.Invoke(sender, e);
         }
 
-        private void HelpToolStripButton_Click(object sender, EventArgs e)
-        {
-            HelpButtonClicked?.Invoke(sender, e);
-        }
     }
 
     public class MainPropertyGridView : IComponentView
@@ -92,6 +76,18 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
 
+
+        private ProjectManager _projectManager;
+        public ProjectManager ProjectManager
+        {
+            get { return _projectManager; }
+            set
+            {
+                _projectManager = value;
+                BindDataSources();
+                _projectManager.PropertyChanged += (s_, e_) => BindDataSources(); ;
+            }
+        }
 
         [Browsable(false)]
         public string SelectedObjectName { get => designer.Title; set => designer.Title = value; }
@@ -115,16 +111,66 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
-
-        public MainPropertyGridView()
+        public MasterConfig MasterConfig
         {
-            designer.PropertyGridSelectedValueChanged += (s_, e_) => PropertyGridSelectedValueChanged?.Invoke(this, EventArgs.Empty);
-            designer.HelpButtonClicked += Designer_HelpButtonClicked;
+            get { return designer.MasterConfigSelectComboBox.SelectedItem as MasterConfig; }
         }
 
 
         public event EventHandler PropertyGridSelectedValueChanged;
 
+        public event EventHandler SelectedMasterConfigurationChanged;
+
+
+        public MainPropertyGridView()
+        {
+            designer.PropertyGridSelectedValueChanged += (s_, e_) => PropertyGridSelectedValueChanged?.Invoke(this, EventArgs.Empty);
+            designer.PropertyGridSelectedGridItemChanged += Designer_PropertyGridSelectedGridItemChanged;
+            designer.HelpToolStripButton.Click += Designer_HelpButtonClicked;
+            designer.MasterConfigSelectComboBox.SelectedIndexChanged += (s_, e_) => SelectedMasterConfigurationChanged?.Invoke(this, EventArgs.Empty);
+            designer.BindPropertyToolStripDropDownButton.Click += BindPropertyToolStripDropDownButton_Click;
+            designer.UnbindPropertyToolStripButton.Click += UnbindPropertyToolStripButton_Click;
+        }
+
+
+        private void Designer_PropertyGridSelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
+        {
+            var helpLinkAttribs = e.NewSelection?.PropertyDescriptor?.Attributes.OfType<HelpLinkAttribute>();
+            if (helpLinkAttribs?.Any() ?? false)
+            {
+                var helpLinkAttrib = helpLinkAttribs.First();
+                designer.HelpToolStripButton.Tag = helpLinkAttrib.Url;
+                designer.HelpToolStripButton.Text = helpLinkAttrib.Text ?? designer.DefaultHelpButtonText;
+                designer.HelpToolStripButton.ToolTipText = helpLinkAttrib.Description ?? designer.DefaultHelpButtonText;
+                designer.HelpToolStripButton.Enabled = true;
+            }
+            else
+            {
+                designer.HelpToolStripButton.Enabled = false;
+            }
+
+            if (sender is PropertyGrid propertyGrid && propertyGrid.SelectedObjects.Count() == 1 && propertyGrid.SelectedObject is IBindableComponent bindableComponent
+            && (e.NewSelection?.PropertyDescriptor?.Attributes.OfType<BindableAttribute>().FirstOrDefault() ?? BindableAttribute.Default).Bindable)
+            {
+                designer.NonBindableToolStripButton.Visible = false;
+                if (bindableComponent.DataBindings.Cast<Binding>().Any(b => b.PropertyName == e.NewSelection.PropertyDescriptor.Name))
+                {
+                    designer.BindPropertyToolStripDropDownButton.Visible = false;
+                    designer.UnbindPropertyToolStripButton.Visible = true;
+                }
+                else
+                {
+                    designer.BindPropertyToolStripDropDownButton.Visible = true;
+                    designer.UnbindPropertyToolStripButton.Visible = false;
+                }
+            }
+            else
+            {
+                designer.BindPropertyToolStripDropDownButton.Visible = false;
+                designer.UnbindPropertyToolStripButton.Visible = false;
+                designer.NonBindableToolStripButton.Visible = true;
+            }
+        }
 
         private void Designer_HelpButtonClicked(object sender, EventArgs e)
         {
@@ -150,6 +196,20 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
+        private void BindPropertyToolStripDropDownButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        private void UnbindPropertyToolStripButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void BindDataSources()
+        {
+            designer.MasterConfigSelectComboBox.ComboBox.DataSource = _projectManager.Project.MasterConfigurationList;
+        }
+        
 
         #region IComponent Support
         public ISite Site { get; set; }
