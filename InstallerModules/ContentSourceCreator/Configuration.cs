@@ -121,6 +121,7 @@ namespace ContentSourceCreator
         [DisplayName("Day of Month")]
         public SearchAdministration.DaysOfMonth DaysOfMonth { get; set; }
         [DisplayName("Month of Year")]
+        [Editor(typeof(FlagsEnumEditor<MonthsOfYear>), typeof(UITypeEditor))]
         public SearchAdministration.MonthsOfYear MonthsOfYear { get; set; }
         [Description("Enter a hour. Example: 15 it's 3:00 PM.")]
         [DisplayName("Starting time")]

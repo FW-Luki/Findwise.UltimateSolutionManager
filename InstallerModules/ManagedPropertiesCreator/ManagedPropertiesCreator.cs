@@ -55,18 +55,39 @@ namespace ManagedPropertiesCreator
                 {
                     foreach (var mp in notInstalledManagedProperty)
                     {
-                        var managedProperty = content.SearchApplication.CreateManagedProperty(mp.Name, (ManagedDataType)mp.PropertyType, owner);
-                        managedProperty.Retrievable = mp.Retrieve;
-                        managedProperty.Queryable = mp.Query;
+                        var managedProperty = content.SearchApplication.CreateManagedProperty(mp.Name, mp.PropertyType, owner);
+                        managedProperty.Retrievable = mp.Retrievable;
+                        managedProperty.Queryable = mp.Queryable;
                         managedProperty.SafeForAnonymous = mp.Safe;
-                        managedProperty.Searchable = mp.Search;
-                        managedProperty.Refinable = mp.Refine;
+                        managedProperty.Searchable = mp.Searchable;
+                        managedProperty.Refinable = mp.Refinable;
                         managedProperty.Sortable = mp.Sort;
+                        managedProperty.SortableType = mp.Sortable;
                         managedProperty.HasMultipleValues = mp.Multivalue;
+                        managedProperty.CompanyExtraction = mp.CompanyExtraction;
+                        managedProperty.CompleteMatching = mp.CompleteMatching;
+                        managedProperty.TokenNormalization = mp.TokenNormalization;
+
+                        if (mp.Alias != null) content.SearchApplication.SetManagedPropertyAliases(managedProperty, mp.Alias, owner);
+                        if (mp.Description != null) managedProperty.Description = mp.Description;
+
+                        managedProperty.WordExtractionCustom1 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom1;
+                        managedProperty.WordExtractionCustom2 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom2;
+                        managedProperty.WordExtractionCustom3 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom3;
+                        managedProperty.WordExtractionCustom4 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom4;
+                        managedProperty.WordExtractionCustom5 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom5;
+                        managedProperty.WordPartExtractionCustom1 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom1;
+                        managedProperty.WordPartExtractionCustom2 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom2;
+                        managedProperty.WordPartExtractionCustom3 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom3;
+                        managedProperty.WordPartExtractionCustom4 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom4;
+                        managedProperty.WordPartExtractionCustom5 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom5;
+                        managedProperty.WordExactExtractionCustom = mp.CustomEntityExtractionConfiguration.WordExactExtractionCustom;
+                        managedProperty.WordPartExactExtractionCustom = mp.CustomEntityExtractionConfiguration.WordPartExactExtractionCustom;
 
                         content.SearchApplication.UpdateManagedProperty(managedProperty, owner);
 
-                        SetCrawledPropertyInManagedProperty(content, owner, mp, managedProperty);
+                        if (mp.CrawledPropertiesCategory != null)
+                            SetCrawledPropertyInManagedProperty(content, owner, mp, managedProperty);
                     }
                 }
                 else if (installedManagedProperty != null)
@@ -75,7 +96,8 @@ namespace ManagedPropertiesCreator
                     {
                         var managedProperty = content.SearchApplication.GetManagedProperty(mp.Name, owner);
 
-                        SetCrawledPropertyInManagedProperty(content, owner, mp, managedProperty);
+                        if (mp.CrawledPropertiesCategory != null)
+                            SetCrawledPropertyInManagedProperty(content, owner, mp, managedProperty);
                     }
                 }
             }
@@ -208,4 +230,3 @@ namespace ManagedPropertiesCreator
         }
     }
 }
-    
