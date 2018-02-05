@@ -36,6 +36,7 @@ namespace ManagedPropertiesCreator
             private ManagedDataType _propertyType;
             [Description("Type of information that is stored in this property. ")]
             [DefaultValue(ManagedDataType.Text)]
+            [TypeConverter(typeof(ManagedDataTypeEnumConverter))]
             public ManagedDataType PropertyType { get => _propertyType; set { if (value == ManagedDataType.Unsupported) throw new System.ArgumentException(); _propertyType = value; } }
             [Description("Set whether this managed property can be sorted.")]
             public bool Sort { get; set; }
@@ -54,8 +55,6 @@ namespace ManagedPropertiesCreator
             public bool Queryable { get; set; }
             [Description("Safe for Anonymous: Enables this managed property to be returned for queries executed by anonymous users. Enable this setting for managed properties that do not contain sensitive information and are appropriate for anonymous users to view.")]
             public bool Safe { get; set; }
-            [Description("Define an alias for a managed property if you want to use the alias instead of the managed property name in queries and in search results. Use the original managed property and not the alias to map to a crawled property. Use an alias if you don't want to or don't have permission to create a new managed property.")]
-            public string[] Alias { get; set; }
             [Description("Enables the system to extract company name entities from the managed property when crawling new or updated items. Afterwards, the extracted entities can be used to set up refiners in the web part.\n\nThere is a pre - populated dictionary for company name extraction.The system saves the original managed property content unchanged in the index and, in addition, copies the extracted entities to the managed property 'companies'.The 'companies' managed property is configured to be searchable, queryable, retrievable, sortable and refinable.")]
             [DisplayName("Company name extraction")]
             public bool CompanyExtraction { get; set; }
@@ -66,6 +65,8 @@ namespace ManagedPropertiesCreator
             [Description("Queries will only be matched against the exact content of the property. For example, if you have a managed property 'ID' that contains the string '1 - 23 - 456#7', complete matching only returns results on the query ID:'1-23-456#7', and not on the queries ID:'1-23' or  ID:'1 23 456 7'.")]
             [DisplayName("Complete Matching")]
             public bool CompleteMatching { get; set; }
+            [Description("Define an alias for a managed property if you want to use the alias instead of the managed property name in queries and in search results. Use the original managed property and not the alias to map to a crawled property. Use an alias if you don't want to or don't have permission to create a new managed property.")]
+            public string[] Alias { get; set; }
 
             [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(ICustomEntityExtractionConfiguration))]
             [TypeConverter(typeof(DisplayNameExpandableObjectConverter))]
