@@ -12,7 +12,7 @@ namespace CrawlRulesCreator
     {
         public static bool CompareToCrawlRule(this CrawlRuleDefinition crawlRuleDefinition, CrawlRule sharepointRule)
         {
-            return StringComparer.InvariantCultureIgnoreCase.Compare(sharepointRule.Path, crawlRuleDefinition.Path) == 0 && sharepointRule.Type == (crawlRuleDefinition.IsExclude ? CrawlRuleType.ExclusionRule : CrawlRuleType.InclusionRule);
+            return StringComparer.InvariantCultureIgnoreCase.Compare(sharepointRule.Path, crawlRuleDefinition.Path) == 0 && sharepointRule.Type == (crawlRuleDefinition.CrawlRuleConfiguration is Exclude ? CrawlRuleType.ExclusionRule : CrawlRuleType.InclusionRule);
         }
     }
 }

@@ -36,7 +36,6 @@ namespace ManagedPropertiesCreator
             private ManagedDataType _propertyType;
             [Description("Type of information that is stored in this property. ")]
             [DefaultValue(ManagedDataType.Text)]
-            [TypeConverter(typeof(ManagedDataTypeEnumConverter))]
             public ManagedDataType PropertyType { get => _propertyType; set { if (value == ManagedDataType.Unsupported) throw new System.ArgumentException(); _propertyType = value; } }
             [Description("Set whether this managed property can be sorted.")]
             public bool Sort { get; set; }
