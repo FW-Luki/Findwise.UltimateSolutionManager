@@ -316,7 +316,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         #endregion
 
         #region Code DataBindings
-        public void AddDataBindingSource(/*BindingItem item*/)
+        public void AddDataBindingSource(string name = null, Type type = null)
         {
             if (!Project.MasterConfigurationList.Any())
                 AddMasterConfig("Default");
@@ -325,7 +325,9 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
             //item.Name = "New item " + (Project.BindingSourcesList.Count());
             var item = new BindingItem()
             {
-                Name = "New Binding Item " + Project.BindingSourceList.Count(),
+                Name = name ?? "New Binding Item " + Project.BindingSourceList.Count(),
+                Type = type,
+                MasterConfig = _masterConfig ?? Project.MasterConfigurationList.LastOrDefault()
             };
             foreach (var master in Project.MasterConfigurationList)
                 item.ValueDictionary.Add(master, null);
@@ -342,8 +344,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         #endregion
 
         #region Code MasterConfigs
+        private MasterConfig _masterConfig = null;
         public void SetMasterConfig(MasterConfig item)
         {
+            _masterConfig = item;
             foreach (var sourceItem in Project.BindingSourceList)
             {
                 sourceItem.MasterConfig = item;
@@ -364,7 +368,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         public void DeleteMasterConfig(IEnumerable<MasterConfig> items)
         {
             if (Project.BindingSourceList.Any() && !Project.MasterConfigurationList.Except(items).Any())
-                throw new ArgumentException("Cannot delete all Master Configurations when Binding Source List is not empty.");
+                throw new InvalidOperationException("Cannot delete all Master Configurations when Binding Source List is not empty.");
 
             foreach (var item in items)
             {

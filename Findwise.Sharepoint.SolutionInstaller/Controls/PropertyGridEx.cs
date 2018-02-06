@@ -118,10 +118,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
                         {
                             PropertySort &= ~s;
                         }
-
-                        var tmp = SelectedObjects;
-                        SelectedObjects = null;
-                        SelectedObjects = tmp;
+                        RefreshDatasouce();
                     }
                     SetSortButtonsState();
                 };
@@ -138,6 +135,13 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
             }
         }
 
+
+        public void RefreshDatasouce()
+        {
+            var tmp = SelectedObjects;
+            SelectedObjects = null;
+            SelectedObjects = tmp;
+        }
 
         public void MergeToolStrip(ToolStrip toolStrip)
         {
