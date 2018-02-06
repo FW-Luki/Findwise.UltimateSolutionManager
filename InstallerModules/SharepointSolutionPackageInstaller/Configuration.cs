@@ -84,15 +84,21 @@ namespace SharepointSolutionPackageInstaller
 
     public interface IPackageConfiguration
     {
-        string GetPackagePath();
+        WspFile WspPackage { get; set; }
+        //string GetPackagePath();
     }
 
     [DisplayName("Direct package file")]
-    public class DirectPackageFileConfiguration : ConfigurationBase, IPackageConfiguration
+    public class DirectPackageFileConfiguration : ConfigurationBase, IPackageConfiguration, IBindableComponent
     {
         [Bindable(true)]
-        [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
-        public string WspPackagePath { get; set; }
+        //[Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
+        public WspFile WspPackage { get; set; }
+
+        public DirectPackageFileConfiguration()
+        {
+            DataBindings = new ControlBindingsCollection(this);
+        }
 
         public string GetPackagePath()
         {
@@ -103,13 +109,68 @@ namespace SharepointSolutionPackageInstaller
         {
             return GetType().Name;
         }
+
+
+        #region IBindableComponent Support
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ControlBindingsCollection DataBindings { get; }
+
+        [System.Xml.Serialization.XmlIgnore, System.Runtime.Serialization.IgnoreDataMember]
+        [Browsable(false)]
+        public BindingContext BindingContext { get; set; } = new BindingContext();
+
+        #region IComponent Support
+        [Browsable(false)]
+        public ISite Site { get; set; } = null;
+
+        public event EventHandler Disposed;
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+                Disposed?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~Configuration() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+        #endregion
+        #endregion
+
     }
 
     [DisplayName("Visual Studio project")]
     public class VisualStudioProjectFileConfiguration : ConfigurationBase, IPackageConfiguration
     {
         [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
-        public string VisualStudioProjectPath { get; set; }
+        public WspFile WspPackage { get; set; }
 
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public CompilerConfiguration CompilerSetup { get; set; } = new CompilerConfiguration();
@@ -143,4 +204,11 @@ namespace SharepointSolutionPackageInstaller
         }
     }
 
+    [Editor()]
+    public class WspFile
+    {
+        public string Filename { get; set; }
+
+        public string Contents { get; set; }
+    }
 }

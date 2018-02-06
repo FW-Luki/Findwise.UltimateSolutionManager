@@ -51,6 +51,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         internal event SelectedGridItemChangedEventHandler PropertyGridSelectedGridItemChanged;
 
 
+        internal void RefreshPropertyGrid()
+        {
+            propertyGrid1.RefreshDatasouce();
+        }
+
+
         private void RestoreDefaultToolStripButton_Click(object sender, EventArgs e)
         {
             propertyGrid1.ResetSelectedProperty();
@@ -65,12 +71,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         {
             PropertyGridSelectedGridItemChanged?.Invoke(sender, e);
         }
-
     }
 
     public class MainPropertyGridView : IComponentView
     {
         private MainPropertyGridViewDesigner designer = new MainPropertyGridViewDesigner();
+        private List<ToolStripItem> propertyBindingItems = new List<ToolStripItem>();
 
         public Control Control => designer.Panel;
         public Controller[] Controllers { get; set; }
@@ -108,6 +114,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                     else
                         return obj;
                 }).ToArray();
+                if (value == null || !value.Any()) Designer_PropertyGridSelectedGridItemChanged(null, new SelectedGridItemChangedEventArgs(null, null));
             }
         }
 
@@ -128,8 +135,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             designer.PropertyGridSelectedGridItemChanged += Designer_PropertyGridSelectedGridItemChanged;
             designer.HelpToolStripButton.Click += Designer_HelpButtonClicked;
             designer.MasterConfigSelectComboBox.SelectedIndexChanged += (s_, e_) => SelectedMasterConfigurationChanged?.Invoke(this, EventArgs.Empty);
-            designer.BindPropertyToolStripDropDownButton.Click += BindPropertyToolStripDropDownButton_Click;
+            designer.BindPropertyToolStripDropDownButton.DropDownOpening += BindPropertyToolStripDropDownButton_DropDownOpening;
+            designer.BindPropertyToolStripDropDownButton.DropDownClosed += BindPropertyToolStripDropDownButton_DropDownClosed;
             designer.UnbindPropertyToolStripButton.Click += UnbindPropertyToolStripButton_Click;
+            designer.NewBindingSourceToolStripMenuItem.Click += NewBindingSourceToolStripMenuItem_Click;
         }
 
 
@@ -149,7 +158,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                 designer.HelpToolStripButton.Enabled = false;
             }
 
-            if (sender is PropertyGrid propertyGrid && propertyGrid.SelectedObjects.Count() == 1 && propertyGrid.SelectedObject is IBindableComponent bindableComponent
+            if (sender is PropertyGrid propertyGrid && propertyGrid.SelectedObjects.Count() == 1 && (e.NewSelection.Parent?.Value ?? propertyGrid.SelectedObject) is IBindableComponent bindableComponent
             && (e.NewSelection?.PropertyDescriptor?.Attributes.OfType<BindableAttribute>().FirstOrDefault() ?? BindableAttribute.Default).Bindable)
             {
                 designer.NonBindableToolStripButton.Visible = false;
@@ -157,11 +166,18 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                 {
                     designer.BindPropertyToolStripDropDownButton.Visible = false;
                     designer.UnbindPropertyToolStripButton.Visible = true;
+
+                    var bindingDef = new BindingDefinition(bindableComponent, e.NewSelection.PropertyDescriptor);
+                    designer.UnbindPropertyToolStripButton.Tag = bindingDef;
                 }
                 else
                 {
                     designer.BindPropertyToolStripDropDownButton.Visible = true;
                     designer.UnbindPropertyToolStripButton.Visible = false;
+
+                    var bindingDef = new BindingDefinition(bindableComponent, e.NewSelection.PropertyDescriptor);
+                    designer.BindPropertyToolStripDropDownButton.Tag = bindingDef;
+                    designer.NewBindingSourceToolStripMenuItem.Tag = bindingDef;
                 }
             }
             else
@@ -196,20 +212,72 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
-        private void BindPropertyToolStripDropDownButton_Click(object sender, EventArgs e)
+        private void BindPropertyToolStripDropDownButton_DropDownOpening(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (designer.BindPropertyToolStripDropDownButton.HasDropDownItems) designer.BindPropertyToolStripDropDownButton.DropDownItems.Clear();
+            designer.BindPropertyToolStripDropDownButton.DropDownItems.Add(designer.NewBindingSourceToolStripMenuItem);
+            if ((sender as ToolStripItem)?.Tag is BindingDefinition bindingDef)
+            {
+                var bindingSources = _projectManager.Project.BindingSourceList.Where(b => b.Type != null && b.Type.IsAssignableFrom(bindingDef.PropertyDescriptor.PropertyType));
+                if (bindingSources.Any())
+                {
+                    designer.BindPropertyToolStripDropDownButton.DropDownItems.Add(designer.BindingSourcesToolStripSeparator);
+                    foreach (var bindingSource in bindingSources)
+                    {
+//#error Clone this!
+                        bindingDef.DataSource = bindingSource;
+                        var item = new ToolStripMenuItem(bindingSource.Name, null, BindProperty)
+                        {
+                            Tag = bindingDef
+                        };
+                        propertyBindingItems.Add(item);
+                        designer.BindPropertyToolStripDropDownButton.DropDownItems.Add(item);
+                    }
+                }
+            }
+        }
+        private void BindPropertyToolStripDropDownButton_DropDownClosed(object sender, EventArgs e)
+        {
+            designer.BindPropertyToolStripDropDownButton.DropDownItems.Clear();
+            propertyBindingItems.ForEach(item => item.Dispose());
+            propertyBindingItems.Clear();
+        }
+        private void NewBindingSourceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if ((sender as ToolStripItem)?.Tag is BindingDefinition bindingDef)
+            {
+                _projectManager.AddDataBindingSource(bindingDef.PropertyDescriptor.Name, bindingDef.PropertyDescriptor.PropertyType);
+                bindingDef.DataSource = _projectManager.Project.BindingSourceList.Last();
+                ((ToolStripItem)sender).Tag = bindingDef; //AddDataBindingSource causes PropertyGrid selected objects change which results in changing the sender's Tag, so we have to assign our value back.
+                BindProperty(sender, e);
+            }
+        }
+        private void BindProperty(object sender, EventArgs e)
+        {
+            if ((sender as ToolStripItem)?.Tag is BindingDefinition bindingDef)
+            {
+                bindingDef.Component.DataBindings.Add(bindingDef.PropertyDescriptor.Name, bindingDef.DataSource, nameof(BindingItem.Value));
+                designer.RefreshPropertyGrid();
+            }
         }
         private void UnbindPropertyToolStripButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if ((sender as ToolStripItem)?.Tag is BindingDefinition bindingDef)
+            {
+                var binding = bindingDef.Component.DataBindings.Cast<Binding>().FirstOrDefault(b => b.PropertyName == bindingDef.PropertyDescriptor.Name);
+                if (binding != null)
+                {
+                    bindingDef.Component.DataBindings.Remove(binding);
+                    designer.RefreshPropertyGrid();
+                }
+            }
         }
 
         private void BindDataSources()
         {
             designer.MasterConfigSelectComboBox.ComboBox.DataSource = _projectManager.Project.MasterConfigurationList;
         }
-        
+
 
         #region IComponent Support
         public ISite Site { get; set; }
@@ -253,5 +321,23 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         }
         #endregion
         #endregion
+
+
+        private class BindingDefinition : ICloneable
+        {
+            public IBindableComponent Component { get; }
+            public PropertyDescriptor PropertyDescriptor { get; }
+            public BindingItem DataSource { get; set; }
+            public BindingDefinition(IBindableComponent component, PropertyDescriptor propertyDescriptor)
+            {
+                Component = component;
+                PropertyDescriptor = propertyDescriptor;
+            }
+
+            public object Clone()
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

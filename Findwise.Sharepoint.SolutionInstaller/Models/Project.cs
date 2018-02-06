@@ -18,7 +18,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
         public string Name { get; set; }
 
 
-        [DataMember(Order = 0), XmlElement(Order = 0)]
+        [XmlElement(Order = 0), DataMember(Order = 0)]
         public IInstallerModule[] Modules
         {
             get { return ModuleList.ToArray(); }
@@ -29,7 +29,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
         public BindingList<IInstallerModule> ModuleList { get; set; } = new BindingList<IInstallerModule>();
 
 
-        [DataMember(Order = 1), XmlElement(Order = 1)]
+        [XmlElement(Order = 1), DataMember(Order = 1)]
         public MasterConfig[] MasterConfigurations
         {
             get { return MasterConfigurationList.ToArray(); }
@@ -40,7 +40,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
         public BindingList<MasterConfig> MasterConfigurationList { get; set; } = new BindingList<MasterConfig>();
 
 
-        [DataMember(Order = 2), XmlElement(Order = 2)]
+        [XmlElement(Order = 2), DataMember(Order = 2)]
         public BindingItem[] BindingSources
         {
             get { return BindingSourceList.ToArray(); }
