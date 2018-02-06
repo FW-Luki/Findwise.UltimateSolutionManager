@@ -68,7 +68,7 @@ namespace ContentSourceCreator
                 IContentSourceConfiguration contentSourceConfiguration = myConfiguration.ContentSourceConfiguration;
                 var contentSource = contentSourceConfiguration?.GetContentSource(content, myConfiguration, contentSources);
                 SetContentSourceCrawlSchedule(content, contentSource, contentSourceConfiguration.IncrementalCrawlConfiguration, contentSourceConfiguration.FullCrawlConfiguration);
-                if(contentSourceConfiguration.StartFullCrawl)
+                if (contentSourceConfiguration.StartFullCrawl)
                     contentSource.StartFullCrawl();
             }
             catch (Exception ex)
