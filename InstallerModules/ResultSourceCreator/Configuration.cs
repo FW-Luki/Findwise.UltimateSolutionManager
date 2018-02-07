@@ -51,6 +51,7 @@ namespace ResultSourceCreator
         [Browsable(false)]
         public string Provider { get; } = "Local SharePoint Provider";
     }
+
     [DisplayName("People Search Results")]
     public class PeopleSearchResults : ITypeConfiguration
     {

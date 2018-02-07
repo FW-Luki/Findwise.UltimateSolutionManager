@@ -19,7 +19,9 @@ namespace ContentSourceCreator
         [Description("Type a name to describe this content source.")]
         [DisplayName("Content Source Name")]
         public string ContentSourceName { get; set; }
+
         private string[] _startAdresses { get; set; }
+
         [Description(@"Type the URLs from which the search system should start crawling. Examples: \\server\directory, or file://server/directory")]
         [DisplayName("Start Addresses")]
         public string[] StartAddresses { get; set; }
@@ -40,6 +42,7 @@ namespace ContentSourceCreator
         [DefaultValue(true)]
         [DisplayName("Crawl Settings")]
         public bool CrawlSettings { get; set; }
+
         [Description("If you want start full crawl after add content source choose true.")]
         [DisplayName("Start Full Crawl")]
         public bool StartFullCrawl { get; set; }

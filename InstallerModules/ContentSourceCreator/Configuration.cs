@@ -60,6 +60,7 @@ namespace ContentSourceCreator
         [Description("Run every: x days")]
         [DisplayName("Run every")]
         public int CrawlScheduleRunEveryInterval { get; set; }
+
         [Description("Enter a hour. Example: 15 it's 3:00 PM.")]
         [DisplayName("Starting time")]
         public int CrawlScheduleStartDateTime { get; set; }
@@ -90,9 +91,11 @@ namespace ContentSourceCreator
         [Description("Run every: x weeks")]
         [DisplayName("Run every")]
         public int CrawlScheduleRunEveryInterval { get; set; }
+
         [Description("Choose day of week")]
         [DisplayName("On")]
         public SearchAdministration.DaysOfWeek DaysOfWeek { get; set; }
+
         [Description("Enter a hour. Example: 15 it's 3:00 PM.")]
         [DisplayName("Starting time")]
         public int CrawlScheduleStartDateTime { get; set; }
@@ -123,9 +126,11 @@ namespace ContentSourceCreator
     {
         [DisplayName("Day of Month")]
         public SearchAdministration.DaysOfMonth DaysOfMonth { get; set; }
+
         [DisplayName("Month of Year")]
         [Editor(typeof(FlagsEnumEditor<MonthsOfYear>), typeof(UITypeEditor))]
         public SearchAdministration.MonthsOfYear MonthsOfYear { get; set; }
+
         [Description("Enter a hour. Example: 15 it's 3:00 PM.")]
         [DisplayName("Starting time")]
         public int CrawlScheduleStartDateTime { get; set; }
@@ -157,6 +162,7 @@ namespace ContentSourceCreator
         [Description("Every: x minutes")]
         [DisplayName("Every")]
         public int CrawlScheduleRepeatInterval { get; set; }
+
         [Description("For: x minutes")]
         [DisplayName("For")]
         public int CrawlScheduleRepeatDuration { get; set; }
@@ -176,6 +182,7 @@ namespace ContentSourceCreator
     {
         [Browsable(false)]
         public int? MaxPageEnumerationDepth { get; set; } = null;
+
         [Browsable(false)]
         public int? MaxSiteEnumerationDepth { get; set; } = 0;
     }
@@ -184,6 +191,7 @@ namespace ContentSourceCreator
     {
         [Browsable(false)]
         public int? MaxPageEnumerationDepth { get; set; } = 0;
+
         [Browsable(false)]
         public int? MaxSiteEnumerationDepth { get; set; } = 0;
     }
@@ -193,6 +201,7 @@ namespace ContentSourceCreator
         [Description("Page depth is the number of links that the crawler follows on the same host name, starting from each start address in the content source.")]
         [DisplayName("Limit Page Depth")]
         public int? MaxPageEnumerationDepth { get; set; }
+
         [Description("Server hops are how many times the crawler moves from one host name to another host name.")]
         [DisplayName("Limit Server Hops")]
         public int? MaxSiteEnumerationDepth { get; set; }
