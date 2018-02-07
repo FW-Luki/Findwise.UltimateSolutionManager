@@ -51,11 +51,12 @@ namespace ResultSourceCreator
                 {
                     resultSource = fm.CreateSource(owner);
                     resultSource.Name = myConfiguration.ResultSourceName;
-                    resultSource.Description = myConfiguration.Description;
+                    if (myConfiguration.Description != null) resultSource.Description = myConfiguration.Description;
                     resultSource.ProviderId = fm.ListProviders()[myConfiguration.TypeConfiguration.Provider].Id;
                 }
                 resultSource.CreateQueryTransform(myConfiguration.Query);
                 resultSource.Commit();
+                if (myConfiguration.SetAsDefault) fm.UpdateDefaultSource(resultSource.Id, owner);
             }
             catch
             {

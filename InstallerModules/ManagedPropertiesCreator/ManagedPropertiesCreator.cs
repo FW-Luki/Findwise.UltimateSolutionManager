@@ -71,18 +71,22 @@ namespace ManagedPropertiesCreator
                         if (mp.Alias != null) content.SearchApplication.SetManagedPropertyAliases(managedProperty, mp.Alias, owner);
                         if (mp.Description != null) managedProperty.Description = mp.Description;
 
-                        managedProperty.WordExtractionCustom1 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom1;
-                        managedProperty.WordExtractionCustom2 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom2;
-                        managedProperty.WordExtractionCustom3 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom3;
-                        managedProperty.WordExtractionCustom4 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom4;
-                        managedProperty.WordExtractionCustom5 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom5;
-                        managedProperty.WordPartExtractionCustom1 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom1;
-                        managedProperty.WordPartExtractionCustom2 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom2;
-                        managedProperty.WordPartExtractionCustom3 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom3;
-                        managedProperty.WordPartExtractionCustom4 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom4;
-                        managedProperty.WordPartExtractionCustom5 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom5;
-                        managedProperty.WordExactExtractionCustom = mp.CustomEntityExtractionConfiguration.WordExactExtractionCustom;
-                        managedProperty.WordPartExactExtractionCustom = mp.CustomEntityExtractionConfiguration.WordPartExactExtractionCustom;
+
+                        if (mp.CustomEntityExtractionConfiguration is WordExtraction)
+                        {
+                            managedProperty.WordExtractionCustom1 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom1;
+                            managedProperty.WordExtractionCustom2 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom2;
+                            managedProperty.WordExtractionCustom3 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom3;
+                            managedProperty.WordExtractionCustom4 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom4;
+                            managedProperty.WordExtractionCustom5 = mp.CustomEntityExtractionConfiguration.WordExtractionCustom5;
+                            managedProperty.WordPartExtractionCustom1 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom1;
+                            managedProperty.WordPartExtractionCustom2 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom2;
+                            managedProperty.WordPartExtractionCustom3 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom3;
+                            managedProperty.WordPartExtractionCustom4 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom4;
+                            managedProperty.WordPartExtractionCustom5 = mp.CustomEntityExtractionConfiguration.WordPartExtractionCustom5;
+                            managedProperty.WordExactExtractionCustom = mp.CustomEntityExtractionConfiguration.WordExactExtractionCustom;
+                            managedProperty.WordPartExactExtractionCustom = mp.CustomEntityExtractionConfiguration.WordPartExactExtractionCustom;
+                        }
 
                         content.SearchApplication.UpdateManagedProperty(managedProperty, owner);
 
