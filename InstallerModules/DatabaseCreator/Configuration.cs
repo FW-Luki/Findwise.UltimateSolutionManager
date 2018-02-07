@@ -6,75 +6,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Findwise.Configuration;
+using Findwise.SolutionInstaller.Core.Model;
 
 namespace DatabaseCreator
 {
-    public class Configuration : ConfigurationBase, IBindableComponent
+    public class Configuration : SolutionConfiguration
     {
         [Bindable(true)]
-        public string ServerName { get; set; }
+        public string ServerName { get => Prop.Get<string>(); set => Prop.Set(value); }
+
         [Bindable(true)]
-        public string DatabaseName { get; set; }
-        public string Tablename { get; set; }
-        public DbColumn[] Columns { get; set; }
+        public string DatabaseName { get => Prop.Get<string>(); set => Prop.Set(value); }
+
+        [Bindable(true)]
+        public string Tablename { get => Prop.Get<string>(); set => Prop.Set(value); }
+
+        public DbColumn[] Columns { get => Prop.Get<DbColumn[]>(); set => Prop.Set(value); }
+
 
         public Configuration()
         {
-            DataBindings = new ControlBindingsCollection(this);
         }
 
-        #region IBindableComponent Support
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ControlBindingsCollection DataBindings { get; }
 
-        //[System.Xml.Serialization.XmlIgnore, System.Runtime.Serialization.IgnoreDataMember]
-        [Browsable(false)]
-        public BindingContext BindingContext { get; set; } = new BindingContext();
-
-        #region IComponent Support
-        [Browsable(false)]
-        public ISite Site { get; set; } = null;
-
-        public event EventHandler Disposed;
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                disposedValue = true;
-                Disposed?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~Configuration() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
-        }
-        #endregion
-        #endregion
-        #endregion
 
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public class DbColumn

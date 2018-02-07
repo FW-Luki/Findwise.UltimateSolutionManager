@@ -32,6 +32,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,8 +45,15 @@
     <Compile Include="DependantOnAttribute.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Model\ObservableObject.cs" />
+    <Compile Include="Model\PropertyHelper.cs" />
+    <Compile Include="Model\SolutionConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\findwise.configuration\Findwise.Configuration\Findwise.Configuration.csproj">
+      <Project>{576E8A05-E531-43C8-858F-5B58D7B9902C}</Project>
+      <Name>Findwise.Configuration</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
