@@ -39,9 +39,9 @@
             this.MainToolStripView1 = new Findwise.Sharepoint.SolutionInstaller.Views.MainToolStripView();
             this.MainStatusStripView1 = new Findwise.Sharepoint.SolutionInstaller.Views.MainStatusStripView();
             this.MainPropertyGridView1 = new Findwise.Sharepoint.SolutionInstaller.Views.MainPropertyGridView();
+            this.ProjectManager1 = new Findwise.Sharepoint.SolutionInstaller.Controllers.ProjectManager();
             this.MainToolboxView1 = new Findwise.Sharepoint.SolutionInstaller.Views.MainToolboxView();
             this.MainTabularWorkspaceView1 = new Findwise.Sharepoint.SolutionInstaller.Views.MainTabularWorkspaceView();
-            this.ProjectManager1 = new Findwise.Sharepoint.SolutionInstaller.Controllers.ProjectManager();
             this.MainLogView1 = new Findwise.Sharepoint.SolutionInstaller.Views.MainLogView();
             this.ModuleLoader1 = new Findwise.Sharepoint.SolutionInstaller.Controllers.ModuleLoader();
             this.SuspendLayout();
@@ -89,6 +89,14 @@
             this.MainPropertyGridView1.PropertyGridSelectedValueChanged += new System.EventHandler(this.MainPropertyGridView1_PropertyGridItemChanged);
             this.MainPropertyGridView1.SelectedMasterConfigurationChanged += new System.EventHandler(this.MainPropertyGridView1_SelectedMasterConfigurationChanged);
             // 
+            // ProjectManager1
+            // 
+            this.ProjectManager1.EmptyProjectName = "New project";
+            this.ProjectManager1.IsModified = false;
+            this.ProjectManager1.WindowTitleBase = null;
+            this.ProjectManager1.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.ProjectManager1_PropertyChanged);
+            this.ProjectManager1.ModuleStatusChanged += new System.EventHandler(this.ProjectManager1_ModuleStatusChanged);
+            // 
             // MainToolboxView1
             // 
             this.MainToolboxView1.Controllers = null;
@@ -109,14 +117,6 @@
             this.MainTabularWorkspaceView1.ProjectManager = this.ProjectManager1;
             this.MainTabularWorkspaceView1.ViewChanged += new System.EventHandler(this.MainTabularWorkspaceView1_ViewChanged);
             this.MainTabularWorkspaceView1.SelectedObjectsChanged += new System.EventHandler(this.MainTabularWorkspaceView1_SelectedObjectsChanged);
-            // 
-            // ProjectManager1
-            // 
-            this.ProjectManager1.EmptyProjectName = "New project";
-            this.ProjectManager1.IsModified = false;
-            this.ProjectManager1.WindowTitleBase = null;
-            this.ProjectManager1.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.ProjectManager1_PropertyChanged);
-            this.ProjectManager1.ModuleStatusChanged += new System.EventHandler(this.ProjectManager1_ModuleStatusChanged);
             // 
             // MainLogView1
             // 
@@ -143,6 +143,7 @@
             this.Name = "ControllerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "Findwise Sharepoint Solution Installer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ControllerForm_FormClosing);
             this.Load += new System.EventHandler(this.ControllerForm_Load);
             this.Shown += new System.EventHandler(this.ControllerForm_Shown);
             this.ResumeLayout(false);

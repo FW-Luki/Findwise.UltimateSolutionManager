@@ -32,6 +32,7 @@
             this.propertyGrid1 = new Findwise.Sharepoint.SolutionInstaller.Controls.PropertyGridEx();
             this.SelectedObjectToolStrip = new Findwise.Sharepoint.SolutionInstaller.Controls.FancyToolStrip();
             this.MasterConfigSelectToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.MasterConfigSelectComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.PropertyGridMergeToolStrip = new System.Windows.Forms.ToolStrip();
             this.RestoreDefaultToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -58,7 +59,7 @@
             this.sizeablePanel1.GripPosition = System.Windows.Forms.DockStyle.Left;
             this.sizeablePanel1.Location = new System.Drawing.Point(0, 0);
             this.sizeablePanel1.Name = "sizeablePanel1";
-            this.sizeablePanel1.Size = new System.Drawing.Size(320, 150);
+            this.sizeablePanel1.Size = new System.Drawing.Size(666, 150);
             this.sizeablePanel1.TabIndex = 0;
             // 
             // propertyGrid1
@@ -68,7 +69,7 @@
             this.propertyGrid1.Location = new System.Drawing.Point(0, 83);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.propertyGrid1.Size = new System.Drawing.Size(320, 67);
+            this.propertyGrid1.Size = new System.Drawing.Size(666, 67);
             this.propertyGrid1.TabIndex = 10;
             // 
             // SelectedObjectToolStrip
@@ -77,21 +78,30 @@
             this.SelectedObjectToolStrip.Location = new System.Drawing.Point(0, 58);
             this.SelectedObjectToolStrip.Name = "SelectedObjectToolStrip";
             this.SelectedObjectToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            this.SelectedObjectToolStrip.Size = new System.Drawing.Size(320, 25);
+            this.SelectedObjectToolStrip.Size = new System.Drawing.Size(666, 25);
             this.SelectedObjectToolStrip.SpecialBackgroundImage = null;
             this.SelectedObjectToolStrip.TabIndex = 9;
             // 
             // MasterConfigSelectToolStrip
             // 
             this.MasterConfigSelectToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
             this.MasterConfigSelectComboBox});
             this.MasterConfigSelectToolStrip.Location = new System.Drawing.Point(0, 25);
             this.MasterConfigSelectToolStrip.Name = "MasterConfigSelectToolStrip";
             this.MasterConfigSelectToolStrip.Padding = new System.Windows.Forms.Padding(2, 1, 1, 0);
-            this.MasterConfigSelectToolStrip.Size = new System.Drawing.Size(320, 33);
+            this.MasterConfigSelectToolStrip.Size = new System.Drawing.Size(666, 33);
             this.MasterConfigSelectToolStrip.TabIndex = 7;
             this.MasterConfigSelectToolStrip.Text = "toolStrip1";
             this.MasterConfigSelectToolStrip.SizeChanged += new System.EventHandler(this.MasterConfigSelectToolStrip_SizeChanged);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_magic_17537;
+            this.toolStripLabel1.Margin = new System.Windows.Forms.Padding(2, 1, 4, 2);
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(16, 29);
+            this.toolStripLabel1.ToolTipText = "Master Configuration";
             // 
             // MasterConfigSelectComboBox
             // 
@@ -113,7 +123,7 @@
             this.PropertyGridMergeToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PropertyGridMergeToolStrip.Name = "PropertyGridMergeToolStrip";
             this.PropertyGridMergeToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            this.PropertyGridMergeToolStrip.Size = new System.Drawing.Size(320, 25);
+            this.PropertyGridMergeToolStrip.Size = new System.Drawing.Size(666, 25);
             this.PropertyGridMergeToolStrip.TabIndex = 6;
             this.PropertyGridMergeToolStrip.Text = "toolStrip3";
             // 
@@ -193,7 +203,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.sizeablePanel1);
             this.Name = "MainPropertyGridViewDesigner";
-            this.Size = new System.Drawing.Size(320, 150);
+            this.Size = new System.Drawing.Size(666, 150);
             this.sizeablePanel1.ResumeLayout(false);
             this.sizeablePanel1.PerformLayout();
             this.MasterConfigSelectToolStrip.ResumeLayout(false);
@@ -220,5 +230,6 @@
         internal System.Windows.Forms.ToolStripButton NonBindableToolStripButton;
         internal System.Windows.Forms.ToolStripMenuItem NewBindingSourceToolStripMenuItem;
         internal System.Windows.Forms.ToolStripSeparator BindingSourcesToolStripSeparator;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
     }
 }

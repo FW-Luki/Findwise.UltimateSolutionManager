@@ -64,7 +64,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
         private void MasterConfigSelectToolStrip_SizeChanged(object sender, EventArgs e)
         {
-            MasterConfigSelectComboBox.Width = MasterConfigSelectToolStrip.DisplayRectangle.Width - MasterConfigSelectToolStrip.Padding.Horizontal - MasterConfigSelectComboBox.Margin.Horizontal;
+            MasterConfigSelectComboBox.Width = MasterConfigSelectToolStrip.DisplayRectangle.Width - MasterConfigSelectToolStrip.Padding.Horizontal - MasterConfigSelectComboBox.Margin.Horizontal - toolStripLabel1.Width - toolStripLabel1.Margin.Horizontal;
         }
 
         private void PropertyGrid1_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
@@ -224,11 +224,11 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                     designer.BindPropertyToolStripDropDownButton.DropDownItems.Add(designer.BindingSourcesToolStripSeparator);
                     foreach (var bindingSource in bindingSources)
                     {
-//#error Clone this!
-                        bindingDef.DataSource = bindingSource;
+                        var newBindingDef = (BindingDefinition)bindingDef.Clone();
+                        newBindingDef.DataSource = bindingSource;
                         var item = new ToolStripMenuItem(bindingSource.Name, null, BindProperty)
                         {
-                            Tag = bindingDef
+                            Tag = newBindingDef
                         };
                         propertyBindingItems.Add(item);
                         designer.BindPropertyToolStripDropDownButton.DropDownItems.Add(item);
@@ -336,7 +336,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
 
             public object Clone()
             {
-                throw new NotImplementedException();
+                return new BindingDefinition(Component, PropertyDescriptor);
             }
         }
     }

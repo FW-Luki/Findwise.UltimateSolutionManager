@@ -79,17 +79,25 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
         }
         private static string GetToolTip(Binding binding)
         {
-            var value = "";
-            if (binding.DataSource is ITypedList)
-                value = ((ITypedList)binding.DataSource).GetListName(new PropertyDescriptor[] { });
-            else if (binding.DataSource is Control)
-                value = ((Control)binding.DataSource).Name;
-            else if (binding.DataSource is Component)
-                value = ((Component)binding.DataSource).Site?.Name;
+            if (binding.DataSource?.GetType().GetProperty("Name") is PropertyInfo nameProperty)
+            {
+                return $"Bound to: {nameProperty.GetValue(binding.DataSource).ToString()}";
+            }
+            else
+            {
+                return $"Datasource: {binding.DataSource?.ToString()}" ?? "No data source!";
+            }
+            //var value = "";
+            //if (binding.DataSource is ITypedList)
+            //    value = ((ITypedList)binding.DataSource).GetListName(new PropertyDescriptor[] { });
+            //else if (binding.DataSource is IBindableComponent)
+            //    value = ((IBindableComponent)binding.DataSource).Name;
+            //else if (binding.DataSource is Component)
+            //    value = ((Component)binding.DataSource).Site?.Name;
 
-            if (string.IsNullOrEmpty(value))
-                value = "(List)";
-            return value + " - " + binding.BindingMemberInfo.BindingMember;
+            //if (string.IsNullOrEmpty(value))
+            //    value = "(List)";
+            //return value + " - " + binding.BindingMemberInfo.BindingMember;
         }
 
         private void SetupSortButton(ref ToolStripButton button, ToolStrip owner, int index, PropertySort sort)

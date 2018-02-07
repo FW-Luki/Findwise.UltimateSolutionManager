@@ -13,7 +13,7 @@ namespace DatabaseCreator
     {
         [Bindable(true)]
         public string ServerName { get; set; }
-        private string _databaseName;
+        [Bindable(true)]
         public string DatabaseName { get; set; }
         public string Tablename { get; set; }
         public DbColumn[] Columns { get; set; }

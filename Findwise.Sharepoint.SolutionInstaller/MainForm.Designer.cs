@@ -207,6 +207,7 @@
             this.NewToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NewToolStripButton.LockingBehavior = Findwise.Sharepoint.SolutionInstaller.Controls.LockingBehavior.Normal;
             this.NewToolStripButton.Name = "NewToolStripButton";
+            this.NewToolStripButton.OperationTrait = null;
             this.NewToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.NewToolStripButton.Text = "&New";
             this.NewToolStripButton.Click += new System.EventHandler(this.NewToolStripButton_Click);

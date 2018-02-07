@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Findwise.Sharepoint.SolutionInstaller.Models;
+using Findwise.SolutionInstaller.Core;
+using Findwise.SolutionInstaller.Core.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Testing

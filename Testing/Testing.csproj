@@ -65,6 +65,10 @@
       <Project>{8B445B1D-C230-4C75-97BA-7CE90FBFF360}</Project>
       <Name>Findwise.Sharepoint.SolutionInstaller</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Findwise.SolutionInstaller.Core\Findwise.SolutionInstaller.Core.csproj">
+      <Project>{13B1AC91-82FC-49FF-9601-A91D1A7304DE}</Project>
+      <Name>Findwise.SolutionInstaller.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InstallerModules\ImpactRulesCreator\ImpactRulesCreator.csproj">
       <Project>{9E013566-AEBF-48C3-9F3B-C07ECBDBCD32}</Project>
       <Name>ImpactRulesCreator</Name>

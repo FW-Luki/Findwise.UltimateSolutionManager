@@ -438,6 +438,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
             {
                 DoSave();
             }
+            public bool Close()
+            {
+                return AskForProjectSave("Save current project before closing?", "Close project");
+            }
 
             private bool AskForProjectSave(string text, string caption)
             {

@@ -97,6 +97,7 @@
     <Compile Include="IErrorNotifier.cs" />
     <Compile Include="IProgressReporter.cs" />
     <Compile Include="IProgressRepresentative.cs" />
+    <Compile Include="Models\MasterConfig.cs" />
     <Compile Include="ProvidePropertiesAttribute.cs" />
     <Compile Include="IReportProgress_OLD.cs" />
     <Compile Include="MainForm.cs">
@@ -264,6 +265,10 @@
       <Project>{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}</Project>
       <Name>Findwise.PluginManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Findwise.SolutionInstaller.Core\Findwise.SolutionInstaller.Core.csproj">
+      <Project>{13B1AC91-82FC-49FF-9601-A91D1A7304DE}</Project>
+      <Name>Findwise.SolutionInstaller.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Icons\if_document-save-as_15271.png" />
@@ -284,6 +289,7 @@
     <None Include="Icons\if_Lock-Open_65761.png" />
     <None Include="Icons\if_draft_46845.png" />
     <None Include="Icons\if_help-browser_15335.png" />
+    <None Include="Icons\if_magic_17537.png" />
     <Content Include="if_system-installer_15355.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

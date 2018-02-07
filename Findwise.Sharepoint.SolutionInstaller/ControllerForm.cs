@@ -32,6 +32,11 @@ namespace Findwise.Sharepoint.SolutionInstaller
             InitViewsWithControllers();
             await LoadModules();
         }
+        private void ControllerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var allowClose = ProjectManager1.Saver.Close();
+            e.Cancel = !allowClose;
+        }
 
         private void LayoutViews()
         {

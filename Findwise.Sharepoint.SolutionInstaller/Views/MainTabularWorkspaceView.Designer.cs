@@ -78,7 +78,7 @@
             tableLayout2.Row = 0;
             this.BindingsMainView1.Layout = tableLayout2;
             this.BindingsMainView1.Order = 1;
-            this.BindingsMainView1.SelectedObjects = null;
+            this.BindingsMainView1.SelectedObjects = new object[0];
             this.BindingsMainView1.Title = "Data Binding Sources";
             this.BindingsMainView1.ToolBoxAvailable = false;
             this.BindingsMainView1.UseDefaultIcon = true;
@@ -87,12 +87,12 @@
             // 
             this.MasterConfigMainView1.Controllers = null;
             this.MasterConfigMainView1.DataSource = null;
-            this.MasterConfigMainView1.Icon = null;
+            this.MasterConfigMainView1.Icon = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_magic_17537;
             tableLayout3.Column = 0;
             tableLayout3.Row = 0;
             this.MasterConfigMainView1.Layout = tableLayout3;
             this.MasterConfigMainView1.Order = 1;
-            this.MasterConfigMainView1.SelectedObjects = null;
+            this.MasterConfigMainView1.SelectedObjects = new object[0];
             this.MasterConfigMainView1.Title = "Master Configurations";
             this.MasterConfigMainView1.ToolBoxAvailable = false;
             this.MasterConfigMainView1.UseDefaultIcon = false;
