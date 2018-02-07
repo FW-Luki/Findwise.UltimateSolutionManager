@@ -12,11 +12,13 @@ using Findwise.Configuration.TypeEditors;
 using System.Windows.Forms.Design;
 using Findwise.Configuration.TypeConverters;
 using Microsoft.Office.Server.Search.Administration;
+using Findwise.SolutionInstaller.Core.Model;
 
 namespace ContentSourceCreator
 {
-    public class Configuration : ConfigurationBase, ISharepointInstallerModuleConfiguration
+    public class Configuration : BindableConfiguration
     {
+        [Bindable(true)]
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
 

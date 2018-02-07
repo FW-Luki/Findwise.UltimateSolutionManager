@@ -68,6 +68,10 @@
       <Project>{8b445b1d-c230-4c75-97ba-7ce90fbff360}</Project>
       <Name>Findwise.Sharepoint.SolutionInstaller</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Findwise.SolutionInstaller.Core\Findwise.SolutionInstaller.Core.csproj">
+      <Project>{13B1AC91-82FC-49FF-9601-A91D1A7304DE}</Project>
+      <Name>Findwise.SolutionInstaller.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InstallerModule\InstallerModule.csproj">
       <Project>{B7FB54BC-C86E-4559-B69B-6A0CA7977406}</Project>
       <Name>InstallerModule</Name>

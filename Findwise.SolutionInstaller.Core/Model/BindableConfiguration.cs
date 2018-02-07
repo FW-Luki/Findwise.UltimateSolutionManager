@@ -11,11 +11,11 @@ using Findwise.Configuration;
 
 namespace Findwise.SolutionInstaller.Core.Model
 {
-    public class SolutionConfiguration : ConfigurationBase, IBindableComponent
+    public class BindableConfiguration : ConfigurationBase, IBindableComponent
     {
         protected virtual PropertyHelper Prop { get; } = new PropertyHelper();
 
-        public SolutionConfiguration()
+        public BindableConfiguration()
         {
             DataBindings = new ControlBindingsCollection(this);
         }

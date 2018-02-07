@@ -14,7 +14,7 @@ namespace Testing
             {
                 Configuration = new Configuration()
                 {
-                    Site = "http://findwise.com",
+                    SpSite = "http://findwise.com",
                     Behavior = Microsoft.Office.Server.Search.Administration.SiteHitRuleBehavior.DelayBetweenRequests
                 }
             };

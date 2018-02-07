@@ -25,7 +25,7 @@ namespace ImpactRulesCreator
             try
             {
                 var siteHitRulesCollection = GetSiteHitRules();
-                var siteHitRuleExists = siteHitRulesCollection.Any(x => x.Site == myConfiguration.Site);
+                var siteHitRuleExists = siteHitRulesCollection.Any(x => x.Site == myConfiguration.SpSite);
 
                 Status = siteHitRuleExists ? InstallerModuleStatus.Installed : InstallerModuleStatus.NotInstalled;
             }
@@ -43,7 +43,7 @@ namespace ImpactRulesCreator
             try
             {
                 var siteHitRulesCollection = GetSiteHitRules();
-                siteHitRulesCollection.Create(myConfiguration.Site, myConfiguration.HitRate, SiteHitRuleBehavior.DelayBetweenRequests);
+                siteHitRulesCollection.Create(myConfiguration.SpSite, myConfiguration.HitRate, SiteHitRuleBehavior.DelayBetweenRequests);
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace ImpactRulesCreator
             try
             {
                 var siteHitRulesCollection = GetSiteHitRules();
-                var siteHitRuleExist = siteHitRulesCollection.Where(x => x.Site == myConfiguration.Site).First();
+                var siteHitRuleExist = siteHitRulesCollection.Where(x => x.Site == myConfiguration.SpSite).First();
 
                 siteHitRuleExist.Delete();
             }

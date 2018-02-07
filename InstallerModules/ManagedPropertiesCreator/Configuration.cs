@@ -10,13 +10,16 @@ using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Findwise.SolutionInstaller.Core.Model;
 
 namespace ManagedPropertiesCreator
 {
-    public class Configuration : ConfigurationBase, ISharepointInstallerModuleConfiguration
+    public class Configuration : BindableConfiguration
     {
+        [Bindable(true)]
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
+
         [RefreshProperties(RefreshProperties.All)]
         [Editor(typeof(CsvLoaderEditor), typeof(UITypeEditor))]
         [HelpLink("https://msdn.microsoft.com/en-us/library/microsoft.sharepoint.search.extended.administration.schema.managedproperty_properties(v=office.14).aspx")]

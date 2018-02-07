@@ -10,11 +10,13 @@ using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Findwise.SolutionInstaller.Core.Model;
 
 namespace ResultSourceCreator
 {
-    public class Configuration : ConfigurationBase, ISharepointInstallerModuleConfiguration
+    public class Configuration : BindableConfiguration
     {
+        [Bindable(true)]
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
 

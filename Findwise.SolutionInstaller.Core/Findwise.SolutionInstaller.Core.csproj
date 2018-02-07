@@ -46,7 +46,7 @@
     <Compile Include="Helpers.cs" />
     <Compile Include="Model\ObservableObject.cs" />
     <Compile Include="Model\PropertyHelper.cs" />
-    <Compile Include="Model\SolutionConfiguration.cs" />
+    <Compile Include="Model\BindableConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

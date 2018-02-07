@@ -10,7 +10,7 @@ using Findwise.SolutionInstaller.Core.Model;
 
 namespace DatabaseCreator
 {
-    public class Configuration : SolutionConfiguration
+    public class Configuration : BindableConfiguration
     {
         [Bindable(true)]
         public string ServerName { get => Prop.Get<string>(); set => Prop.Set(value); }

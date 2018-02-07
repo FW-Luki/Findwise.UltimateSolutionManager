@@ -9,15 +9,19 @@ using Findwise.InstallerModule;
 using Findwise.Configuration.TypeEditors;
 using System.Drawing.Design;
 using Findwise.Configuration.TypeConverters;
+using Findwise.SolutionInstaller.Core.Model;
 
 namespace CrawlRulesCreator
 {
-    public class Configuration : ConfigurationBase, ISharepointInstallerModuleConfiguration
+    public class Configuration : BindableConfiguration
     {
+        [Bindable(true)]
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
+
         [RefreshProperties(RefreshProperties.All)]
         public CrawlRuleDefinition[] CrawlRuleDefinitions { get; set; }
+
         [DisplayName("Uninstall all")]
         [Description("Choose true if you want delete all crawl rules on uninstall operation.")]
         [DefaultValue(false)]
