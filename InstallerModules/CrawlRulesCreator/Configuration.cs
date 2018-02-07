@@ -19,6 +19,7 @@ namespace CrawlRulesCreator
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
 
+        [HelpLink("https://technet.microsoft.com/en-us/library/jj219686(v=office.16).aspx#proc1")]
         [RefreshProperties(RefreshProperties.All)]
         public CrawlRuleDefinition[] CrawlRuleDefinitions { get; set; }
 

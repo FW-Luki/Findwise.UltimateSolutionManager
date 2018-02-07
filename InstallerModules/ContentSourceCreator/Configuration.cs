@@ -22,6 +22,7 @@ namespace ContentSourceCreator
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
 
+        [HelpLink("https://technet.microsoft.com/pl-pl/library/jj219808(v=office.16).aspx#proc2")]
         [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IContentSourceConfiguration))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         [Description("Select what type of content will be crawled. Note: This cannot be changed after this content source is created because other settings depend on it.")]
