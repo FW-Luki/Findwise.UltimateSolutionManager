@@ -58,6 +58,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SharePointSourceConfiguration.cs" />
+    <Compile Include="BusinessSourceConfiguration.cs" />
     <Compile Include="WebSourceConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
