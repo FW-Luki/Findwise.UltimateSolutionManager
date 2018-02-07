@@ -8,7 +8,7 @@ using Findwise.SolutionInstaller.Core.Model;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Models
 {
-    public class MasterConfig : ObservableObject
+    public class MasterConfig : ObservableObject, IComparable
     {
         [Browsable(false)]
         public Guid Id { get => Property(() => Guid.NewGuid()); }
@@ -17,6 +17,14 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
         {
             get => Property<string>();
             set => Property(value);
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is MasterConfig mc)
+                return Name.CompareTo(mc.Name);
+            else
+                return 0;
         }
 
         public override string ToString()

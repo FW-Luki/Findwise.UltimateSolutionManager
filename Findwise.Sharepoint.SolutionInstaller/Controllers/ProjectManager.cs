@@ -471,7 +471,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                     }
                     catch (Exception ex)
                     {
-                        System.Windows.Forms.MessageBox.Show(ex.Message, "Error loading project", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                        System.Windows.Forms.MessageBox.Show(ex.Message, "Error saving project", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                     }
                     finally
                     {

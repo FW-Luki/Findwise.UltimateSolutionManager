@@ -25,6 +25,35 @@ namespace Findwise.SolutionInstaller.Core.Model
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public ControlBindingsCollection DataBindings { get; }
+        [Browsable(false)]
+        public Binding[] Bindings
+        {
+            get => DataBindings.Cast<System.Windows.Forms.Binding>().Select(b => (Binding)b).ToArray();
+            set
+            {
+                DataBindings.Clear();
+                foreach (var item in value ?? Enumerable.Empty<Binding>())
+                {
+                    DataBindings.Add(item.PropertyName, item.DataSource, item.DataMember);
+                }
+            }
+        }
+        public class Binding
+        {
+            public string PropertyName { get; /*private*/ set; }
+            public object DataSource { get; /*private*/ set; }
+            public string DataMember { get; /*private*/ set; }
+
+            public static explicit operator Binding(System.Windows.Forms.Binding binding)
+            {
+                return new Binding()
+                {
+                    PropertyName = binding.PropertyName,
+                    DataSource = binding.DataSource,
+                    DataMember = binding.BindingMemberInfo.BindingField
+                };
+            }
+        }
 
         [XmlIgnore, IgnoreDataMember]
         [Browsable(false)]

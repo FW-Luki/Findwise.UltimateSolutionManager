@@ -45,7 +45,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
         [Browsable(false)]
         public KeyValuePair<MasterConfig, object>[] Values
         {
-            get { return ValueDictionary.ToArray(); }
+            get { return ValueDictionary.OrderBy(d => d.Key).ToArray(); } //ToDo: Add Order property to MasterConfig and use it here in OrderBy.
             set
             {
                 ValueDictionary.AsCollection().Clear();
@@ -72,7 +72,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
         {
             get
             {
-                return SingleValue?(ValueDictionary.Any()?ValueDictionary.First().Value:null)
+                return SingleValue ? (ValueDictionary.Any() ? ValueDictionary.OrderBy(d => d.Key).First().Value : null) //ToDo: Add Order property to MasterConfig and use it here in OrderBy.
                     : (MasterConfig != null && ValueDictionary.TryGetValue(MasterConfig, out var value) ? value : null);
             }
         }
@@ -83,7 +83,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
             public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
             {
                 if (destinationType == typeof(string) && value is IDictionary<TKey, TValue> dictionary)
-                    return string.Join(",", dictionary.Values.Select(v => v?.ToString()));
+                    return string.Join(",", dictionary.OrderBy(d => d.Key).Select(v => v.Value?.ToString())); //ToDo: Add Order property to MasterConfig and use it here in OrderBy.
                 else
                     return base.ConvertTo(context, culture, value, destinationType);
             }
@@ -92,7 +92,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
             {
                 if (value is IDictionary<TKey, TValue> dictionary)
                 {
-                    return new PropertyDescriptorCollection(dictionary.Select(kvp => new DictionaryValuePropertyDescriptor(kvp, (context.Instance as BindingItem)?.Type)).ToArray());
+                    return new PropertyDescriptorCollection(dictionary.OrderBy(d => d.Key).Select(kvp => new DictionaryValuePropertyDescriptor(kvp, (context.Instance as BindingItem)?.Type)).ToArray());
                 }
                 return base.GetProperties(context, value, attributes);
             }
