@@ -22,7 +22,7 @@ namespace ManagedPropertiesCreator
 
         [RefreshProperties(RefreshProperties.All)]
         [Editor(typeof(CsvLoaderEditor), typeof(UITypeEditor))]
-        [HelpLink("https://msdn.microsoft.com/en-us/library/microsoft.sharepoint.search.extended.administration.schema.managedproperty_properties(v=office.14).aspx")]
+        [HelpLink("https://technet.microsoft.com/en-us/library/jj219667(v=office.16).aspx#proc2")]
         public ManagedPropertyDefinition[] ManagedProperties { get; set; }
 
         [TypeConverter(typeof(ExpandableObjectConverter))]

@@ -20,6 +20,7 @@ namespace ResultSourceCreator
         [DefaultValue("Search Service Application")]
         public string SearchApplicationName { get; set; }
 
+        [HelpLink("https://technet.microsoft.com/en-us/library/jj683115.aspx#BKMK_CreateResutlSource")]
         [DisplayName("Result Source Name")]
         [Description("Names must be unique at each administrative level.")]
         public string ResultSourceName { get; set; }
