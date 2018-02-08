@@ -89,7 +89,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
         private const string WhitePin = "📌";
         private const string BlackPin = "🖈";
 
-        private int TabMargin => DefaultMargin.Left;
+        private int TabMargin => DefaultMargin.Top;
 
         private bool _dragging = false;
         private Point _startingPoint = Point.Empty;

@@ -77,11 +77,11 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                         break;
                     case PropertySort.Categorized:
                     case PropertySort.CategorizedAlphabetical:
-                        var categories = moduleButtons.Select(mb => mb.Tag.GetType().GetCustomAttributes(false).OfType<CategoryAttribute>().FirstOrDefault()?.Category ?? MiscCategoryName).Distinct();
+                        var categories = moduleButtons.Select(mb => (mb.Tag as Type)?.GetCustomAttributes(false).OfType<CategoryAttribute>().FirstOrDefault()?.Category ?? MiscCategoryName).Distinct();
                         controls = categories.Select(cat =>
                         {
                             var groupbox = GetToolboxGroupbox(cat);
-                            groupbox.Controls.AddRange(moduleButtons.Where(mb => (mb.Tag.GetType().GetCustomAttributes(false).OfType<CategoryAttribute>().FirstOrDefault()?.Category ?? MiscCategoryName) == cat).OrderByDescending(mb => mb.Text).ToArray());
+                            groupbox.Controls.AddRange(moduleButtons.Where(mb => ((mb.Tag as Type)?.GetCustomAttributes(false).OfType<CategoryAttribute>().FirstOrDefault()?.Category ?? MiscCategoryName) == cat).OrderByDescending(mb => mb.Text).ToArray());
                             categoryGroupboxes.Add(groupbox);
                             return groupbox;
                         });
