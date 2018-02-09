@@ -9,9 +9,11 @@ using DatabaseCreator.Properties;
 using Findwise.Configuration;
 using Findwise.Sharepoint.SolutionInstaller;
 using Findwise.InstallerModule;
+using System.ComponentModel;
 
 namespace DatabaseCreator
 {
+    [Category(ModuleCategoryNames.Administration)]
     public class DatabaseCreator : InstallerModuleBase
     {
         private string ConnectionString

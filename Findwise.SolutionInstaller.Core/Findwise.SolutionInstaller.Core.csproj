@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingItemConfigurationAttributes.cs" />
     <Compile Include="DependantOnAttribute.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Model\ObservableObject.cs" />

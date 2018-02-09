@@ -462,6 +462,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
             }
             private bool DoSave()
             {
+                _saveDialog.FileName = _manager.ProjectName ?? _manager.EmptyProjectName;
                 if (_saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     try

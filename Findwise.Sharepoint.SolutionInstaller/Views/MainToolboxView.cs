@@ -19,20 +19,83 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public MainToolboxViewDesigner()
         {
             InitializeComponent();
+
+            using (var res = new FunnyPropertyGrid())
+            {
+                var bmp1 = new Bitmap(res.SortByCategoryImage);
+                bmp1.MakeTransparent();
+                SortByCategoryImage = bmp1;
+
+                var bmp2 = new Bitmap(res.SortByPropertyImage);
+                bmp2.MakeTransparent();
+                SortAlphabeticallyImage = bmp2;
+            }
+            sortButton.Image = SortByCategoryImage;
         }
 
         internal SizeablePanel Panel => ToolboxPanel;
+        internal NoFocusButton SortButton => sortButton;
+        internal Image SortByCategoryImage { get; }
+        internal Image SortAlphabeticallyImage { get; }
 
+
+        private class FunnyPropertyGrid : PropertyGrid
+        {
+            public new Image SortByCategoryImage => base.SortByCategoryImage;
+            public new Image SortByPropertyImage => base.SortByPropertyImage;
+        }
     }
 
 
     public class MainToolboxView : IComponentView
     {
-        private MainToolboxViewDesigner designer = new MainToolboxViewDesigner();
+        private readonly MainToolboxViewDesigner designer = new MainToolboxViewDesigner();
+        private readonly List<Button> moduleButtons = new List<Button>();
+        private readonly List<GroupBox> categoryGroupboxes = new List<GroupBox>();
 
         public Control Control => designer.Panel;
         public Controller[] Controllers { get; set; }
         public TableLayout Layout { get; set; } = new TableLayout();
+        public string MiscCategoryName { get; set; } = "Misc";
+
+        private PropertySort _moduleSort = PropertySort.Categorized;
+        public PropertySort ModuleSort
+        {
+            get { return _moduleSort; }
+            set
+            {
+                _moduleSort = value;
+
+                moduleButtons.ForEach(mb => designer.Panel.Controls.Remove(mb));
+                categoryGroupboxes.ForEach(g => { g.Controls.Clear(); g.Dispose(); });
+                categoryGroupboxes.Clear();
+                IEnumerable<Control> controls;
+                switch (_moduleSort)
+                {
+                    case PropertySort.Alphabetical:
+                        controls = moduleButtons.OrderByDescending(mb => mb.Text);
+                        break;
+                    case PropertySort.Categorized:
+                    case PropertySort.CategorizedAlphabetical:
+                        var categories = moduleButtons.Select(mb => (mb.Tag as Type)?.GetCustomAttributes(false).OfType<CategoryAttribute>().FirstOrDefault()?.Category ?? MiscCategoryName).Distinct();
+                        controls = categories.Select(cat =>
+                        {
+                            var groupbox = GetToolboxGroupbox(cat);
+                            groupbox.Controls.AddRange(moduleButtons.Where(mb => ((mb.Tag as Type)?.GetCustomAttributes(false).OfType<CategoryAttribute>().FirstOrDefault()?.Category ?? MiscCategoryName) == cat).OrderByDescending(mb => mb.Text).ToArray());
+                            categoryGroupboxes.Add(groupbox);
+                            return groupbox;
+                        });
+                        break;
+                    default:
+                        controls = moduleButtons;
+                        break;
+                }
+                foreach (var control in controls)
+                {
+                    designer.Panel.Controls.Add(control);
+                }
+            }
+        }
 
         public event EventHandler<ModuleAddedEventArgs> ModuleAdded;
         public class ModuleAddedEventArgs : EventArgs
@@ -42,6 +105,14 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             {
                 Module = module;
             }
+        }
+
+
+        public MainToolboxView()
+        {
+            ((Panel)designer.Panel).Controls.Add(designer.SortButton);
+            designer.Panel.Layout += (s_, e_) => designer.SortButton.BringToFront();
+            designer.SortButton.Click += SortButton_Click;
         }
 
 
@@ -56,11 +127,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                 designer.Panel.Controls.Add(button);
                 designer.Panel.Controls.SetChildIndex(button, 0);
             }));
+            moduleButtons.Add(button);
         }
 
         public void EndAddingModules()
         {
-            if (!designer.Panel.Controls.OfType<Button>().Any(b => b.Tag is Type t && typeof(IInstallerModule).IsAssignableFrom(t)))
+            if (!moduleButtons.Any(b => b.Tag is Type t && typeof(IInstallerModule).IsAssignableFrom(t)))
             {
                 Control.Invoke(new MethodInvoker(() =>
                 {
@@ -68,6 +140,13 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                     butt.Click -= ToolboxButton_Click;
                     butt.Enabled = false;
                     designer.Panel.Controls.Add(butt);
+                }));
+            }
+            else
+            {
+                Control.Invoke(new MethodInvoker(() =>
+                {
+                    ModuleSort = PropertySort.Categorized;
                 }));
             }
         }
@@ -92,6 +171,17 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             return button;
         }
 
+        private GroupBox GetToolboxGroupbox(string text)
+        {
+            return new GroupBox()
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                Dock = DockStyle.Top,
+                Text = text
+            };
+        }
+
         private void ToolboxButton_Click(object sender, EventArgs e)
         {
             if ((sender as Button)?.Tag is Type moduleType)
@@ -100,6 +190,20 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                 module.FriendlyName = $"{module.Name} {Controller.GetController<ProjectManager>(Controllers).Project.ModuleList.Count(m => m.GetType() == module.GetType()) + 1}";
                 Controller.GetController<ProjectManager>(Controllers).AddModule(module);
                 ModuleAdded?.Invoke(this, new ModuleAddedEventArgs(module));
+            }
+        }
+
+        private void SortButton_Click(object sender, EventArgs e)
+        {
+            if (ModuleSort == PropertySort.Categorized)
+            {
+                ModuleSort = PropertySort.Alphabetical;
+                designer.SortButton.Image = designer.SortAlphabeticallyImage;
+            }
+            else
+            {
+                ModuleSort = PropertySort.Categorized;
+                designer.SortButton.Image = designer.SortByCategoryImage;
             }
         }
 
@@ -147,5 +251,4 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         #endregion
         #endregion
     }
-
 }
