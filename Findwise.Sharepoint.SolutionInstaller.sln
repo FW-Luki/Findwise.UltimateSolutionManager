@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Findwise.SolutionInstaller.Core", "Findwise.SolutionInstaller.Core\Findwise.SolutionInstaller.Core.csproj", "{13B1AC91-82FC-49FF-9601-A91D1A7304DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowershellScriptExecutor", "InstallerModules\PowershellScriptExecutor\PowershellScriptExecutor.csproj", "{C53352FA-8124-4DD9-9305-ECA20DD47843}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{13B1AC91-82FC-49FF-9601-A91D1A7304DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13B1AC91-82FC-49FF-9601-A91D1A7304DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13B1AC91-82FC-49FF-9601-A91D1A7304DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C53352FA-8124-4DD9-9305-ECA20DD47843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C53352FA-8124-4DD9-9305-ECA20DD47843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C53352FA-8124-4DD9-9305-ECA20DD47843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C53352FA-8124-4DD9-9305-ECA20DD47843}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +117,7 @@ Global
 		{5B789D08-FFCB-4A60-AE07-0C4F83C32811} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 		{4EB663AA-0BF7-42CD-8316-532F1861C10B} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 		{9E013566-AEBF-48C3-9F3B-C07ECBDBCD32} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
+		{C53352FA-8124-4DD9-9305-ECA20DD47843} = {83D64C99-49E9-49D3-B861-94B1CB620A6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {55B1733E-7791-4B88-A4D8-4D93F1903ABC}

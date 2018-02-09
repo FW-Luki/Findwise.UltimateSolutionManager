@@ -10,5 +10,11 @@ namespace Findwise.InstallerModule
     {
         public const string Administration = "Administration";
         public const string SharepointSearch = "Sharepoint Search";
+
+        public static class Properties
+        {
+            public const string SettingsCategoryName = "Module settings";
+
+        }
     }
 }
