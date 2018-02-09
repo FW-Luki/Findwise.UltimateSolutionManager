@@ -18,7 +18,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Models
         public string Name { get; set; }
 
 
-        [XmlElement(Order = 0), DataMember(Order = 0)]
+        [XmlElement(Order = 3), DataMember(Order = 3)]
         public IInstallerModule[] Modules
         {
             get { return ModuleList.ToArray(); }

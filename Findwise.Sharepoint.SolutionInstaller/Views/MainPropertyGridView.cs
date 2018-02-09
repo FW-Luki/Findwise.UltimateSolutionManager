@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Findwise.Sharepoint.SolutionInstaller.Controllers;
 using Findwise.Configuration;
 using Findwise.Sharepoint.SolutionInstaller.Models;
+using Findwise.SolutionInstaller.Core;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Views
 {
@@ -218,7 +219,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             designer.BindPropertyToolStripDropDownButton.DropDownItems.Add(designer.NewBindingSourceToolStripMenuItem);
             if ((sender as ToolStripItem)?.Tag is BindingDefinition bindingDef)
             {
-                var bindingSources = _projectManager.Project.BindingSourceList.Where(b => b.Type != null && b.Type.IsAssignableFrom(bindingDef.PropertyDescriptor.PropertyType));
+                var bindingSources = _projectManager.Project.BindingSourceList.Where(b => b.Type != null && b.Type.IsAssignableFrom(GetDefaultBindingSourceType(bindingDef.PropertyDescriptor, bindingDef.Component)));
                 if (bindingSources.Any())
                 {
                     designer.BindPropertyToolStripDropDownButton.DropDownItems.Add(designer.BindingSourcesToolStripSeparator);
@@ -246,11 +247,37 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         {
             if ((sender as ToolStripItem)?.Tag is BindingDefinition bindingDef)
             {
-                _projectManager.AddDataBindingSource(bindingDef.PropertyDescriptor.Name, bindingDef.PropertyDescriptor.PropertyType);
+                _projectManager.AddDataBindingSource(GetDefaultBindingSourceName(bindingDef.PropertyDescriptor, bindingDef.Component), GetDefaultBindingSourceType(bindingDef.PropertyDescriptor, bindingDef.Component));
                 bindingDef.DataSource = _projectManager.Project.BindingSourceList.Last();
                 ((ToolStripItem)sender).Tag = bindingDef; //AddDataBindingSource causes PropertyGrid selected objects change which results in changing the sender's Tag, so we have to assign our value back.
                 BindProperty(sender, e);
             }
+        }
+        private string GetDefaultBindingSourceName(PropertyDescriptor prop, object component)
+        {
+            string name = null;
+            if (prop.Attributes.OfType<DefaultBindingItemNameProviderAttribute>().FirstOrDefault() is DefaultBindingItemNameProviderAttribute npa)
+            {
+                name = component.GetType().GetProperty(npa.BindingItemDefaultNameProviderPropertyName)?.GetValue(component)?.ToString();
+            }
+            if (prop.Attributes.OfType<DefaultBindingItemNameAttribute>().FirstOrDefault() is DefaultBindingItemNameAttribute na)
+            {
+                name = na.BindingItemDefaultName;
+            }
+            return string.IsNullOrEmpty(name) ? prop.Name : name;
+        }
+        private Type GetDefaultBindingSourceType(PropertyDescriptor prop, object component)
+        {
+            Type type = null;
+            if (prop.Attributes.OfType<DefaultBindingItemTypeProviderAttribute>().FirstOrDefault() is DefaultBindingItemTypeProviderAttribute tpa)
+            {
+                type = component.GetType().GetProperty(tpa.BindingItemDefaultTypeProviderPropertyName)?.GetValue(component) as Type;
+            }
+            if (prop.Attributes.OfType<DefaultBindingItemTypeAttribute>().FirstOrDefault() is DefaultBindingItemTypeAttribute ta)
+            {
+                type = ta.BindingItemDefaultType;
+            }
+            return type ?? prop.PropertyType;
         }
         private void BindProperty(object sender, EventArgs e)
         {
