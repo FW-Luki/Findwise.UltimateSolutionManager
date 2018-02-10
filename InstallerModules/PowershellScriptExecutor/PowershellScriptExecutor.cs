@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Findwise.Configuration;
 using Findwise.InstallerModule;
+using Findwise.Sharepoint.SolutionInstaller;
 using PowershellScriptExecutor.Properties;
 
 namespace PowershellScriptExecutor
 {
     [Category(ModuleCategoryNames.Administration)]
-    public class PowershellScriptExecutor : InstallerModuleBase
+    public class PowershellScriptExecutor : InstallerModuleBase, ISaveLoadAware
     {
         public override string Name => "PowerShell Script Executor";
 
@@ -21,6 +22,7 @@ namespace PowershellScriptExecutor
 
         private Configuration myConfiguration = new Configuration();
         public override ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }
+
 
         public override void CheckStatus()
         {
@@ -36,7 +38,19 @@ namespace PowershellScriptExecutor
 
         public override void Uninstall()
         {
-            throw new NotImplementedException();
+        }
+
+
+        public void BeforeSave()
+        {
+        }
+
+        public void AfterSave()
+        {
+        }
+
+        public void AfterLoad()
+        {
         }
     }
 }
