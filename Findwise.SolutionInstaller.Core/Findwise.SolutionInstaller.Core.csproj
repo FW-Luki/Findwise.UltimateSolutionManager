@@ -45,6 +45,7 @@
     <Compile Include="BindingItemConfigurationAttributes.cs" />
     <Compile Include="DependantOnAttribute.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="Model\BindableConfigurationSite.cs" />
     <Compile Include="Model\ObservableObject.cs" />
     <Compile Include="Model\PropertyHelper.cs" />
     <Compile Include="Model\BindableConfiguration.cs" />

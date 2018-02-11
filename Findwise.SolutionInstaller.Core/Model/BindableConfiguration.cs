@@ -18,6 +18,7 @@ namespace Findwise.SolutionInstaller.Core.Model
         public BindableConfiguration()
         {
             DataBindings = new ControlBindingsCollection(this);
+            Site = new BindableConfigurationSite(this);
         }
 
 
@@ -61,7 +62,8 @@ namespace Findwise.SolutionInstaller.Core.Model
 
         #region IComponent Support
         [Browsable(false)]
-        public ISite Site { get; set; } = null;
+        [XmlIgnore, IgnoreDataMember]
+        public ISite Site { get; set; }
 
         public event EventHandler Disposed;
 

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using Findwise.Configuration;
 using Findwise.InstallerModule;
@@ -61,9 +62,21 @@ namespace PowershellScriptExecutor
             catch { } //ToDo: Do we need to log this?
         }
 
+        [Browsable(true)]
+        [DisplayName("Get script template")]
+        public void CreateScriptTemplate()
+        {
+        }
+
+        [Browsable(true)]
+        [DisplayName("Clear binding cache")]
         public void ForgetBindings()
         {
-            bindings = new Dictionary<Parameter, Binding[]>(new ParameterSimilarityComparer());
+            if (MessageBox.Show($"Are you sure you want to clear binding cache?\r\nCurrently set bindings will not be able to be restored on {nameof(Parameters)} property change.",
+                "Clear binding cache", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                bindings.Clear();
+            }
         }
 
 

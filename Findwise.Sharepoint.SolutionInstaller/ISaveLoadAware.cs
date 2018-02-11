@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Findwise.Sharepoint.SolutionInstaller
 {
     /// <summary>
-    /// Defines a module that performs some special processing on project save/load operations.
+    /// Defines a module that performs additional processing on project save/load operations.
     /// </summary>
     public interface ISaveLoadAware
     {
@@ -19,7 +19,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
         /// <summary>
         /// Method invoked after the project is saved.
         /// </summary>
-        void AfterSave(); //Sounds like aftershave
+        void AfterSave();
 
         /// <summary>
         /// Method invoked after the project is loaded.
