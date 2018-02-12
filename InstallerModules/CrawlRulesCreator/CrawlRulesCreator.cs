@@ -35,6 +35,10 @@ namespace CrawlRulesCreator
                 {
                     throw new SPDuplicateValuesFoundException("The path already exists in any crawl rules. Try again using a different path.");
                 }
+                if (myConfiguration.CrawlRuleDefinitions.Any(x => x.Path == null))
+                {
+                    throw new ArgumentNullException("The path cannot be null.");
+                }
 
                 if (crawlRuleExists)
                     Status = InstallerModuleStatus.Installed;

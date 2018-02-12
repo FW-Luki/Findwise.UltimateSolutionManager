@@ -11,6 +11,7 @@ using ResultSourceCreator.Properties;
 using Findwise.InstallerModule;
 using System.Security;
 using System.ComponentModel;
+using Microsoft.SharePoint;
 
 namespace ResultSourceCreator
 {
@@ -33,12 +34,18 @@ namespace ResultSourceCreator
             try
             {
                 var resultSource = GetResultSource();
+                if (myConfiguration.TypeConfiguration == null)
+                {
+                    throw new ArgumentNullException("The type cannot be null.");
+                }
 
                 Status = resultSource != null ? InstallerModuleStatus.Installed : InstallerModuleStatus.NotInstalled;
             }
-            catch
+            catch (Exception ex)
             {
                 Status = InstallerModuleStatus.Error;
+                LogError(ex);
+                throw;
             }
         }
 
@@ -60,9 +67,11 @@ namespace ResultSourceCreator
                 resultSource.Commit();
                 if (myConfiguration.SetAsDefault) fm.UpdateDefaultSource(resultSource.Id, owner);
             }
-            catch
+            catch (Exception ex)
             {
                 Status = InstallerModuleStatus.Error;
+                LogError(ex);
+                throw;
             }
         }
 
@@ -76,9 +85,11 @@ namespace ResultSourceCreator
                 if (resultSource != null)
                     fm.RemoveSource(resultSource);
             }
-            catch
+            catch (Exception ex)
             {
                 Status = InstallerModuleStatus.Error;
+                LogError(ex);
+                throw;
             }
         }
         private Content SearchApplicationContent(string searchApplicationName)

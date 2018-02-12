@@ -32,6 +32,11 @@ namespace ManagedPropertiesCreator
 
                 var existedManagedProperty = ExistedManagedProperty(myConfiguration.SearchApplicationName, myConfiguration.ManagedProperties);
 
+                if (myConfiguration.ManagedProperties.Any(x => x.Name == null))
+                {
+                    throw new ArgumentNullException("The name cannot be null");
+                }
+
                 Status = existedManagedProperty.Count() == myConfiguration.ManagedProperties.Count() && IsManagedPropertyHaveAllCrawledProperties(existedManagedProperty) ? InstallerModuleStatus.Installed : InstallerModuleStatus.NotInstalled;
             }
             catch (Exception ex)
