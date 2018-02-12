@@ -1,15 +1,18 @@
-﻿using Findwise.InstallerModule;
+﻿using Findwise.Configuration;
+using Findwise.InstallerModule;
 using Findwise.Sharepoint.SolutionInstaller;
 using ImpactRulesCreator.Properties;
 using Microsoft.Office.Server.Search.Administration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ImpactRulesCreator
 {
+    [Category(ModuleCategoryNames.SharepointSearch)]
     public class ImpactRulesCreator : InstallerModuleBase
     {
         public override string Name => "Impact Rules Creator";

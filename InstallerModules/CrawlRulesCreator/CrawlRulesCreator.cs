@@ -9,9 +9,11 @@ using Findwise.InstallerModule;
 using log4net;
 using System.Runtime.CompilerServices;
 using Microsoft.SharePoint;
+using System.ComponentModel;
 
 namespace CrawlRulesCreator
 {
+    [Category(ModuleCategoryNames.SharepointSearch)]
     public class CrawlRulesCreator : InstallerModuleBase
     {
         public override string Name => "Crawl Rules Creator";

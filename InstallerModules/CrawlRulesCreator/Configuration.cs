@@ -23,6 +23,7 @@ namespace CrawlRulesCreator
         [RefreshProperties(RefreshProperties.All)]
         public CrawlRuleDefinition[] CrawlRuleDefinitions { get; set; }
 
+        [OrderedCategory(ModuleCategoryNames.Properties.SettingsCategoryName, 1)]
         [DisplayName("Uninstall all")]
         [Description("Choose true if you want delete all crawl rules on uninstall operation.")]
         [DefaultValue(false)]

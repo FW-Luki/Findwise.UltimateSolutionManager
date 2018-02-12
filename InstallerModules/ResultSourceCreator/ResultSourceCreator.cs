@@ -10,9 +10,11 @@ using Microsoft.Office.Server.Search.Administration.Query;
 using ResultSourceCreator.Properties;
 using Findwise.InstallerModule;
 using System.Security;
+using System.ComponentModel;
 
 namespace ResultSourceCreator
 {
+    [Category(ModuleCategoryNames.SharepointSearch)]
     public class ResultSourceCreator : InstallerModuleBase
     {
         public override string Name => "Result Source Creator";

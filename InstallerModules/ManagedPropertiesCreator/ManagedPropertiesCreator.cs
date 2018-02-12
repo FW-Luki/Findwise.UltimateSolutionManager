@@ -8,9 +8,11 @@ using Findwise.Sharepoint.SolutionInstaller;
 using System.Collections.Generic;
 using static ManagedPropertiesCreator.Configuration;
 using ManagedPropertiesCreator.Properties;
+using System.ComponentModel;
 
 namespace ManagedPropertiesCreator
 {
+    [Category(ModuleCategoryNames.SharepointSearch)]
     public class ManagedPropertiesCreator : InstallerModuleBase
     {
         public override string Name => "Managed Properties Creator";
