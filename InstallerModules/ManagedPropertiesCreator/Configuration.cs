@@ -36,8 +36,6 @@ namespace ManagedPropertiesCreator
             [TypeConverter(typeof(StringArrayConverter))]
             public string[] Properties { get; set; }
 
-            [Description("Basic, Business Data, Document Parser, Internal, Mail, MetadataExtractor, Notes, Office, People, SharePoint, Tiff, Web, XML")]
-            public string CrawledPropertiesCategory { get; set; }
             private ManagedDataType _propertyType;
 
             [Description("Type of information that is stored in this property. ")]
