@@ -72,6 +72,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         public virtual void RefreshView()
         {
         }
+
+        public virtual void PreviewKeyDown(PreviewKeyDownEventArgs pkdevent)
+        {
+        }
         #endregion
 
 

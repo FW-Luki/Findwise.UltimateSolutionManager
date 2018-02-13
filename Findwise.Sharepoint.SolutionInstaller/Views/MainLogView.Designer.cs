@@ -40,8 +40,11 @@
             // LogPanel
             // 
             this.LogPanel.Caption = "Log";
+            this.LogPanel.CollapseButtonCaption = "Collapse";
+            this.LogPanel.Collapsed = false;
             this.LogPanel.Controls.Add(this.richTextBox1);
             this.LogPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LogPanel.ExpandButtonCaption = "Expand";
             this.LogPanel.GripPosition = System.Windows.Forms.DockStyle.Top;
             this.LogPanel.Location = new System.Drawing.Point(0, 0);
             this.LogPanel.Name = "LogPanel";
@@ -52,6 +55,7 @@
             // 
             this.richTextBox1.ContextMenuStrip = this.LogWindowContextMenuStrip;
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
@@ -64,13 +68,13 @@
             this.LogWindowContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ClearLogWindowToolStripMenuItem});
             this.LogWindowContextMenuStrip.Name = "LogWindowContextMenuStrip";
-            this.LogWindowContextMenuStrip.Size = new System.Drawing.Size(153, 48);
+            this.LogWindowContextMenuStrip.Size = new System.Drawing.Size(102, 26);
             // 
             // ClearLogWindowToolStripMenuItem
             // 
             this.ClearLogWindowToolStripMenuItem.Image = global::Findwise.Sharepoint.SolutionInstaller.Properties.Resources.if_Delete_46730;
             this.ClearLogWindowToolStripMenuItem.Name = "ClearLogWindowToolStripMenuItem";
-            this.ClearLogWindowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ClearLogWindowToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.ClearLogWindowToolStripMenuItem.Text = "Clear";
             this.ClearLogWindowToolStripMenuItem.Click += new System.EventHandler(this.ClearLogWindowToolStripMenuItem_Click);
             // 

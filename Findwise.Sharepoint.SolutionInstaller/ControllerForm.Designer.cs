@@ -104,6 +104,8 @@
             tableLayout4.ColumnStyle = new System.Windows.Forms.ColumnStyle();
             tableLayout4.Row = 1;
             this.MainToolboxView1.Layout = tableLayout4;
+            this.MainToolboxView1.MiscCategoryName = "Misc";
+            this.MainToolboxView1.ModuleSort = System.Windows.Forms.PropertySort.Categorized;
             this.MainToolboxView1.ModuleAdded += new System.EventHandler<Findwise.Sharepoint.SolutionInstaller.Views.MainToolboxView.ModuleAddedEventArgs>(this.MainToolboxView1_ModuleAdded);
             // 
             // MainTabularWorkspaceView1
@@ -140,12 +142,14 @@
             this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "ControllerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "Findwise Sharepoint Solution Installer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ControllerForm_FormClosing);
             this.Load += new System.EventHandler(this.ControllerForm_Load);
             this.Shown += new System.EventHandler(this.ControllerForm_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ControllerForm_KeyDown);
             this.ResumeLayout(false);
 
         }

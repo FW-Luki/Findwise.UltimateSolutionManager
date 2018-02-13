@@ -57,6 +57,11 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             propertyGrid1.RefreshDatasouce();
         }
 
+        internal void FocusPropertyGrid()
+        {
+            if (!propertyGrid1.ContainsFocus) propertyGrid1.Focus();
+        }
+
 
         private void RestoreDefaultToolStripButton_Click(object sender, EventArgs e)
         {
@@ -140,6 +145,12 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             designer.BindPropertyToolStripDropDownButton.DropDownClosed += BindPropertyToolStripDropDownButton_DropDownClosed;
             designer.UnbindPropertyToolStripButton.Click += UnbindPropertyToolStripButton_Click;
             designer.NewBindingSourceToolStripMenuItem.Click += NewBindingSourceToolStripMenuItem_Click;
+        }
+
+
+        public void PreviewKeyDown(PreviewKeyDownEventArgs pkdevent)
+        {
+            if (pkdevent.KeyData == Keys.F4) designer.FocusPropertyGrid();
         }
 
 
