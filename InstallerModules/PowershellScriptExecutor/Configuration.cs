@@ -46,6 +46,9 @@ namespace PowershellScriptExecutor
         public bool AllowRestoreBindings { get => Prop.Get<bool>(); set => Prop.Set(value); }
 
 
+        internal protected string ScriptContents { get; private set; }
+
+
         public Configuration()
         {
             Prop.PropertyChanged += Prop_PropertyChanged;
@@ -56,7 +59,8 @@ namespace PowershellScriptExecutor
         {
             try
             {
-                var parameters = PowershellScriptParser.GetParameters(File.ReadAllText(ScriptFilename));
+                ScriptContents = File.ReadAllText(ScriptFilename);
+                var parameters = PowershellScriptParser.GetParameters(ScriptContents);
                 Parameters = parameters.ToArray();
             }
             catch { } //ToDo: Do we need to log this?
@@ -66,6 +70,17 @@ namespace PowershellScriptExecutor
         [DisplayName("Get script template")]
         public void CreateScriptTemplate()
         {
+        }
+
+        [Browsable(true)]
+        [DisplayName("Edit current script")]
+        public void EditCurrentScript()
+        {
+            var process = new System.Diagnostics.Process()
+            {
+                StartInfo = new System.Diagnostics.ProcessStartInfo(Environment.ExpandEnvironmentVariables(@"%windir%\system32\WindowsPowerShell\v1.0\PowerShell_ISE.exe"), ScriptFilename)
+            };
+            process.Start();
         }
 
         [Browsable(true)]
