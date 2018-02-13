@@ -56,6 +56,13 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
+        public void PreviewKeyDown(PreviewKeyDownEventArgs pkdevent)
+        {
+            if (pkdevent.KeyData == (Keys.Control | Keys.N)) designer.NewToolStripButton.PerformClick();
+            if (pkdevent.KeyData == (Keys.Control | Keys.O)) designer.OpenToolStripButton.PerformClick();
+            if (pkdevent.KeyData == (Keys.Control | Keys.S)) designer.SaveToolStripButton.PerformClick();
+        }
+
 
         #region IComponent Support
         public ISite Site { get; set; }

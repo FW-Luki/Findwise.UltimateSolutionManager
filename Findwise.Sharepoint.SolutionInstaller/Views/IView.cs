@@ -12,5 +12,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
     {
         Control Control { get; }
         Controller[] Controllers { set; }
+
+        void PreviewKeyDown(PreviewKeyDownEventArgs pkdevent);
     }
 }

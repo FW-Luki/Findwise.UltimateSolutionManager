@@ -57,6 +57,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }));
         }
 
+        public void PreviewKeyDown(PreviewKeyDownEventArgs pkdevent)
+        {
+        }
+
 
         #region IComponent Support
         public ISite Site { get; set; }

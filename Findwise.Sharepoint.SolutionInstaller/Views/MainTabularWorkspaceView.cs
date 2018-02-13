@@ -104,6 +104,26 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             SetupSelectionChangedEvents();
         }
 
+        public void PreviewKeyDown(PreviewKeyDownEventArgs pkdevent)
+        {
+            if (pkdevent.KeyData == (Keys.F6))
+            {
+                if (designer.TabControl.SelectedIndex == designer.TabControl.TabPages.Count - 1)
+                    designer.TabControl.SelectedIndex = 0;
+                else
+                    designer.TabControl.SelectedIndex++;
+            }
+            if (pkdevent.KeyData == (Keys.Shift | Keys.F6))
+            {
+                if (designer.TabControl.SelectedIndex == 0)
+                    designer.TabControl.SelectedIndex = designer.TabControl.TabPages.Count - 1;
+                else
+                    designer.TabControl.SelectedIndex--;
+            }
+            //ToDo: Pass to sub-views.
+        }
+
+
         private void SetupInstallerModuleListEvents()
         {
             designer.InstallerModuleMainView1.DuplicateRequested += (s_, e_) => ProjectManager.DuplicateModule();

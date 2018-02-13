@@ -151,6 +151,10 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
             }
         }
 
+        public void PreviewKeyDown(PreviewKeyDownEventArgs pkdevent)
+        {
+        }
+
 
         private Button GetToolboxButton(string text, Image image, object tag = null)
         {

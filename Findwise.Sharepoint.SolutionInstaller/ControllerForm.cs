@@ -37,6 +37,10 @@ namespace Findwise.Sharepoint.SolutionInstaller
             var allowClose = ProjectManager1.Saver.Close();
             e.Cancel = !allowClose;
         }
+        private void ControllerForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            this.GetFields<IView>().ToList().ForEach(v => v.PreviewKeyDown(new PreviewKeyDownEventArgs(e.KeyData)));
+        }
 
         private void LayoutViews()
         {
