@@ -36,8 +36,6 @@ namespace ManagedPropertiesCreator
             [TypeConverter(typeof(StringArrayConverter))]
             public string[] Properties { get; set; }
 
-            [Description("Basic, Business Data, Document Parser, Internal, Mail, MetadataExtractor, Notes, Office, People, SharePoint, Tiff, Web, XML")]
-            public string CrawledPropertiesCategory { get; set; }
             private ManagedDataType _propertyType;
 
             [Description("Type of information that is stored in this property. ")]
@@ -117,27 +115,39 @@ namespace ManagedPropertiesCreator
     {
         [DisplayName("Word Extraction - Custom1")]
         public bool WordExtractionCustom1 { get; set; }
+
         [DisplayName("Word Extraction - Custom2")]
         public bool WordExtractionCustom2 { get; set; }
+
         [DisplayName("Word Extraction - Custom3")]
         public bool WordExtractionCustom3 { get; set; }
+
         [DisplayName("Word Extraction - Custom4")]
         public bool WordExtractionCustom4 { get; set; }
+
         [DisplayName("Word Extraction - Custom5")]
         public bool WordExtractionCustom5 { get; set; }
+
         [DisplayName("Word Part Extraction - Custom1")]
         public bool WordPartExtractionCustom1 { get; set; }
+
         [DisplayName("Word Part Extraction - Custom2")]
         public bool WordPartExtractionCustom2 { get; set; }
+
         [DisplayName("Word Part Extraction - Custom3")]
         public bool WordPartExtractionCustom3 { get; set; }
+
         [DisplayName("Word Part Extraction - Custom4")]
         public bool WordPartExtractionCustom4 { get; set; }
+
         [DisplayName("Word Part Extraction - Custom5")]
         public bool WordPartExtractionCustom5 { get; set; }
+
         [DisplayName("Word Exact Extraction - Custom")]
         public bool WordExactExtractionCustom { get; set; }
+
         [DisplayName("Word Part Exact Extraction - Custom")]
         public bool WordPartExactExtractionCustom { get; set; }
     }
+
 }

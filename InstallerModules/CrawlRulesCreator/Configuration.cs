@@ -23,6 +23,7 @@ namespace CrawlRulesCreator
         [RefreshProperties(RefreshProperties.All)]
         public CrawlRuleDefinition[] CrawlRuleDefinitions { get; set; }
 
+        [OrderedCategory(ModuleCategoryNames.Properties.SettingsCategoryName, 1)]
         [DisplayName("Uninstall all")]
         [Description("Choose true if you want delete all crawl rules on uninstall operation.")]
         [DefaultValue(false)]
@@ -33,15 +34,13 @@ namespace CrawlRulesCreator
         {
             [Description("Type the path affected by this rule.\nExamples: http://hostname/*; http://*.*; *://hostname/*")]
             public string Path { get; set; }
+
             [Description("Use regular expression syntax for matching this rule")]
             [DisplayName("Use regular expression")]
             public bool IsRegularExpression { get; set; }
 
             [DisplayName("Order")]
             public int? Priority { get; set; }
-
-            //[Description("Select whether items in the path are excluded from or included in the content index.")]
-            //public bool IsExclude { get; set; }
 
             [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(ICrawlRuleConfiguration))]
             [TypeConverter(typeof(DisplayNameExpandableObjectConverter))]
@@ -60,6 +59,7 @@ namespace CrawlRulesCreator
     {
         bool FollowComplexUrls { get; set; }
     }
+
     [DisplayName("Exclude all items in this path")]
     public class Exclude : ConfigurationBase, ICrawlRuleConfiguration
     {
@@ -67,15 +67,18 @@ namespace CrawlRulesCreator
         [DisplayName("Exclude complex URLs")]
         public bool FollowComplexUrls { get; set; }
     }
+
     [DisplayName("Include all items in this path")]
     public class Include : ConfigurationBase, ICrawlRuleConfiguration
     {
         [Description("Follow links on the URL without crawling the URL itself")]
         [DisplayName("Follow links on the URL")]
         public bool SuppressIndexing { get; set; }
+
         [Description("Crawl complex URLs (URLs that contain a question mark - ?)")]
         [DisplayName("Crawl complex URLs")]
         public bool FollowComplexUrls { get; set; }
+
         [DisplayName("Crawl SharePoint content as http pages")]
         public bool CrawlAsHttp { get; set; }
     }

@@ -8,9 +8,11 @@ using Findwise.Sharepoint.SolutionInstaller;
 using System.Collections.Generic;
 using static ManagedPropertiesCreator.Configuration;
 using ManagedPropertiesCreator.Properties;
+using System.ComponentModel;
 
 namespace ManagedPropertiesCreator
 {
+    [Category(ModuleCategoryNames.SharepointSearch)]
     public class ManagedPropertiesCreator : InstallerModuleBase
     {
         public override string Name => "Managed Properties Creator";
@@ -90,7 +92,7 @@ namespace ManagedPropertiesCreator
 
                         content.SearchApplication.UpdateManagedProperty(managedProperty, owner);
 
-                        if (mp.CrawledPropertiesCategory != null)
+                        if (mp.Properties != null)
                             SetCrawledPropertyInManagedProperty(content, owner, mp, managedProperty);
                     }
                 }
@@ -100,7 +102,7 @@ namespace ManagedPropertiesCreator
                     {
                         var managedProperty = content.SearchApplication.GetManagedProperty(mp.Name, owner);
 
-                        if (mp.CrawledPropertiesCategory != null)
+                        if (mp.Properties != null)
                             SetCrawledPropertyInManagedProperty(content, owner, mp, managedProperty);
                     }
                 }
@@ -163,24 +165,18 @@ namespace ManagedPropertiesCreator
             return allManagedProperties.Where(s => managedPropertyDefinition.Any(my => s.Name == my.Name));
         }
 
-        private CategoryDetails GetCategoryDetails(Content content, SearchObjectOwner owner, ManagedPropertyDefinition mp)
-        {
-            CategoryDetails categoryDetails = new CategoryDetails();
-
-            CategoryInfoCollection categories = content.SearchApplication.GetAllCategories(owner);
-            var categoryNameCrawledProperties = myConfiguration.ManagedProperties.Where(my => my.Name == mp.Name).Select(x => x.CrawledPropertiesCategory).First();
-            var categoryInfo = categories.First(c => c.Name == categoryNameCrawledProperties);
-            var categoryCrawledProperty = content.SearchApplication.GetAllCrawledProperties(null, categoryInfo.Name, 1, owner).First();
-
-            categoryDetails.CategoryPropset = categoryCrawledProperty.Propset;
-            categoryDetails.CategoryName = categoryCrawledProperty.CategoryName;
-
-            return categoryDetails;
-        }
-
-        private List<MappingInfo> GetMappingsInfoList(Content content, SearchObjectOwner owner, CategoryDetails categoryDetails, ManagedPropertyDefinition mp, ManagedPropertyInfo managedProperty)
+        private List<MappingInfo> GetMappingsInfoList(Content content, SearchObjectOwner owner, ManagedPropertyDefinition mp, ManagedPropertyInfo managedProperty)
         {
             var mpcList = new List<MappingInfo>();
+
+            CategoryInfoCollection categories = content.SearchApplication.GetAllCategories(owner);
+            var categoriesNames = categories.Where(x => x.Name != null).Select(y => y.Name);
+            var allCrawledProperties = new List<CrawledPropertyInfo>();
+
+            foreach (var categoryName in categoriesNames)
+            {
+                allCrawledProperties.AddRange(content.SearchApplication.GetAllCrawledProperties(null, categoryName, 0, owner));
+            }
 
             if (mp.Properties != null)
             {
@@ -188,6 +184,9 @@ namespace ManagedPropertiesCreator
                 {
                     try
                     {
+                        var categoryName = allCrawledProperties.Where(x=> x.Name == property).Select(y=> y.CategoryName).FirstOrDefault();
+                        var categoryDetails = GetCategoryDetails(content, owner, categoryName);
+
                         var cp = content.SearchApplication.GetCrawledProperty(categoryDetails.CategoryPropset, property, 0, false, owner);
 
                         if (cp != null)
@@ -222,9 +221,20 @@ namespace ManagedPropertiesCreator
 
         private void SetCrawledPropertyInManagedProperty(Content content, SearchObjectOwner owner, ManagedPropertyDefinition mp, ManagedPropertyInfo managedProperty)
         {
-            CategoryDetails categoryDetails = GetCategoryDetails(content, owner, mp);
-            List<MappingInfo> mpcList = GetMappingsInfoList(content, owner, categoryDetails, mp, managedProperty);
+            List<MappingInfo> mpcList = GetMappingsInfoList(content, owner, mp, managedProperty);
             content.SearchApplication.SetManagedPropertyMappings(managedProperty, mpcList, owner);
+        }
+
+        private CategoryDetails GetCategoryDetails(Content content, SearchObjectOwner owner, string categoryName)
+        {
+            CategoryDetails categoryDetails = new CategoryDetails();
+
+            var categoryCrawledProperty = content.SearchApplication.GetAllCrawledProperties(null, categoryName, 0, owner).First();
+
+            categoryDetails.CategoryPropset = categoryCrawledProperty.Propset;
+            categoryDetails.CategoryName = categoryCrawledProperty.CategoryName;
+
+            return categoryDetails;
         }
 
         private static Content SearchApplicationContent(string searchApplicationName)

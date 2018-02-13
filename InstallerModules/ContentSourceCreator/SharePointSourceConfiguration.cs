@@ -17,12 +17,15 @@ namespace ContentSourceCreator
         [Description("Type a name to describe this content source.")]
         [DisplayName("Content Source Name")]
         public string ContentSourceName { get; set; }
+
         [Description("Type the URLs from which the search system should start crawling.")]
         [DisplayName("Start Addresses")]
         public string[] StartAddresses { get; set; }
+
         [Description("Continuous Crawl is a special type of crawl that eliminates the need to create incremental crawl schedules and will seamlessly work with the content source to provide maximum freshness. Please Note: Once enabled, you will not be able to pause or stop continuous crawl. You will only have the option of disabling continuous crawl. ")]
         [DisplayName("Enable Continuous Crawls")]
         public bool EnableContinuousCrawls { get; set; }
+
         [Editor(typeof(DerivedClassEditor), typeof(UITypeEditor)), DerivedTypeEditor.Options(BaseType = typeof(IContentScheduleConfiguration))]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         [DisplayName("Incremental Crawl")]
@@ -37,6 +40,7 @@ namespace ContentSourceCreator
         [DefaultValue(true)]
         [DisplayName("Crawl Settings")]
         public bool CrawlSettings { get; set; }
+
         [Description("If you want start full crawl after add content source choose true.")]
         [DisplayName("Start Full Crawl")]
         public bool StartFullCrawl { get; set; }

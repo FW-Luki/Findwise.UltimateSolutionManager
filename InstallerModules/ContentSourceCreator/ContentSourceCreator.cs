@@ -7,9 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.SharePoint;
+using Findwise.Configuration;
+using System.ComponentModel;
 
 namespace ContentSourceCreator
 {
+    [Category(ModuleCategoryNames.SharepointSearch)]
     public class ContentSourceCreator : InstallerModuleBase
     {
         public override string Name => "Content Source Creator";
@@ -46,7 +49,6 @@ namespace ContentSourceCreator
                         }
                     });
                 }
-
                 Status = contentSourceExists ? InstallerModuleStatus.Installed : InstallerModuleStatus.NotInstalled;
             }
             catch (Exception ex)
