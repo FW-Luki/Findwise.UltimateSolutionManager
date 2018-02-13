@@ -228,7 +228,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                         }
                         catch (Exception ex)
                         {
-                            Logger.Info($"Error invoking action {action.Method.Name} for module {(designer.DataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName} - [{ex.Message}]");
+                            Logger.Error($"Error invoking action {action.Method.Name} for module {(designer.DataGridView1.Rows[e.RowIndex].DataBoundItem as IInstallerModule)?.FriendlyName}", ex);
                         }
                     }
                 });

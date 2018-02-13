@@ -228,7 +228,7 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
                         }
                         catch (Exception ex)
                         {
-                            logger.Warn($"Error checking status of module {module.FriendlyName}.", ex);
+                            logger.Error($"Error checking status of module {module.FriendlyName}.", ex);
                         }
                     });
                 }
