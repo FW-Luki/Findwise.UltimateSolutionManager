@@ -14,7 +14,7 @@ namespace PowershellScriptExecutor
 
         public static string GetScriptTemplate(params Parameter[] parameters)
         {
-            return $"Param({string.Join(",\r\n", parameters.Select(p=>$"[Parameter ${p.Name} = \"{p.Value}\""))})\r\n";
+            return $"Param({string.Join(",\r\n      ", parameters.Select(p => $"[Parameter] ${p.Name}{(p.Value != null ? " = " : "")}{p.Value}"))}\r\n)\r\n\r\n";
         }
     }
 }

@@ -73,7 +73,7 @@ namespace PowershellScriptExecutor
             using (var dialog = new SaveFileDialog()
             {
                 Title = "Select where to save script template",
-                Filter = "PowerShell scripts|*.ps1"
+                Filter = "PowerShell scripts|*.ps1|All files|*.*"
             })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -81,10 +81,15 @@ namespace PowershellScriptExecutor
                     try
                     {
                         File.WriteAllText(dialog.FileName, ScriptTemplate.GetScriptTemplate(Parameters));
+                        var process = new System.Diagnostics.Process()
+                        {
+                            StartInfo = new System.Diagnostics.ProcessStartInfo(Environment.ExpandEnvironmentVariables(@"%windir%\system32\WindowsPowerShell\v1.0\PowerShell_ISE.exe"), dialog.FileName)
+                        };
+                        process.Start();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Error writing script emplate", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "Error writing script template", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
