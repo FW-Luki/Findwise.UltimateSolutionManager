@@ -12,9 +12,9 @@ namespace PowershellScriptExecutor
         public const string OnUninstallCommandName = "OnUninstall";
         public const string OnCheckStatusCommandName = "OnCheckStatus";
 
-        public string GetScriptTemplate(params Parameter[] parameters)
+        public static string GetScriptTemplate(params Parameter[] parameters)
         {
-            return @"";
+            return $"Param({string.Join(",\r\n", parameters.Select(p=>$"[Parameter ${p.Name} = \"{p.Value}\""))})\r\n";
         }
     }
 }

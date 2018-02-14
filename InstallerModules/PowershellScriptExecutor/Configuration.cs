@@ -21,7 +21,7 @@ namespace PowershellScriptExecutor
 
 
         [NonSerialized]
-        private Dictionary<Parameter, Binding[]> bindings = new Dictionary<Parameter, Binding[]>(new ParameterSimilarityComparer());
+        private Dictionary<Parameter, Tuple<object, Binding[]>> bindings = new Dictionary<Parameter, Tuple<object, Binding[]>>(new ParameterSimilarityComparer());
 
 
         [OrderedCategory(ScriptConfigCategoryName, 2)]
@@ -30,7 +30,7 @@ namespace PowershellScriptExecutor
         public string ScriptFilename { get => Prop.Get<string>(); set => Prop.Set(value); }
 
         [OrderedCategory(ScriptConfigCategoryName, 2)]
-        //[TypeConverter(typeof(ExpandableObjectConverter))]
+        [TypeConverter(typeof(ParameterCollectionConverter))]
         public Parameter[] Parameters { get => Prop.Get<Parameter[]>(); set => Prop.Set(value); }
 
         [OrderedCategory(ModuleCategoryNames.Properties.SettingsCategoryName, 1)]
@@ -70,6 +70,24 @@ namespace PowershellScriptExecutor
         [DisplayName("Get script template")]
         public void CreateScriptTemplate()
         {
+            using (var dialog = new SaveFileDialog()
+            {
+                Title = "Select where to save script template",
+                Filter = "PowerShell scripts|*.ps1"
+            })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        File.WriteAllText(dialog.FileName, ScriptTemplate.GetScriptTemplate(Parameters));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error writing script emplate", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
 
         [Browsable(true)]
@@ -120,8 +138,13 @@ namespace PowershellScriptExecutor
             {
                 foreach (var param in Parameters)
                 {
-                    if (bindings.TryGetValue(param, out var b) && b != null && b.Any())
-                        param.Bindings = b;
+                    if (bindings.TryGetValue(param, out var o))
+                    {
+                        if (o.Item1 != null)
+                            param.Value = o.Item1;
+                        if (o.Item2 != null && o.Item2.Any())
+                            param.Bindings = o.Item2;
+                    }
                 }
             }
         }
@@ -130,9 +153,9 @@ namespace PowershellScriptExecutor
             foreach (var param in Parameters)
             {
                 if (bindings.ContainsKey(param))
-                    bindings[param] = param.Bindings;
+                    bindings[param] = new Tuple<object, Binding[]>(param.Value, param.Bindings);
                 else
-                    bindings.Add(param, param.Bindings);
+                    bindings.Add(param, new Tuple<object, Binding[]>(param.Value, param.Bindings));
             }
         }
 

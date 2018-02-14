@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Parameter.cs" />
+    <Compile Include="ParameterCollection.cs" />
+    <Compile Include="ParameterCollectionConverter.cs" />
     <Compile Include="PowershellScriptExecutor.cs" />
     <Compile Include="PowershellScriptFilenameEditor.cs" />
     <Compile Include="PowershellScriptParser.cs" />

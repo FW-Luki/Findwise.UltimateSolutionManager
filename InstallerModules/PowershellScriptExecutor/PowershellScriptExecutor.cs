@@ -16,7 +16,7 @@ using PowershellScriptExecutor.Properties;
 namespace PowershellScriptExecutor
 {
     [Category(ModuleCategoryNames.Administration)]
-    public class PowershellScriptExecutor : InstallerModuleBase, ISaveLoadAware
+    public class PowershellScriptExecutor : InstallerModuleBase, ISaveLoadAware, IProvideSpecialOperationNames
     {
         private readonly ILog logger;
 
@@ -26,6 +26,9 @@ namespace PowershellScriptExecutor
 
         private Configuration myConfiguration = new Configuration();
         public override ConfigurationBase Configuration { get => myConfiguration; set => myConfiguration = value as Configuration; }
+
+        public string InstallOperationName => "Run";
+        public string UninstallOperationName => "Revert";
 
 
         public PowershellScriptExecutor()
@@ -65,43 +68,43 @@ namespace PowershellScriptExecutor
 
         private System.Collections.ObjectModel.Collection<PSObject> RunScript(string command)
         {
-            using (Runspace runspace = RunspaceFactory.CreateRunspace())
-            {
-                runspace.Open();
-                var shell = PowerShell.Create();
-                shell.Runspace = runspace;
-
-                shell.AddScript(myConfiguration.ScriptContents);
-                shell.Invoke();
-
-                shell.AddCommand(command);
-                foreach (var param in myConfiguration.Parameters)
-                {
-                    shell.AddParameter(param.Name, param.Value);
-                }
-
-                shell.AddCommand("Out-String");
-                return shell.Invoke(/*"Set-ExecutionPolicy Unrestricted -Scope Process"*/);
-            }
-
-            //Runspace runspace = RunspaceFactory.CreateRunspace();
-            //runspace.Open();
-
-            //Pipeline pipeline = runspace.CreatePipeline();
-            //pipeline.Commands.AddScript(myConfiguration.ScriptContents);
-
-            //foreach (var param in myConfiguration.Parameters)
+            //using (Runspace runspace = RunspaceFactory.CreateRunspace())
             //{
-            //    pipeline.Commands[0].Parameters.Add(param.Name, param.Value);
+            //    runspace.Open();
+            //    var shell = PowerShell.Create();
+            //    shell.Runspace = runspace;
+
+            //    shell.AddScript(myConfiguration.ScriptContents);
+            //    shell.Invoke();
+
+            //    //shell.AddCommand(command);
+            //    foreach (var param in myConfiguration.Parameters)
+            //    {
+            //        shell.AddParameter(param.Name, param.Value);
+            //    }
+
+            //    shell.AddCommand("Out-String");
+            //    return shell.Invoke(/*"Set-ExecutionPolicy Unrestricted -Scope Process"*/);
             //}
+
+            Runspace runspace = RunspaceFactory.CreateRunspace();
+            runspace.Open();
+
+            Pipeline pipeline = runspace.CreatePipeline();
+            pipeline.Commands.AddScript(myConfiguration.ScriptContents);
+
+            foreach (var param in myConfiguration.Parameters)
+            {
+                pipeline.Commands[0].Parameters.Add(param.Name, param.Value);
+            }
             //pipeline.Invoke();
 
             //pipeline.Commands.Add(command);
-            //pipeline.Commands.Add("Out-String");
+            pipeline.Commands.Add("Out-String");
 
-            //// execute the script
+            // execute the script
 
-            //return pipeline.Invoke("Set-ExecutionPolicy Unrestricted -Scope Process");
+            return pipeline.Invoke("Set-ExecutionPolicy Unrestricted -Scope Process");
 
             //// close the runspace
 
