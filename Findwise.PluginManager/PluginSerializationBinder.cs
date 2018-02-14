@@ -16,8 +16,6 @@ namespace Findwise.PluginManager
         public override Type BindToType(string assemblyName, string typeName)
         {
             Type type;
-            type = Type.GetType(typeName);
-            if (type != null) return type;
 
             if (typeCache.TryGetValue(new AssemblyQualifiedTypeName(assemblyName, typeName), out type))
             {
@@ -25,6 +23,9 @@ namespace Findwise.PluginManager
             }
             else
             {
+                type = Type.GetType(typeName);
+                if (type != null) return type;
+
                 type = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a =>
                 {
                     try
