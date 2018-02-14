@@ -110,9 +110,15 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controllers
         {
             ReportProgress?.Invoke(this, new ReportProgressEventArgs(StatusName.MarqueeProgressBarStyle, "Loading project...", OperationTag.Active | OperationTag.Cancellable));
 
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+
             Project proj = null;
             await Task.Run(() => proj = ConfigurationBase.Deserialize<Project>(System.IO.File.ReadAllText(filename), new PluginSerializationBinder()));
             proj.Name = System.IO.Path.GetFileName(filename);
+
+            stopwatch.Stop();
+            logger.Debug($"Project loaded in {stopwatch.Elapsed}.");
 
             var curmod = 0;
             var loadAwareModules = proj.Modules.OfType<ISaveLoadAware>();
