@@ -170,34 +170,54 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                 designer.HelpToolStripButton.Enabled = false;
             }
 
-            if (sender is PropertyGrid propertyGrid && propertyGrid.SelectedObjects.Count() == 1 && (e.NewSelection.Parent?.Value ?? propertyGrid.SelectedObject) is IBindableComponent bindableComponent
+            if (sender is PropertyGrid propertyGrid && propertyGrid.SelectedObjects.Count() == 1 && GetBindableObject(propertyGrid, e.NewSelection) is IBindableComponent bindableComponent
             && (e.NewSelection?.PropertyDescriptor?.Attributes.OfType<BindableAttribute>().FirstOrDefault() ?? BindableAttribute.Default).Bindable)
-            {
+            {   //Selected property grid item is bindable
                 designer.NonBindableToolStripButton.Visible = false;
-                if (bindableComponent.DataBindings.Cast<Binding>().Any(b => b.PropertyName == e.NewSelection.PropertyDescriptor.Name))
-                {
+                if (bindableComponent.DataBindings.Cast<Binding>().Any(b => b.PropertyName == GetBindablePropertyDescriptor(e.NewSelection.PropertyDescriptor).Name))
+                {   //Selected property grid item is bound
                     designer.BindPropertyToolStripDropDownButton.Visible = false;
                     designer.UnbindPropertyToolStripButton.Visible = true;
 
-                    var bindingDef = new BindingDefinition(bindableComponent, e.NewSelection.PropertyDescriptor);
+                    var bindingDef = new BindingDefinition(bindableComponent, GetBindablePropertyDescriptor(e.NewSelection.PropertyDescriptor));
                     designer.UnbindPropertyToolStripButton.Tag = bindingDef;
                 }
                 else
-                {
+                {   //Selected property grid item is unbound
                     designer.BindPropertyToolStripDropDownButton.Visible = true;
                     designer.UnbindPropertyToolStripButton.Visible = false;
 
-                    var bindingDef = new BindingDefinition(bindableComponent, e.NewSelection.PropertyDescriptor);
+                    var bindingDef = new BindingDefinition(bindableComponent, GetBindablePropertyDescriptor(e.NewSelection.PropertyDescriptor));
                     designer.BindPropertyToolStripDropDownButton.Tag = bindingDef;
                     designer.NewBindingSourceToolStripMenuItem.Tag = bindingDef;
                 }
             }
             else
-            {
+            {   //Selected property grid item is non-bindable
                 designer.BindPropertyToolStripDropDownButton.Visible = false;
                 designer.UnbindPropertyToolStripButton.Visible = false;
                 designer.NonBindableToolStripButton.Visible = true;
             }
+        }
+        private static PropertyDescriptor GetBindablePropertyDescriptor(PropertyDescriptor descriptor)
+        {
+            return descriptor.PropertyType.GetCustomAttributes(false).OfType<BindingSurrogateAttribute>().FirstOrDefault() is BindingSurrogateAttribute bsa ?
+                TypeDescriptor.GetProperties(descriptor.PropertyType)[bsa.BindablePropertyName] : descriptor;
+        }
+        private static object GetBindableObject(PropertyGrid propertyGrid, GridItem gridItem)
+        {
+            if (gridItem != null)
+            {
+                if (gridItem.Value?.GetType().GetCustomAttributes(false).OfType<BindingSurrogateAttribute>().Any()??false)
+                {
+                    return gridItem.Value;
+                }
+                if (gridItem.Parent?.Value != null)
+                {
+                    return gridItem.Parent.Value;
+                }
+            }
+            return propertyGrid.SelectedObject;
         }
 
         private void Designer_HelpButtonClicked(object sender, EventArgs e)

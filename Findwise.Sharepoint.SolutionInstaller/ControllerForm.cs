@@ -15,6 +15,11 @@ namespace Findwise.Sharepoint.SolutionInstaller
 {
     public partial class ControllerForm : Form
     {
+        /// <summary>
+        /// Setting this property to project xml file name before the form is shown causes this project to be loaded after the form is shown.
+        /// </summary>
+        public string OpenFileDirect { get; set; } = null;
+
         public ControllerForm()
         {
             InitializeComponent();
@@ -31,6 +36,9 @@ namespace Findwise.Sharepoint.SolutionInstaller
         {
             InitViewsWithControllers();
             await LoadModules();
+
+            if (!string.IsNullOrEmpty(OpenFileDirect))
+                await ProjectManager1.LoadProject(OpenFileDirect);
         }
         private void ControllerForm_FormClosing(object sender, FormClosingEventArgs e)
         {

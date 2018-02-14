@@ -119,7 +119,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
                             }
                             catch (Exception ex)
                             {
-                                logger.Warn($"Error preparing module {module.FriendlyName} for install.", ex);
+                                logger.Error($"Error preparing module {module.FriendlyName} for install.", ex);
                             }
                         });
                     }
@@ -146,7 +146,7 @@ namespace Findwise.Sharepoint.SolutionInstaller
                         }
                         catch (Exception ex)
                         {
-                            logger.Warn($"Error installing module {module.FriendlyName}.", ex);
+                            logger.Error($"Error installing module {module.FriendlyName}.", ex);
                         }
                     }
                     Task.WaitAll(refreshTasks.ToArray());

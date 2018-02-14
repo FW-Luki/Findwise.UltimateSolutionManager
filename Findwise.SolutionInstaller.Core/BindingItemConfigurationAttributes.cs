@@ -54,4 +54,18 @@ namespace Findwise.SolutionInstaller.Core
             BindingItemDefaultTypeProviderPropertyName = propertyName;
         }
     }
+
+
+    /// <summary>
+    /// Indicates that when an object of this class is selected in Property Grid, it should be displayed as bindable element and provides name of the property that is actually being bound.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false, Inherited = true)]
+    public class BindingSurrogateAttribute : Attribute
+    {
+        public string BindablePropertyName { get; }
+        public BindingSurrogateAttribute(string propertyName)
+        {
+            BindablePropertyName = propertyName;
+        }
+    }
 }

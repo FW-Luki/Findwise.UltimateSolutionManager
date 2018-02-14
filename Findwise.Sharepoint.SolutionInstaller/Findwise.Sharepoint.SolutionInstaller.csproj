@@ -97,6 +97,7 @@
     <Compile Include="IErrorNotifier.cs" />
     <Compile Include="IProgressReporter.cs" />
     <Compile Include="IProgressRepresentative.cs" />
+    <Compile Include="IProvideSpecialOperationNames.cs" />
     <Compile Include="Models\MasterConfig.cs" />
     <Compile Include="ProvidePropertiesAttribute.cs" />
     <Compile Include="IReportProgress_OLD.cs" />

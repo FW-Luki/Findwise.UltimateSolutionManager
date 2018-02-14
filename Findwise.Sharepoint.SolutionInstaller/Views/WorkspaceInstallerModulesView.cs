@@ -153,14 +153,15 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
                     string value = string.Empty;
                     Action[] actions = null;
                     var module = (cell.OwningRow.DataBoundItem as IInstallerModule);
+                    var specialOperationNameProvider = (cell.OwningRow.DataBoundItem as IProvideSpecialOperationNames);
                     switch (module?.Status ?? InstallerModuleStatus.Unknown)
                     {
                         case InstallerModuleStatus.NotInstalled:
-                            value = "Install";
+                            value = specialOperationNameProvider?.InstallOperationName ?? "Install";
                             actions = new Action[] { module.PrepareInstall, module.Install, module.CheckStatus };
                             break;
                         case InstallerModuleStatus.Installed:
-                            value = "Uninstall";
+                            value = specialOperationNameProvider?.UninstallOperationName ?? "Uninstall";
                             actions = new Action[] { module.PrepareUninstall, module.Uninstall, module.CheckStatus };
                             break;
                     }
