@@ -57,6 +57,7 @@ namespace ContentSourceCreator
 
     public class Daily : ConfigurationBase, IContentScheduleConfiguration
     {
+        [DefaultValue(1)]
         [Description("Run every: x days")]
         [DisplayName("Run every")]
         public int CrawlScheduleRunEveryInterval { get; set; }
@@ -88,10 +89,12 @@ namespace ContentSourceCreator
     }
     public class Weekly : ConfigurationBase, IContentScheduleConfiguration
     {
+        [DefaultValue(1)]
         [Description("Run every: x weeks")]
         [DisplayName("Run every")]
         public int CrawlScheduleRunEveryInterval { get; set; }
 
+        [DefaultValue(1)]
         [Description("Choose day of week")]
         [DisplayName("On")]
         public SearchAdministration.DaysOfWeek DaysOfWeek { get; set; }
@@ -124,9 +127,11 @@ namespace ContentSourceCreator
     }
     public class Monthly : ConfigurationBase, IContentScheduleConfiguration
     {
+        [DefaultValue(1)]
         [DisplayName("Day of Month")]
         public SearchAdministration.DaysOfMonth DaysOfMonth { get; set; }
 
+        [DefaultValue(1)]
         [DisplayName("Month of Year")]
         [Editor(typeof(FlagsEnumEditor<MonthsOfYear>), typeof(UITypeEditor))]
         public SearchAdministration.MonthsOfYear MonthsOfYear { get; set; }
