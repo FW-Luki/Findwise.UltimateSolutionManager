@@ -24,20 +24,20 @@ namespace Findwise.PluginManager
             else
             {
                 type = Type.GetType(typeName);
-                if (type != null) return type;
-
-                type = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a =>
+                if (type == null)
                 {
-                    try
+                    type = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a =>
                     {
-                        return a.GetTypes();
-                        //return a.GetExportedTypes();
-                    }
-                    catch
-                    {
-                        return Enumerable.Empty<Type>();
-                    }
-                }).FirstOrDefault(t => t.FullName == typeName && t.Assembly.FullName == assemblyName);
+                        try
+                        {
+                            return a.GetTypes(); //return a.GetExportedTypes();
+                        }
+                        catch
+                        {
+                            return Enumerable.Empty<Type>();
+                        }
+                    }).FirstOrDefault(t => t.FullName == typeName && t.Assembly.FullName == assemblyName);
+                }
                 typeCache.Add(new AssemblyQualifiedTypeName(assemblyName, typeName), type);
                 return type;
             }
