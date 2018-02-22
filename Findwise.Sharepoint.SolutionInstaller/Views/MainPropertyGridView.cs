@@ -77,6 +77,11 @@ namespace Findwise.Sharepoint.SolutionInstaller.Views
         {
             PropertyGridSelectedGridItemChanged?.Invoke(sender, e);
         }
+
+        private void MasterConfigSelectComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            propertyGrid1.RefreshBindingGlyph();
+        }
     }
 
     public class MainPropertyGridView : IComponentView

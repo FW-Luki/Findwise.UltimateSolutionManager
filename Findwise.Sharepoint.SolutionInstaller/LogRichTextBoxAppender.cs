@@ -41,13 +41,16 @@ namespace Findwise.Sharepoint.SolutionInstaller
 
         protected override void Append(LoggingEvent loggingEvent)
         {
-            if (RichTextBox.InvokeRequired)
+            if (RichTextBox != null)
             {
-                RichTextBox.Invoke(new MethodInvoker(() => UpdateText(loggingEvent)));
-            }
-            else
-            {
-                UpdateText(loggingEvent);
+                if (RichTextBox.InvokeRequired)
+                {
+                    RichTextBox.Invoke(new MethodInvoker(() => UpdateText(loggingEvent)));
+                }
+                else
+                {
+                    UpdateText(loggingEvent);
+                }
             }
         }
         private void UpdateText(LoggingEvent loggingEvent)

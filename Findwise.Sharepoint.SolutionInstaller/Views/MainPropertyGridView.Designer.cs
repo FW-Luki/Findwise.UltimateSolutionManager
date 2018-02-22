@@ -51,11 +51,14 @@
             // sizeablePanel1
             // 
             this.sizeablePanel1.Caption = "Properties";
+            this.sizeablePanel1.CollapseButtonCaption = "Collapse";
+            this.sizeablePanel1.Collapsed = false;
             this.sizeablePanel1.Controls.Add(this.propertyGrid1);
             this.sizeablePanel1.Controls.Add(this.SelectedObjectToolStrip);
             this.sizeablePanel1.Controls.Add(this.MasterConfigSelectToolStrip);
             this.sizeablePanel1.Controls.Add(this.PropertyGridMergeToolStrip);
             this.sizeablePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sizeablePanel1.ExpandButtonCaption = "Expand";
             this.sizeablePanel1.GripPosition = System.Windows.Forms.DockStyle.Left;
             this.sizeablePanel1.Location = new System.Drawing.Point(0, 0);
             this.sizeablePanel1.Name = "sizeablePanel1";
@@ -110,6 +113,7 @@
             this.MasterConfigSelectComboBox.Margin = new System.Windows.Forms.Padding(1, 3, 1, 6);
             this.MasterConfigSelectComboBox.Name = "MasterConfigSelectComboBox";
             this.MasterConfigSelectComboBox.Size = new System.Drawing.Size(128, 23);
+            this.MasterConfigSelectComboBox.SelectedIndexChanged += new System.EventHandler(this.MasterConfigSelectComboBox_SelectedIndexChanged);
             // 
             // PropertyGridMergeToolStrip
             // 

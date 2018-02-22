@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.Design;
 using System.Windows.Forms;
+using Findwise.SolutionInstaller.Core;
 
 namespace Findwise.Sharepoint.SolutionInstaller.Controls
 {
@@ -42,12 +43,19 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
             //MyToolStrip.Items[4].Visible = false;
 
             dataBitmap = new Bitmap(typeof(ControlDesigner).Assembly.GetManifestResourceStream("System.Windows.Forms.Design.BoundProperty.bmp"));
-            dataBitmap.MakeTransparent();            
+            dataBitmap.MakeTransparent();
+
         }
+
+        public void RefreshBindingGlyph()
+        {
+            this.BeginInvoke(new Action(() => { ShowGlyph(); }));
+        }
+
         protected override void OnSelectedObjectsChanged(EventArgs e)
         {
             base.OnSelectedObjectsChanged(e);
-            if(IsHandleCreated) BeginInvoke(new Action(() => { ShowGlyph(); }));
+            if (IsHandleCreated) BeginInvoke(new Action(() => { ShowGlyph(); }));
         }
         protected override void OnPropertySortChanged(EventArgs e)
         {
@@ -61,43 +69,31 @@ namespace Findwise.Sharepoint.SolutionInstaller.Controls
             var value = field.GetValue(grid);
             if (value == null)
                 return;
-            var entries = (value as IEnumerable).Cast<GridItem>(); //.ToList()
-            if (this.SelectedObject is IBindableComponent bindableComponent)
+            var entries = (value as IEnumerable).Cast<GridItem>().SelectMany(g => new[] { g }.Concat(g.GridItems.Cast<GridItem>()));
+            foreach (var entry in entries)
             {
-                bindableComponent.DataBindings.Cast<Binding>().ToList().ForEach(binding =>
+                if (entry.IsBound(out var component))
                 {
-                    var item = entries.Where(x => x.PropertyDescriptor?.Name == binding.PropertyName).FirstOrDefault();
-                    var pvSvcField = item.GetType().GetField("pvSvc", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    var pvSvcField = entry.GetType().GetField("pvSvc", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                     IPropertyValueUIService pvSvc = new PropertyValueUIService();
                     pvSvc.AddPropertyValueUIHandler((context, propDesc, valueUIItemList) =>
                     {
-                        valueUIItemList.Add(new PropertyValueUIItem(dataBitmap, (ctx, desc, invokedItem) => { }, GetToolTip(binding)));
+                        valueUIItemList.Add(new PropertyValueUIItem(dataBitmap, (ctx, desc, invokedItem) => { }, GetToolTip(component.DataBindings.Cast<Binding>().FirstOrDefault(b => b.PropertyName == entry.PropertyDescriptor.Name) ?? component.DataBindings.Cast<Binding>().FirstOrDefault())));
                     });
-                    pvSvcField.SetValue(item, pvSvc);
-                });
+                    pvSvcField.SetValue(entry, pvSvc);
+                }
             }
         }
         private static string GetToolTip(Binding binding)
         {
-            if (binding.DataSource?.GetType().GetProperty("Name") is PropertyInfo nameProperty)
+            if (binding?.DataSource?.GetType().GetProperty("Name") is PropertyInfo nameProperty)
             {
                 return $"Bound to: {nameProperty.GetValue(binding.DataSource).ToString()}";
             }
             else
             {
-                return $"Datasource: {binding.DataSource?.ToString()}" ?? "No data source!";
+                return $"Datasource: {binding?.DataSource?.ToString() ?? "(null)"}";
             }
-            //var value = "";
-            //if (binding.DataSource is ITypedList)
-            //    value = ((ITypedList)binding.DataSource).GetListName(new PropertyDescriptor[] { });
-            //else if (binding.DataSource is IBindableComponent)
-            //    value = ((IBindableComponent)binding.DataSource).Name;
-            //else if (binding.DataSource is Component)
-            //    value = ((Component)binding.DataSource).Site?.Name;
-
-            //if (string.IsNullOrEmpty(value))
-            //    value = "(List)";
-            //return value + " - " + binding.BindingMemberInfo.BindingMember;
         }
 
         private void SetupSortButton(ref ToolStripButton button, ToolStrip owner, int index, PropertySort sort)
