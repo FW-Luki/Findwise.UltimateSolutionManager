@@ -95,7 +95,7 @@ namespace SharepointSolutionPackageInstaller
                 throw;
             }
         }
-        /
+        
         public override void Uninstall()
         {
             SPServiceContext serviceContext = SPServiceContext.GetContext(new SPSite(myConfiguration.SPSite));
