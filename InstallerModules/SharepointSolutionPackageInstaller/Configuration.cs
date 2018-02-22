@@ -26,6 +26,8 @@ namespace SharepointSolutionPackageInstaller
             DataBindings = new ControlBindingsCollection(this);
         }
 
+        public string SPSite { get; set; }
+        public string LobSystemName { get; set; }
 
         #region IBindableComponent Support
         [Browsable(false)]
@@ -84,16 +86,17 @@ namespace SharepointSolutionPackageInstaller
 
     public interface IPackageConfiguration
     {
-        WspFile WspPackage { get; set; }
+        string WspPackage { get; set; }
         //string GetPackagePath();
+
     }
 
     [DisplayName("Direct package file")]
     public class DirectPackageFileConfiguration : ConfigurationBase, IPackageConfiguration, IBindableComponent
     {
         [Bindable(true)]
-        //[Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
-        public WspFile WspPackage { get; set; }
+        [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
+        public string WspPackage { get; set; }
 
         public DirectPackageFileConfiguration()
         {
@@ -170,7 +173,7 @@ namespace SharepointSolutionPackageInstaller
     public class VisualStudioProjectFileConfiguration : ConfigurationBase, IPackageConfiguration
     {
         [Editor(typeof(FileNameEditor), typeof(UITypeEditor))]
-        public WspFile WspPackage { get; set; }
+        public string WspPackage { get; set; }
 
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public CompilerConfiguration CompilerSetup { get; set; } = new CompilerConfiguration();
