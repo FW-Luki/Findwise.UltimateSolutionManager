@@ -9,7 +9,7 @@ using Findwise.InstallerModule;
 using Findwise.Configuration.TypeEditors;
 using System.Drawing.Design;
 using Findwise.Configuration.TypeConverters;
-using Findwise.SolutionInstaller.Core.Model;
+using Findwise.SolutionManager.Core.Model;
 
 namespace CrawlRulesCreator
 {

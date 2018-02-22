@@ -12,7 +12,7 @@ using Findwise.Configuration.TypeEditors;
 using System.Windows.Forms.Design;
 using Findwise.Configuration.TypeConverters;
 using Microsoft.Office.Server.Search.Administration;
-using Findwise.SolutionInstaller.Core.Model;
+using Findwise.SolutionManager.Core.Model;
 
 namespace ContentSourceCreator
 {

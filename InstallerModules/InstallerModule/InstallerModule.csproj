@@ -54,9 +54,9 @@
       <Project>{576E8A05-E531-43C8-858F-5B58D7B9902C}</Project>
       <Name>Findwise.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Findwise.Sharepoint.SolutionInstaller\Findwise.Sharepoint.SolutionInstaller.csproj">
+    <ProjectReference Include="..\..\Findwise.UltimateSolutionManager\Findwise.UltimateSolutionManager.csproj">
       <Project>{8B445B1D-C230-4C75-97BA-7CE90FBFF360}</Project>
-      <Name>Findwise.Sharepoint.SolutionInstaller</Name>
+      <Name>Findwise.UltimateSolutionManager</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

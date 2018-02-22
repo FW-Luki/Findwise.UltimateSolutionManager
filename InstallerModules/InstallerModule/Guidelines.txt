@@ -2,7 +2,7 @@
 =========================================
 
 A) Project creation
-  1. In order to create an Installer module you must create a class that implements Findwise.Sharepoint.SolutionInstaller.IInstallerModule interface.
+  1. In order to create an Installer module you must create a class that implements Findwise.SolutionInstaller.IInstallerModule interface.
   2. For your convenience, there's an abstract class Findwise.InstallerModule.InstallerModuleBase that already implements several IInstallerModule interface members.
   3. The project type must be a Class Library since the Plugin Manager will look for modules that are in .dll files.
   4. To maintain solution integrity, all Installer Modules are required to be placed in InstallerModules folder, not only Visual Studio virtual folder but also physically on disk.
@@ -23,7 +23,7 @@ B) Source code
         {
             logger = LogManager.GetLogger(GetType());
         }
-  2. If you want to execute some operations during project Save/Load, implement Findwise.Sharepoint.SolutionInstaller.ISaveLoadAware interface.
+  2. If you want to execute some operations during project Save/Load, implement Findwise.SolutionInstaller.ISaveLoadAware interface.
      Don't leave the throw new NotImplementedException() snippet though.
   3. If you want (it is most most likely you would) to add your own Installer Module Configuration, create a new class that inherits from Findwise.Configuration.ConfigurationBase 
      and let the instance of this class to be get/set by the Configuration property.

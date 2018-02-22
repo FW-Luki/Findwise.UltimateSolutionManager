@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8B445B1D-C230-4C75-97BA-7CE90FBFF360}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Findwise.SolutionManager</RootNamespace>
+    <AssemblyName>UltimateSolutionManager</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>if_system-installer_15355.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="ParallelExtensionsExtras, Version=1.2.3.0, Culture=neutral, PublicKeyToken=665f4d61f853b5a9, processorArchitecture=MSIL">
+      <HintPath>..\packages\ParallelExtensionsExtras.1.2.0.0\lib\net40\ParallelExtensionsExtras.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ControllerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControllerForm.Designer.cs">
+      <DependentUpon>ControllerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\Controller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ModuleLoader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ProjectManager.cs" />
+    <Compile Include="Controls\DataGridViewHideableButton.cs" />
+    <Compile Include="Controls\FancyToolStripSeparator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\PropertyGridEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\FancyIndicator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\FancyToolStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\LockableToolStripButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\SizeablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Helpers.cs" />
+    <Compile Include="ICancellable.cs" />
+    <Compile Include="IErrorNotifier.cs" />
+    <Compile Include="IProgressReporter.cs" />
+    <Compile Include="IProgressRepresentative.cs" />
+    <Compile Include="IProvideSpecialOperationNames.cs" />
+    <Compile Include="Models\MasterConfig.cs" />
+    <Compile Include="ProvidePropertiesAttribute.cs" />
+    <Compile Include="IReportProgress_OLD.cs" />
+    <Compile Include="IInstallerModule.cs" />
+    <Compile Include="Controls\NoFocusButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="InstallerModuleStatus.cs" />
+    <Compile Include="ISaveLoadAware.cs" />
+    <Compile Include="LogRichTextBoxAppender.cs" />
+    <Compile Include="Models\BindingItem.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Models\Status.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Project.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatusName.cs" />
+    <Compile Include="Views\WorkspaceBindingsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\WorkspaceBindingsView.Designer.cs">
+      <DependentUpon>WorkspaceBindingsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IComponentView.cs" />
+    <Compile Include="Views\IMainView.cs" />
+    <Compile Include="Views\IMainViewContainer.cs" />
+    <Compile Include="Views\WorkspaceInstallerModulesView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\WorkspaceInstallerModulesView.Designer.cs">
+      <DependentUpon>WorkspaceInstallerModulesView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainLogView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainLogView.Designer.cs">
+      <DependentUpon>MainLogView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainTabularWorkspaceView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainTabularWorkspaceView.Designer.cs">
+      <DependentUpon>MainTabularWorkspaceView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IStatusConsumer.cs" />
+    <Compile Include="Views\IStatusProducer.cs" />
+    <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\MainPropertyGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainPropertyGridView.Designer.cs">
+      <DependentUpon>MainPropertyGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainStatusStripView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainStatusStripView.Designer.cs">
+      <DependentUpon>MainStatusStripView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainToolboxView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainToolboxView.Designer.cs">
+      <DependentUpon>MainToolboxView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainToolStripView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MainToolStripView.Designer.cs">
+      <DependentUpon>MainToolStripView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WorkspaceViewBase.cs" />
+    <EmbeddedResource Include="ControllerForm.resx">
+      <DependentUpon>ControllerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SizeablePanel.resx">
+      <DependentUpon>SizeablePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Views\WorkspaceBindingsView.resx">
+      <DependentUpon>WorkspaceBindingsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\WorkspaceInstallerModulesView.resx">
+      <DependentUpon>WorkspaceInstallerModulesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainLogView.resx">
+      <DependentUpon>MainLogView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainPropertyGridView.resx">
+      <DependentUpon>MainPropertyGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainStatusStripView.resx">
+      <DependentUpon>MainStatusStripView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainTabularWorkspaceView.resx">
+      <DependentUpon>MainTabularWorkspaceView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainToolboxView.resx">
+      <DependentUpon>MainToolboxView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainToolStripView.resx">
+      <DependentUpon>MainToolStripView.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\findwise.configuration\Findwise.Configuration\Findwise.Configuration.csproj">
+      <Project>{576E8A05-E531-43C8-858F-5B58D7B9902C}</Project>
+      <Name>Findwise.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Findwise.PluginManager\Findwise.PluginManager.csproj">
+      <Project>{BBCDDE87-9BF3-42AC-8B2D-7CC54A9C4188}</Project>
+      <Name>Findwise.PluginManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Findwise.SolutionManager.Core\Findwise.SolutionManager.Core.csproj">
+      <Project>{13B1AC91-82FC-49FF-9601-A91D1A7304DE}</Project>
+      <Name>Findwise.SolutionManager.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\if_document-save-as_15271.png" />
+    <None Include="Icons\if_Delete_46730.png" />
+    <None Include="Icons\if_up_alt_11140.png" />
+    <None Include="Icons\if_down_alt_11066.png" />
+    <None Include="Icons\if_refresh_11116.png" />
+    <None Include="Icons\if_system-shutdown_15326.png" />
+    <None Include="Icons\if_process-stop_15322.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Icons\if_emblem-unreadable_15398.png" />
+    <None Include="Icons\brick-icon.png" />
+    <None Include="Icons\if_list-add_15304.png" />
+    <None Include="Icons\if_text-x-generic_15420.png" />
+    <None Include="Icons\if_Lock_65762.png" />
+    <None Include="Icons\if_Lock-Open_65761.png" />
+    <None Include="Icons\if_draft_46845.png" />
+    <None Include="Icons\if_help-browser_15335.png" />
+    <None Include="Icons\if_magic_17537.png" />
+    <Content Include="if_system-installer_15355.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

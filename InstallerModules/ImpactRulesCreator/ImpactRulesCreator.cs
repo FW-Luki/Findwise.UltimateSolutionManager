@@ -1,6 +1,6 @@
 ﻿using Findwise.Configuration;
 using Findwise.InstallerModule;
-using Findwise.Sharepoint.SolutionInstaller;
+using Findwise.SolutionManager;
 using ImpactRulesCreator.Properties;
 using Microsoft.Office.Server.Search.Administration;
 using System;

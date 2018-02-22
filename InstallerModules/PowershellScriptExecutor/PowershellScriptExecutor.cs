@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Findwise.Configuration;
 using Findwise.InstallerModule;
-using Findwise.Sharepoint.SolutionInstaller;
+using Findwise.SolutionManager;
 using log4net;
 using PowershellScriptExecutor.Properties;
 

@@ -1,4 +1,4 @@
-﻿using Findwise.Sharepoint.SolutionInstaller;
+﻿using Findwise.SolutionManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;

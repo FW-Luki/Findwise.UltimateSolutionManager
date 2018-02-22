@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Findwise.SolutionInstaller.Core.Model;
+using Findwise.SolutionManager.Core.Model;
 
 namespace ImpactRulesCreator
 {

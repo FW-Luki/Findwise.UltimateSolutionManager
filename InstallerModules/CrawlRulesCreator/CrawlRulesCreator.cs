@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using Findwise.Sharepoint.SolutionInstaller;
+using Findwise.SolutionManager;
 using Findwise.Configuration;
 using Microsoft.Office.Server.Search.Administration;
 using CrawlRulesCreator.Properties;

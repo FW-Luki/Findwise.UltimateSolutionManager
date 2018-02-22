@@ -19,7 +19,7 @@ namespace Testing
                 }
             };
             module.CheckStatus();
-            if (module.Status != Findwise.Sharepoint.SolutionInstaller.InstallerModuleStatus.NotInstalled) Assert.Fail("Module already installed");
+            if (module.Status != Findwise.SolutionManager.InstallerModuleStatus.NotInstalled) Assert.Fail("Module already installed");
             module.Install();
 
         }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Findwise.Configuration;
-using Findwise.Sharepoint.SolutionInstaller;
+using Findwise.SolutionManager;
 using System.Runtime.CompilerServices;
 using log4net;
 

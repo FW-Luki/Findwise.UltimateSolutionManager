@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Findwise.Configuration;
-using Findwise.SolutionInstaller.Core.Model;
+using Findwise.SolutionManager.Core.Model;
 
 namespace DatabaseCreator
 {

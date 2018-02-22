@@ -1,6 +1,6 @@
 ﻿using Findwise.Configuration;
 using Findwise.Configuration.TypeEditors;
-using Findwise.Sharepoint.SolutionInstaller;
+using Findwise.SolutionManager;
 using Microsoft.Office.Server.Search.Administration;
 using System;
 using System.Collections.Generic;

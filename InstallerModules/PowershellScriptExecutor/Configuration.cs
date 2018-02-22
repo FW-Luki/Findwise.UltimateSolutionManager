@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using Findwise.Configuration;
 using Findwise.InstallerModule;
-using Findwise.SolutionInstaller.Core.Model;
+using Findwise.SolutionManager.Core.Model;
 
 namespace PowershellScriptExecutor
 {

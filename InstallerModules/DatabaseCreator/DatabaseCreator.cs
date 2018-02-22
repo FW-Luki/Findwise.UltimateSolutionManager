@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DatabaseCreator.Properties;
 using Findwise.Configuration;
-using Findwise.Sharepoint.SolutionInstaller;
+using Findwise.SolutionManager;
 using Findwise.InstallerModule;
 using System.ComponentModel;
 

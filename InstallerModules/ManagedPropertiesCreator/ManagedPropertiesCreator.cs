@@ -4,7 +4,7 @@ using System.Linq;
 using Findwise.Configuration;
 using Findwise.InstallerModule;
 using Microsoft.Office.Server.Search.Administration;
-using Findwise.Sharepoint.SolutionInstaller;
+using Findwise.SolutionManager;
 using System.Collections.Generic;
 using static ManagedPropertiesCreator.Configuration;
 using ManagedPropertiesCreator.Properties;
