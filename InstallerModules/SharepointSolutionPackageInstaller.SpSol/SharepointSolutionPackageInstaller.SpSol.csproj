@@ -84,11 +84,7 @@
     <None Include="if_package-x-generic_15417.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\findwise.configuration\Findwise.Configuration\Findwise.Configuration.csproj">
-      <Project>{576e8a05-e531-43c8-858f-5b58d7b9902c}</Project>
-      <Name>Findwise.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Findwise.Sharepoint.SolutionInstaller\Findwise.Sharepoint.SolutionInstaller.csproj">
+    <ProjectReference Include="..\..\Findwise.UltimateSolutionManager\Findwise.UltimateSolutionManager.csproj">
       <Project>{8b445b1d-c230-4c75-97ba-7ce90fbff360}</Project>
       <Name>Findwise.Sharepoint.SolutionInstaller</Name>
     </ProjectReference>

@@ -1,0 +1,3 @@
+[submodule "Findwise.Configuration"]
+	path = Findwise.Configuration
+	url = https://github.com/FW-Luki/Findwise.Configuration.git

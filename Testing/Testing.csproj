@@ -57,10 +57,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\findwise.configuration\Findwise.Configuration\Findwise.Configuration.csproj">
-      <Project>{576E8A05-E531-43C8-858F-5B58D7B9902C}</Project>
-      <Name>Findwise.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Findwise.SolutionManager.Core\Findwise.SolutionManager.Core.csproj">
       <Project>{13B1AC91-82FC-49FF-9601-A91D1A7304DE}</Project>
       <Name>Findwise.SolutionManager.Core</Name>

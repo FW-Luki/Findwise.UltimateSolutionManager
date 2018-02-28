@@ -60,7 +60,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\findwise.configuration\Findwise.Configuration\Findwise.Configuration.csproj">
+    <ProjectReference Include="..\..\Findwise.Configuration\Findwise.Configuration\Findwise.Configuration.csproj">
       <Project>{576E8A05-E531-43C8-858F-5B58D7B9902C}</Project>
       <Name>Findwise.Configuration</Name>
     </ProjectReference>
