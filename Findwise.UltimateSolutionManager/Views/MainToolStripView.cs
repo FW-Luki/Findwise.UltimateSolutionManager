@@ -18,6 +18,16 @@ namespace Findwise.SolutionManager.Views
         {
             InitializeComponent();
         }
+
+        private void CancelToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FeedbackToolStripButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start($@"mailto:lukasz.wojcik@findwise.com&subject={Application.ProductName} Feedback&body=Your Idea/Issue...");
+        }
     }
 
     public class MainToolStripView : IComponentView

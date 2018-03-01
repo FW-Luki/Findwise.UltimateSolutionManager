@@ -36,6 +36,8 @@
             this.toolStripSeparator1 = new Findwise.SolutionManager.Controls.FancyToolStripSeparator();
             this.SecondaryToolStrip = new System.Windows.Forms.ToolStrip();
             this.CancelToolStripButton = new Findwise.SolutionManager.Controls.LockableToolStripButton();
+            this.fancyToolStripSeparator1 = new Findwise.SolutionManager.Controls.FancyToolStripSeparator();
+            this.FeedbackToolStripButton = new Findwise.SolutionManager.Controls.LockableToolStripButton();
             this.PrimaryToolStrip.SuspendLayout();
             this.SecondaryToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -100,7 +102,9 @@
             // SecondaryToolStrip
             // 
             this.SecondaryToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CancelToolStripButton});
+            this.CancelToolStripButton,
+            this.fancyToolStripSeparator1,
+            this.FeedbackToolStripButton});
             this.SecondaryToolStrip.Location = new System.Drawing.Point(0, 39);
             this.SecondaryToolStrip.Name = "SecondaryToolStrip";
             this.SecondaryToolStrip.Size = new System.Drawing.Size(512, 39);
@@ -119,6 +123,25 @@
             this.CancelToolStripButton.OperationTrait = null;
             this.CancelToolStripButton.Size = new System.Drawing.Size(36, 36);
             this.CancelToolStripButton.Text = "Cancel";
+            this.CancelToolStripButton.Click += new System.EventHandler(this.CancelToolStripButton_Click);
+            // 
+            // fancyToolStripSeparator1
+            // 
+            this.fancyToolStripSeparator1.Name = "fancyToolStripSeparator1";
+            this.fancyToolStripSeparator1.Size = new System.Drawing.Size(6, 39);
+            // 
+            // FeedbackToolStripButton
+            // 
+            this.FeedbackToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.FeedbackToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("FeedbackToolStripButton.Image")));
+            this.FeedbackToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.FeedbackToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FeedbackToolStripButton.LockingBehavior = Findwise.SolutionManager.Controls.LockingBehavior.AlwaysEnabled;
+            this.FeedbackToolStripButton.Name = "FeedbackToolStripButton";
+            this.FeedbackToolStripButton.OperationTrait = null;
+            this.FeedbackToolStripButton.Size = new System.Drawing.Size(36, 36);
+            this.FeedbackToolStripButton.Text = "Send Feedback";
+            this.FeedbackToolStripButton.Click += new System.EventHandler(this.FeedbackToolStripButton_Click);
             // 
             // MainToolStripViewDesigner
             // 
@@ -145,5 +168,7 @@
         internal Controls.LockableToolStripButton NewToolStripButton;
         internal Controls.LockableToolStripButton OpenToolStripButton;
         internal Controls.LockableToolStripButton SaveToolStripButton;
+        private Controls.FancyToolStripSeparator fancyToolStripSeparator1;
+        internal Controls.LockableToolStripButton FeedbackToolStripButton;
     }
 }

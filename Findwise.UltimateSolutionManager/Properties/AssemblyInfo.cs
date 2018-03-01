@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("UltimateSolutionManager")]
+[assembly: AssemblyTitle("Solution Manager")]
 [assembly: AssemblyDescription("Findwise Ultimate Solution Manager")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Findwise")]
-[assembly: AssemblyProduct("SolutionManager")]
+[assembly: AssemblyProduct("UltimateSolutionManager")]
 [assembly: AssemblyCopyright("Copyright © lukas.wojcik@findwise.com 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
