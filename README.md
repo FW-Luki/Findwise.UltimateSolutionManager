@@ -33,5 +33,5 @@ There is one library, Findwise.Configuration, on which most of the project depen
 ## Contribution
 The project is open for any improvements. For further information refer to the contributing.md file.
 
-## Further develpment
+## Further development
 The application is in an early stage of development and needs further improvements as well as adding new features. For details refer to the todo.md file.
